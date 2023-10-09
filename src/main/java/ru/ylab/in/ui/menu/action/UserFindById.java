@@ -20,9 +20,9 @@ public class UserFindById implements ItemAction {
             User user = userService.find(id);
             System.out.println(user);
         } catch (NotFoundException e) {
-            System.out.println("Пользователь с таким ID не существует.");
+            System.err.println("Пользователь с таким ID не существует.");
         } catch (NumberFormatException e) {
-            System.out.println("ID это число.");
+            System.err.println("ID это число.");
         }
     }
 }

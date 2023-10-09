@@ -25,9 +25,9 @@ public class UserLogin implements ItemAction {
                 System.out.printf("%nHello %s,  glad to see you again. %n", session.getSessionUserName());
             }
         } catch (NumberFormatException e) {
-            System.out.println("ID это число.");
+            System.err.println("ID это число.");
         } catch (AccessDeniedException | NotFoundException e) {
-            System.out.println(e.getMessage());
+            System.err.println(e.getMessage());
         }
 
     }

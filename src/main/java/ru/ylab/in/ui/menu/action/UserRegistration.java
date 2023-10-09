@@ -36,7 +36,7 @@ public class UserRegistration implements ItemAction {
             user = userService.add(dto);
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("Не смог создать пользователя.");
+            System.err.println("Не смог создать пользователя.");
             return;
         }
         System.out.println(user);

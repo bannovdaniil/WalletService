@@ -9,53 +9,72 @@ import java.util.Scanner;
 
 public class Menu {
     private final List<Item> itemList;
+    private final List<Item> loggedUserItemList;
+    private List<Item> activeItemList;
+
     private final Session session = SessionImpl.getInstance();
 
     public Menu() {
         this.itemList = new ArrayList<>();
+        this.loggedUserItemList = new ArrayList<>();
+        this.activeItemList = itemList;
     }
 
-    public void addElement(Item item) {
+    public void addElement(ItemType type, Item item) {
         if (item != null) {
-            itemList.add(item);
+            if (type == ItemType.MAIN_MENU) {
+                itemList.add(item);
+            } else {
+                loggedUserItemList.add(item);
+            }
         }
     }
 
     public void doAction() {
         Scanner scanner = new Scanner(System.in);
 
-        int index = -1;
-        while (index < 0 || index != itemList.size()) {
+        while (true) {
+            int index = -1;
             showMenu();
             try {
                 index = Integer.parseInt(scanner.next());
                 index--;
-                if (index < 0 || index > itemList.size()) {
-                    System.out.println("Не существует такого пункта, повторите ввод.");
-                    index = -1;
+                if (index == activeItemList.size()) {
+                    break;
+                }
+                if (index < 0 || index > activeItemList.size()) {
+                    System.err.println("Не существует такого пункта, повторите ввод.");
+                } else {
+                    doElementAction(index);
+                    switchMenuItem();
                 }
             } catch (NumberFormatException e) {
-                index = -1;
-            }
-            if ((index < 0 || index != itemList.size())) {
-                doElementAction(index);
+                System.err.println("Понимаю только числа.");
             }
         }
         System.out.println("Bye, I will be back!");
         scanner.close();
     }
 
+    private void switchMenuItem() {
+        if (session.isPresent()) {
+            activeItemList = loggedUserItemList;
+        } else {
+            activeItemList = itemList;
+        }
+    }
+
     private void showMenu() {
-        System.out.printf("%n%2$s%n>%1$s%n- Menu:%n%2$s%n%n",
+        System.out.printf("%n%2$s%n>%1$s%n%2$s%n",
                 session.getSessionUserName(),
                 "-".repeat(30));
 
-        for (int i = 0; i < itemList.size(); i++) {
-            Item item = itemList.get(i);
+        for (int i = 0; i < activeItemList.size(); i++) {
+            Item item = activeItemList.get(i);
             System.out.printf("%d. %s%n", (i + 1), item.getName());
         }
 
-        System.out.printf("%n%d. %s%n", (itemList.size() + 1), "Exit");
+        System.out.printf("%n%d. %s%n", (activeItemList.size() + 1), "Exit");
 
         System.out.printf("%s%n%s",
                 "-".repeat(30),
@@ -63,6 +82,6 @@ public class Menu {
     }
 
     private void doElementAction(int index) {
-        itemList.get(index).doAction();
+        activeItemList.get(index).doAction();
     }
 }
