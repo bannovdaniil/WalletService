@@ -54,18 +54,9 @@ public class User extends Entity {
 
     @Override
     public String toString() {
-        return String.format("User: %nid= %d %nFirst name= %s %nLastName= %s %nPassword Hash= %s",
+        return String.format("User: {id = %d, FirstName = %s, LastName = %s}",
                 id,
                 firstName,
-                lastName,
-                stringToHex(hashPassword));
-    }
-
-    private String stringToHex(String hashPassword) {
-        StringBuilder sb = new StringBuilder();
-        for (char c : hashPassword.toCharArray()) {
-            sb.append(String.format("%04x", (int) c)).append(" ");
-        }
-        return sb.toString();
+                lastName);
     }
 }

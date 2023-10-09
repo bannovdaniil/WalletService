@@ -39,7 +39,7 @@ public class UserRegistration implements ItemAction {
             System.err.println("Не смог создать пользователя.");
             return;
         }
-        System.out.println(user);
+        System.out.println("New user entity: " + user);
     }
 
 }
