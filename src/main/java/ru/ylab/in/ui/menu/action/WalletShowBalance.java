@@ -7,7 +7,6 @@ import ru.ylab.repository.WalletRepository;
 import ru.ylab.repository.impl.WalletRepositoryImpl;
 
 import java.text.NumberFormat;
-import java.util.Optional;
 
 public class WalletShowBalance implements ItemAction {
     private final Session session = SessionImpl.getInstance();
@@ -15,15 +14,13 @@ public class WalletShowBalance implements ItemAction {
 
     @Override
     public void execution() {
-        Long walletId = session.getUserWallet().orElseThrow(
-                () -> new IllegalStateException("Wallet Not found.")
-        ).getId();
-        Optional<Wallet> wallet = walletRepository.findById(walletId);
-        if (wallet.isPresent()) {
-            System.out.println("You Balance: " + NumberFormat.getCurrencyInstance().format(wallet.get().getBalance()));
-        } else {
-            System.err.println("Счет не активирован.");
+        if (session.isPresent()) {
+            Long walletId = session.getUserWallet().getId();
+            Wallet wallet = walletRepository.findById(walletId).orElseThrow(
+                    () -> new IllegalStateException("Wallet Not found.")
+            );
+            System.out.println("You Balance: " + NumberFormat.getCurrencyInstance().format(wallet.getBalance()));
         }
-
     }
+
 }

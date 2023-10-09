@@ -43,10 +43,8 @@ public class SessionImpl implements Session {
     }
 
     @Override
-    public Optional<Wallet> getUserWallet() {
-        return loggedUser.isPresent() ?
-                Optional.of(loggedUser.get().getWallet()) :
-                Optional.empty();
+    public Wallet getUserWallet() {
+        return loggedUser.get().getWallet();
 
     }
 
