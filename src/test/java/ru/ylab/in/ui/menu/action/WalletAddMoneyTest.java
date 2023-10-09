@@ -22,8 +22,9 @@ import java.nio.file.AccessDeniedException;
 
 class WalletAddMoneyTest {
     private WalletAddMoney walletAddMoney;
-    private static UserService userService;
-    private static Session session;
+    private final static UserService userService = UserServiceImpl.getInstance();
+    private final static Session session = SessionImpl.getInstance();
+
     private InputStream oldSystemIn;
     private PrintStream oldSystemOut;
     private PrintStream oldSystemErr;
@@ -32,15 +33,13 @@ class WalletAddMoneyTest {
 
     @BeforeAll
     static void beforeAll() throws NotFoundException, AccessDeniedException {
-        userService = UserServiceImpl.getInstance();
         userService.add(new UserIncomingDto(
                 "First",
                 "Last",
-                "1"
+                "123"
         ));
 
-        session = SessionImpl.getInstance();
-        session.login(1L, "1");
+        session.login(1L, "123");
     }
 
     @BeforeEach
@@ -52,7 +51,7 @@ class WalletAddMoneyTest {
         testOut = new ByteArrayOutputStream();
         System.setOut(new PrintStream(testOut));
 
-        oldSystemOut = System.err;
+        oldSystemErr = System.err;
         testErr = new ByteArrayOutputStream();
         System.setErr(new PrintStream(testErr));
     }
