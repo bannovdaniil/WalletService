@@ -8,7 +8,7 @@ import java.nio.file.AccessDeniedException;
 import java.util.List;
 
 public interface UserService {
-    User add(UserIncomingDto user);
+    User add(UserIncomingDto user) throws NotFoundException;
 
     User find(Long userId) throws NotFoundException;
 

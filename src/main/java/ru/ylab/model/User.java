@@ -54,9 +54,10 @@ public class User extends Entity {
 
     @Override
     public String toString() {
-        return String.format("User: {id = %d, FirstName = %s, LastName = %s}",
+        return String.format("User{id = %d, FirstName = %s, LastName = %s, %s}",
                 id,
                 firstName,
-                lastName);
+                lastName,
+                wallet);
     }
 }

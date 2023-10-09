@@ -37,4 +37,13 @@ public class Wallet extends Entity {
     public void setBalance(BigDecimal balance) {
         this.balance = balance;
     }
+
+    @Override
+    public String toString() {
+        return "Wallet{" +
+               "id=" + id +
+               ", name='" + name + '\'' +
+               ", balance=" + balance +
+               '}';
+    }
 }

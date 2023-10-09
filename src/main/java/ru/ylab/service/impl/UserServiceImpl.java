@@ -12,6 +12,7 @@ import ru.ylab.repository.impl.UserRepositoryImpl;
 import ru.ylab.repository.impl.WalletRepositoryImpl;
 import ru.ylab.service.UserService;
 
+import java.math.BigDecimal;
 import java.nio.file.AccessDeniedException;
 import java.util.List;
 
@@ -32,9 +33,19 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User add(UserIncomingDto dto) {
+    public User add(UserIncomingDto dto) throws NotFoundException {
         User user = userDtoMapper.map(dto);
-        return userRepository.save(user);
+        user = userRepository.save(user);
+        Wallet wallet = new Wallet(
+                null,
+                user,
+                "wallet-1",
+                BigDecimal.ZERO
+        );
+        walletRepository.save(wallet);
+        user.setWallet(wallet);
+        userRepository.update(user);
+        return user;
     }
 
     @Override
