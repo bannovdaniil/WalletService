@@ -4,7 +4,7 @@ import ru.ylab.in.ui.Session;
 import ru.ylab.in.ui.SessionImpl;
 
 public class UserLogout implements ItemAction {
-    private Session session = SessionImpl.getInstance();
+    private final Session session = SessionImpl.getInstance();
 
     @Override
     public void execution() {
