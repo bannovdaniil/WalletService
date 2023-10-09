@@ -10,7 +10,7 @@ import java.math.BigDecimal;
 import java.text.NumberFormat;
 import java.util.Scanner;
 
-public class WalletAddMoney implements ItemAction {
+public class WalletGetMoney implements ItemAction {
     private String regexFormatMoney = "^\\d*([\\.,]\\d{1,2})?$";
     private final Session session = SessionImpl.getInstance();
     private final WalletRepository walletRepository = WalletRepositoryImpl.getInstance();
@@ -24,21 +24,27 @@ public class WalletAddMoney implements ItemAction {
 
             if (moneyValue.matches(regexFormatMoney)) {
                 try {
-                    BigDecimal addValue = new BigDecimal(moneyValue.replace(",", "."));
+                    BigDecimal subtractValue = new BigDecimal(moneyValue.replace(",", "."));
 
                     Long walletId = session.getUserWallet().getId();
                     Wallet wallet = walletRepository.findById(walletId).orElseThrow(
                             () -> new IllegalStateException("Wallet Not found.")
                     );
 
-                    wallet.setBalance(wallet.getBalance().add(addValue));
-                    walletRepository.update(wallet);
-                    wallet = walletRepository.findById(walletId).orElseThrow(
-                            () -> new IllegalStateException("Wallet Not found.")
-                    );
-                    System.out.println("New balance: " + NumberFormat.getCurrencyInstance().format(wallet.getBalance()));
+                    if (wallet.getBalance().compareTo(subtractValue) < 0) {
+                        throw new IllegalArgumentException("Не достаточно средств.");
+                    }
+
+                    if (wallet.getBalance().compareTo(subtractValue) > 0) {
+                        wallet.setBalance(wallet.getBalance().subtract(subtractValue));
+                        walletRepository.update(wallet);
+                        wallet = walletRepository.findById(walletId).orElseThrow(
+                                () -> new IllegalStateException("Wallet Not found.")
+                        );
+                        System.out.println("New balance: " + NumberFormat.getCurrencyInstance().format(wallet.getBalance()));
+                    }
                 } catch (Exception e) {
-                    throw new IllegalArgumentException("Что то пошло не так.");
+                    System.err.println(e.getMessage());
                 }
             } else {
                 System.err.println("Bad enter.");
