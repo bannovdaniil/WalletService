@@ -1,10 +1,10 @@
-package ru.ylab.util.menu.action;
+package ru.ylab.in.ui.menu.action;
 
-import ru.ylab.util.menu.Session;
-import ru.ylab.util.menu.SessionImpl;
+import ru.ylab.in.ui.Session;
+import ru.ylab.in.ui.SessionImpl;
 
 public class UserLogout implements ItemAction {
-    private final Session session = SessionImpl.getInstance();
+    private Session session = SessionImpl.getInstance();
 
     @Override
     public void execution() {

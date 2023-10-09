@@ -1,4 +1,4 @@
-package ru.ylab.util.menu.action;
+package ru.ylab.in.ui.menu.action;
 
 import ru.ylab.exception.NotFoundException;
 import ru.ylab.model.User;

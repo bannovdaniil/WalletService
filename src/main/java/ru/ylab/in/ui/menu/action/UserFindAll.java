@@ -1,4 +1,4 @@
-package ru.ylab.util.menu.action;
+package ru.ylab.in.ui.menu.action;
 
 import ru.ylab.service.UserService;
 import ru.ylab.service.impl.UserServiceImpl;

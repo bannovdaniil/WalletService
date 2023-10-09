@@ -1,4 +1,4 @@
-package ru.ylab.util.menu.action;
+package ru.ylab.in.ui.menu.action;
 
 public interface ItemAction {
     void execution();

@@ -1,6 +1,6 @@
-package ru.ylab.util.menu;
+package ru.ylab.in.ui.menu;
 
-import ru.ylab.util.menu.action.ItemAction;
+import ru.ylab.in.ui.menu.action.ItemAction;
 
 public class Item {
     private final String name;

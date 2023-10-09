@@ -1,8 +1,8 @@
 package ru.ylab;
 
-import ru.ylab.util.menu.Item;
-import ru.ylab.util.menu.Menu;
-import ru.ylab.util.menu.action.*;
+import ru.ylab.in.ui.menu.Item;
+import ru.ylab.in.ui.menu.Menu;
+import ru.ylab.in.ui.menu.action.*;
 
 public class Main {
     public static void main(String[] args) {
@@ -16,6 +16,6 @@ public class Main {
         menu.addElement(new Item("Logout", new UserLogout()));
 
         menu.doAction();
-        
+
     }
 }

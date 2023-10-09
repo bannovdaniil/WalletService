@@ -1,4 +1,4 @@
-package ru.ylab.util.menu;
+package ru.ylab.in.ui;
 
 import ru.ylab.exception.NotFoundException;
 import ru.ylab.model.User;
@@ -13,9 +13,9 @@ import java.util.Optional;
 
 public class SessionImpl implements Session {
     private static Session instance;
-    private Optional<User> loggedUser = Optional.empty();
     private final PasswordEncoder passwordEncoder = PasswordEncoderSha256Impl.getInstance();
     private final UserService userService = UserServiceImpl.getInstance();
+    private Optional<User> loggedUser = Optional.empty();
 
     private SessionImpl() {
     }

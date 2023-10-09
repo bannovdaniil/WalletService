@@ -1,8 +1,8 @@
-package ru.ylab.util.menu.action;
+package ru.ylab.in.ui.menu.action;
 
 import ru.ylab.exception.NotFoundException;
-import ru.ylab.util.menu.Session;
-import ru.ylab.util.menu.SessionImpl;
+import ru.ylab.in.ui.Session;
+import ru.ylab.in.ui.SessionImpl;
 
 import java.nio.file.AccessDeniedException;
 import java.util.Scanner;

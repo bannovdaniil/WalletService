@@ -1,4 +1,4 @@
-package ru.ylab.util.menu;
+package ru.ylab.in.ui;
 
 import ru.ylab.exception.NotFoundException;
 

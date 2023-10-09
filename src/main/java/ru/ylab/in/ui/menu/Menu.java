@@ -1,4 +1,7 @@
-package ru.ylab.util.menu;
+package ru.ylab.in.ui.menu;
+
+import ru.ylab.in.ui.Session;
+import ru.ylab.in.ui.SessionImpl;
 
 import java.util.ArrayList;
 import java.util.List;
