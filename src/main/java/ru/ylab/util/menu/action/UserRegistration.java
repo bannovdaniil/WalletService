@@ -16,7 +16,7 @@ public class UserRegistration implements ItemAction {
 
         UserIncomingDto dto = getUserIncomingDto(scanner);
 
-        User user = null;
+        User user;
         try {
             user = userService.add(dto);
         } catch (Exception e) {
