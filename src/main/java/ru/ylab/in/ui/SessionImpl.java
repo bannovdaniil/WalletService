@@ -2,6 +2,7 @@ package ru.ylab.in.ui;
 
 import ru.ylab.exception.NotFoundException;
 import ru.ylab.model.User;
+import ru.ylab.model.Wallet;
 import ru.ylab.service.UserService;
 import ru.ylab.service.impl.UserServiceImpl;
 import ru.ylab.util.PasswordEncoder;
@@ -33,12 +34,20 @@ public class SessionImpl implements Session {
     }
 
     @Override
-    public String getSessionUserName() {
+    public String getUserName() {
         if (loggedUser.isPresent()) {
             return String.format("Login as: %s %s", loggedUser.get().getFirstName(), loggedUser.get().getLastName());
         } else {
             return "User not login.";
         }
+    }
+
+    @Override
+    public Optional<Wallet> getUserWallet() {
+        return loggedUser.isPresent() ?
+                Optional.of(loggedUser.get().getWallet()) :
+                Optional.empty();
+
     }
 
     @Override

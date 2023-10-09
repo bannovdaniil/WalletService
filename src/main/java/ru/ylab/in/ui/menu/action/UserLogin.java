@@ -22,7 +22,7 @@ public class UserLogin implements ItemAction {
             String password = scanner.next();
             session.login(userId, password);
             if (session.isPresent()) {
-                System.out.printf("%nHello %s,  glad to see you again. %n", session.getSessionUserName());
+                System.out.printf("%nHello %s,  glad to see you again. %n", session.getUserName());
             }
         } catch (NumberFormatException e) {
             System.err.println("ID это число.");

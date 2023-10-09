@@ -1,6 +1,7 @@
 package ru.ylab.model;
 
 import java.math.BigDecimal;
+import java.text.NumberFormat;
 
 public class Wallet extends Entity {
     private User owner;
@@ -43,7 +44,7 @@ public class Wallet extends Entity {
         return "Wallet{" +
                "id=" + id +
                ", name='" + name + '\'' +
-               ", balance=" + balance +
+               ", balance=" + NumberFormat.getCurrencyInstance().format(balance) +
                '}';
     }
 }

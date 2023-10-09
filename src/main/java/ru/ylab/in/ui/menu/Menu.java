@@ -66,7 +66,7 @@ public class Menu {
 
     private void showMenu() {
         System.out.printf("%n%2$s%n>%1$s%n%2$s%n",
-                session.getSessionUserName(),
+                session.getUserName(),
                 "-".repeat(30));
 
         for (int i = 0; i < activeItemList.size(); i++) {
