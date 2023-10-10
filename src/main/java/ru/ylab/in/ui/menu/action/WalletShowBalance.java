@@ -1,25 +1,28 @@
 package ru.ylab.in.ui.menu.action;
 
+import ru.ylab.exception.NotFoundException;
 import ru.ylab.in.ui.Session;
 import ru.ylab.in.ui.SessionImpl;
 import ru.ylab.model.Wallet;
-import ru.ylab.repository.WalletRepository;
-import ru.ylab.repository.impl.WalletRepositoryImpl;
+import ru.ylab.service.WalletService;
+import ru.ylab.service.impl.WalletServiceImpl;
 
 import java.text.NumberFormat;
 
 public class WalletShowBalance implements ItemAction {
     private final Session session = SessionImpl.getInstance();
-    private final WalletRepository walletRepository = WalletRepositoryImpl.getInstance();
+    private final WalletService walletService = WalletServiceImpl.getInstance();
 
     @Override
     public void execution() {
         if (session.isPresent()) {
             Long walletId = session.getUserWallet().getId();
-            Wallet wallet = walletRepository.findById(walletId).orElseThrow(
-                    () -> new IllegalStateException("Wallet Not found.")
-            );
-            System.out.println("You Balance: " + NumberFormat.getCurrencyInstance().format(wallet.getBalance()));
+            try {
+                Wallet wallet = walletService.find(walletId);
+                System.out.println("You Balance: " + NumberFormat.getCurrencyInstance().format(wallet.getBalance()));
+            } catch (NotFoundException e) {
+                System.err.println("Wallet Not found.");
+            }
         }
     }
 
