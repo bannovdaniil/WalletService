@@ -50,7 +50,7 @@ public class Menu {
                     System.err.println("Не существует такого пункта, повторите ввод.");
                 } else {
                     doElementAction(index);
-                    
+
                     actionService.add(new Action(
                             LocalDateTime.now(),
                             activeItemList.get(index).getName(),

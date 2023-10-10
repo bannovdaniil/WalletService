@@ -83,7 +83,7 @@ public class WalletServiceImpl implements WalletService {
             );
 
             if (wallet.getBalance().compareTo(subtractValue) < 0) {
-                throw new IllegalArgumentException("Не достаточно средств.");
+                throw new IllegalArgumentException("Not have same money.");
             }
 
             if (subtractValue.compareTo(BigDecimal.ZERO) > 0) {
