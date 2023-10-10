@@ -9,7 +9,7 @@ import ru.ylab.service.impl.WalletServiceImpl;
 import java.text.NumberFormat;
 import java.util.Scanner;
 
-public class WalletGetMoney implements ItemAction {
+public class WalletPutMoney implements ItemAction {
     private final Session session = SessionImpl.getInstance();
     private final WalletService walletService = WalletServiceImpl.getInstance();
 
@@ -22,7 +22,7 @@ public class WalletGetMoney implements ItemAction {
 
             try {
                 Long walletId = session.getUserWallet().getId();
-                Wallet wallet = walletService.getMoney(walletId, moneyValue);
+                Wallet wallet = walletService.putMoney(walletId, moneyValue);
                 session.setUserWallet(wallet);
 
                 System.out.println("New balance: " + NumberFormat.getCurrencyInstance().format(wallet.getBalance()));
@@ -30,5 +30,6 @@ public class WalletGetMoney implements ItemAction {
                 System.err.println(e.getMessage());
             }
         }
+
     }
 }

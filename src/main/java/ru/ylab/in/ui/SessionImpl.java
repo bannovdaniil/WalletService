@@ -49,6 +49,11 @@ public class SessionImpl implements Session {
     }
 
     @Override
+    public void setUserWallet(Wallet wallet) {
+        loggedUser.get().setWallet(wallet);
+    }
+
+    @Override
     public void login(Long userId, String password) throws AccessDeniedException, NotFoundException {
         loggedUser = Optional.empty();
         if (userId == null || password == null) {

@@ -11,4 +11,8 @@ public interface WalletService {
     void update(Wallet wallet) throws NotFoundException;
 
     void delete(Long walletId) throws NotFoundException;
+
+    Wallet putMoney(Long walletId, String moneyValue) throws NotFoundException;
+
+    Wallet getMoney(Long walletId, String moneyValue) throws NotFoundException;
 }

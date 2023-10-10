@@ -10,9 +10,8 @@ import java.util.Scanner;
 public class Menu {
     private final List<Item> itemList;
     private final List<Item> loggedUserItemList;
-    private List<Item> activeItemList;
-
     private final Session session = SessionImpl.getInstance();
+    private List<Item> activeItemList;
 
     public Menu() {
         this.itemList = new ArrayList<>();

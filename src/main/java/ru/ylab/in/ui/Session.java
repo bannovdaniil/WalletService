@@ -12,6 +12,8 @@ public interface Session {
 
     Wallet getUserWallet();
 
+    void setUserWallet(Wallet wallet);
+
     void login(Long userId, String password) throws AccessDeniedException, NotFoundException;
 
     void logout();

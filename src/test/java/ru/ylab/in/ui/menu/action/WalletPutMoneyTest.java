@@ -20,11 +20,10 @@ import java.io.InputStream;
 import java.io.PrintStream;
 import java.nio.file.AccessDeniedException;
 
-class WalletAddMoneyTest {
-    private WalletAddMoney walletAddMoney;
+class WalletPutMoneyTest {
     private final static UserService userService = UserServiceImpl.getInstance();
     private final static Session session = SessionImpl.getInstance();
-
+    private WalletPutMoney walletPutMoney;
     private InputStream oldSystemIn;
     private PrintStream oldSystemOut;
     private PrintStream oldSystemErr;
@@ -44,7 +43,7 @@ class WalletAddMoneyTest {
 
     @BeforeEach
     void setUp() {
-        walletAddMoney = new WalletAddMoney();
+        walletPutMoney = new WalletPutMoney();
         oldSystemIn = System.in;
 
         oldSystemOut = System.out;
@@ -80,7 +79,7 @@ class WalletAddMoneyTest {
     void execution(String expectedValue, String expectedOutResult, String expectedErrResult) {
         InputStream inputText = new ByteArrayInputStream(expectedValue.getBytes());
         System.setIn(inputText);
-        walletAddMoney.execution();
+        walletPutMoney.execution();
 
         Assertions.assertTrue(testOut.toString().contains(expectedOutResult));
         Assertions.assertTrue(testErr.toString().contains(expectedErrResult));

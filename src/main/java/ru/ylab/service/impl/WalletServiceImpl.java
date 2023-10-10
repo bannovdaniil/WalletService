@@ -9,9 +9,23 @@ import ru.ylab.repository.impl.UserRepositoryImpl;
 import ru.ylab.repository.impl.WalletRepositoryImpl;
 import ru.ylab.service.WalletService;
 
+import java.math.BigDecimal;
+
 public class WalletServiceImpl implements WalletService {
+    private static WalletService instance;
     private final UserRepository userRepository = UserRepositoryImpl.getInstance();
     private final WalletRepository walletRepository = WalletRepositoryImpl.getInstance();
+    private String regexFormatMoney = "^\\d*([\\.,]\\d{1,2})?$";
+
+    private WalletServiceImpl() {
+    }
+
+    public static synchronized WalletService getInstance() {
+        if (instance == null) {
+            instance = new WalletServiceImpl();
+        }
+        return instance;
+    }
 
     @Override
     public Wallet add(Long userId, Wallet wallet) throws NotFoundException {
@@ -27,6 +41,47 @@ public class WalletServiceImpl implements WalletService {
         return walletRepository.findById(walletId).orElseThrow(
                 () -> new NotFoundException("Wallet not found")
         );
+    }
+
+    @Override
+    public Wallet putMoney(Long walletId, String moneyValue) throws NotFoundException {
+        if (moneyValue.matches(regexFormatMoney)) {
+            BigDecimal addValue = new BigDecimal(moneyValue.replace(",", "."));
+
+            Wallet wallet = walletRepository.findById(walletId).orElseThrow(
+                    () -> new NotFoundException("Wallet Not found.")
+            );
+            if (addValue.compareTo(BigDecimal.ZERO) > 0) {
+                wallet.setBalance(wallet.getBalance().add(addValue));
+                walletRepository.update(wallet);
+                return walletRepository.findById(walletId).orElseThrow();
+            }
+            return wallet;
+        }
+        throw new IllegalArgumentException("Bad arguments");
+    }
+
+    @Override
+    public Wallet getMoney(Long walletId, String moneyValue) throws NotFoundException {
+        if (moneyValue.matches(regexFormatMoney)) {
+            BigDecimal subtractValue = new BigDecimal(moneyValue.replace(",", "."));
+
+            Wallet wallet = walletRepository.findById(walletId).orElseThrow(
+                    () -> new IllegalStateException("Wallet Not found.")
+            );
+
+            if (wallet.getBalance().compareTo(subtractValue) < 0) {
+                throw new IllegalArgumentException("Не достаточно средств.");
+            }
+
+            if (subtractValue.compareTo(BigDecimal.ZERO) > 0) {
+                wallet.setBalance(wallet.getBalance().subtract(subtractValue));
+                walletRepository.update(wallet);
+                return walletRepository.findById(walletId).orElseThrow();
+            }
+            return wallet;
+        }
+        throw new IllegalArgumentException("Bad arguments");
     }
 
     @Override

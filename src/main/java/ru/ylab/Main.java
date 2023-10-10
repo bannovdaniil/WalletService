@@ -13,7 +13,7 @@ public class Main {
         menu.addElement(ItemType.MAIN_MENU, new Item("Login", new UserLogin()));
 
         menu.addElement(ItemType.LOGIN_USER_MENU, new Item("Show Balance", new WalletShowBalance()));
-        menu.addElement(ItemType.LOGIN_USER_MENU, new Item("Put money", new WalletAddMoney()));
+        menu.addElement(ItemType.LOGIN_USER_MENU, new Item("Put money", new WalletPutMoney()));
         menu.addElement(ItemType.LOGIN_USER_MENU, new Item("Get money", new WalletGetMoney()));
         menu.addElement(ItemType.LOGIN_USER_MENU, new Item("Show history of transaction", new TransactionHistory()));
         menu.addElement(ItemType.LOGIN_USER_MENU, new Item("Show User by ID", new UserFindById()));
