@@ -10,9 +10,9 @@ import java.util.StringJoiner;
  * - кто делал.
  */
 public class Action extends Entity {
-    private LocalDateTime time;
-    private String userAction;
-    private User user;
+    private final LocalDateTime time;
+    private final String userAction;
+    private final User user;
 
     public Action(LocalDateTime time, String userAction, User user) {
         this.time = time;

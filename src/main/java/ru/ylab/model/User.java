@@ -8,9 +8,9 @@ package ru.ylab.model;
  * wallet - счет игрока
  */
 public class User extends Entity {
-    private String firstName;
-    private String lastName;
-    private String hashPassword;
+    private final String firstName;
+    private final String lastName;
+    private final String hashPassword;
     private Wallet wallet;
 
     public User(Long id, String firstName, String lastName, String hashPassword, Wallet wallet) {
@@ -25,24 +25,12 @@ public class User extends Entity {
         return firstName;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
     public String getHashPassword() {
         return hashPassword;
     }
 
-    public void setHashPassword(String hashPassword) {
-        this.hashPassword = hashPassword;
-    }
-
     public String getLastName() {
         return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
     }
 
     public Wallet getWallet() {

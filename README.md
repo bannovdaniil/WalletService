@@ -32,10 +32,9 @@ Unit-тестирование
 
 ##### You need java version 17
 
-
 > mvn clean install
 
-> java -jar ./target/WalletService-1.0-SNAPSHOT.jar 
+> java -jar ./target/WalletService-1.0-SNAPSHOT.jar
 
 
 Enter number for navigate menu.

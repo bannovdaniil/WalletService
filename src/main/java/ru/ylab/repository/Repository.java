@@ -8,6 +8,7 @@ import java.util.Optional;
 
 /**
  * Основная абстракция работы с базой.
+ *
  * @param <T> тип
  * @param <K> тип ID
  */

@@ -18,8 +18,6 @@ public interface Session {
 
     /**
      * Получаем имя авторизированного пользователя.
-     *
-     * @return
      */
     String getUserName();
 
@@ -41,10 +39,10 @@ public interface Session {
     /**
      * Обеспечивает авторизацию пользователя в системе.
      *
-     * @param userId
-     * @param password
-     * @throws AccessDeniedException
-     * @throws NotFoundException
+     * @param userId   - id пользователя
+     * @param password - пароль пользователя
+     * @throws AccessDeniedException - если пароль не правильный
+     * @throws NotFoundException     - если нет такого id в базе.
      */
     void login(Long userId, String password) throws AccessDeniedException, NotFoundException;
 

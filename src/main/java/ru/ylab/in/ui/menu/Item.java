@@ -4,8 +4,8 @@ import ru.ylab.in.ui.menu.action.ItemAction;
 
 /**
  * Пункт меню
- * @field name - отображаемое имя
- * @field action - действие выполняемое при выборе пункта
+ * name - отображаемое имя
+ * action - действие выполняемое при выборе пункта
  */
 public class Item {
     private final String name;

@@ -13,10 +13,9 @@ import java.util.Scanner;
 
 /**
  * Реализация меню. Использован паттерн "Стратегия".
- *
- * @field itemList - хранит Пункты основного меню.
- * @field loggedUserItemList - хранит Пункты меню пользователя.
- *
+ * <p>
+ * itemList - хранит Пункты основного меню.
+ * loggedUserItemList - хранит Пункты меню пользователя.
  */
 public class Menu {
     private final List<Item> itemList;
@@ -33,6 +32,7 @@ public class Menu {
 
     /**
      * Добавляем пункты меню.
+     *
      * @param type - тип меню, основное | меню пользователя.
      * @param item - пункт меню с запрограммированным действием.
      */
@@ -53,7 +53,7 @@ public class Menu {
         Scanner scanner = new Scanner(System.in);
 
         while (true) {
-            int index = -1;
+            int index;
             showMenu();
             try {
                 index = Integer.parseInt(scanner.next());
@@ -111,6 +111,7 @@ public class Menu {
 
     /**
      * Выполняем выбранный пункт меню
+     *
      * @param index - номер пункта.
      */
     private void doElementAction(int index) {

@@ -18,13 +18,13 @@ import java.math.BigDecimal;
 import java.util.Optional;
 
 class WalletServiceTest {
+    private final static PasswordEncoder passwordEncoder = PasswordEncoderSha256Impl.getInstance();
     private static WalletService walletService;
     private static UserRepository mockUserRepository;
     private static WalletRepository mockWalletRepository;
     private static UserRepositoryImpl oldUserRepositoryImplInstance;
     private static WalletRepositoryImpl oldWalletRepositoryInstance;
     private static WalletServiceImpl oldWalletServiceInstance;
-    private static PasswordEncoder passwordEncoder = PasswordEncoderSha256Impl.getInstance();
 
     private static void setMock(UserRepository mock) {
         try {
@@ -129,15 +129,11 @@ class WalletServiceTest {
 
     @Test
     void findByIdNotFound() {
-        Optional<User> user = Optional.empty();
-
         Mockito.doReturn(false).when(mockWalletRepository).exitsById(Mockito.any());
 
         NotFoundException exception = Assertions.assertThrows(
                 NotFoundException.class,
-                () -> {
-                    walletService.findById(1L);
-                }, "Not found."
+                () -> walletService.findById(1L), "Not found."
         );
         Assertions.assertEquals("Wallet not found", exception.getMessage());
     }

@@ -9,7 +9,6 @@ import ru.ylab.in.ui.menu.action.*;
 /**
  * Wallet-Service.
  * Сервис, который управляет кредитными/дебетовыми транзакциями от имени игроков.
- *
  * Инициализация меню.
  */
 public class Main {

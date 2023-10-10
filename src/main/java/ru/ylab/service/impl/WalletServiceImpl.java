@@ -17,11 +17,11 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 public class WalletServiceImpl implements WalletService {
+    private static final String REGEXP_FORMAT_MONEY = "^\\d*([\\.,]\\d{1,2})?$";
     private static WalletService instance;
     private final UserRepository userRepository = UserRepositoryImpl.getInstance();
     private final WalletRepository walletRepository = WalletRepositoryImpl.getInstance();
     private final TransactionRepository transactionRepository = TransactionRepositoryImpl.getInstance();
-    private String regexFormatMoney = "^\\d*([\\.,]\\d{1,2})?$";
 
     private WalletServiceImpl() {
     }
@@ -51,7 +51,7 @@ public class WalletServiceImpl implements WalletService {
 
     @Override
     public Wallet putMoney(Long walletId, String moneyValue) throws NotFoundException {
-        if (moneyValue.matches(regexFormatMoney)) {
+        if (moneyValue.matches(REGEXP_FORMAT_MONEY)) {
             BigDecimal addValue = new BigDecimal(moneyValue.replace(",", "."));
 
             Wallet wallet = walletRepository.findById(walletId).orElseThrow(
@@ -75,7 +75,7 @@ public class WalletServiceImpl implements WalletService {
 
     @Override
     public Wallet getMoney(Long walletId, String moneyValue) throws NotFoundException {
-        if (moneyValue.matches(regexFormatMoney)) {
+        if (moneyValue.matches(REGEXP_FORMAT_MONEY)) {
             BigDecimal subtractValue = new BigDecimal(moneyValue.replace(",", "."));
 
             Wallet wallet = walletRepository.findById(walletId).orElseThrow(

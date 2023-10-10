@@ -12,10 +12,10 @@ import java.util.StringJoiner;
  * - пользователь.
  */
 public class Transaction extends Entity {
-    private LocalDateTime time;
-    private TransactionType type;
-    private BigDecimal sum;
-    private User user;
+    private final LocalDateTime time;
+    private final TransactionType type;
+    private final BigDecimal sum;
+    private final User user;
 
     public Transaction(LocalDateTime time, TransactionType type, BigDecimal sum, User user) {
         this.time = time;

@@ -10,7 +10,7 @@ import java.util.List;
  * Показывает Историю транзакций
  */
 public class TransactionHistory implements ItemAction {
-    private TransactionService transactionService = TransactionServiceImpl.getInstance();
+    private final TransactionService transactionService = TransactionServiceImpl.getInstance();
 
     @Override
     public void execution() {
