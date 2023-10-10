@@ -17,7 +17,7 @@ public class UserFindById implements ItemAction {
         System.out.println("Enter User ID:");
         try {
             Long id = Long.parseLong(scanner.next());
-            User user = userService.find(id);
+            User user = userService.findById(id);
             System.out.println(user);
         } catch (NotFoundException e) {
             System.err.println("Пользователь с таким ID не существует.");

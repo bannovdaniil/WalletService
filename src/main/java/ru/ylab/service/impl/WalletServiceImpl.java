@@ -43,7 +43,7 @@ public class WalletServiceImpl implements WalletService {
     }
 
     @Override
-    public Wallet find(Long walletId) throws NotFoundException {
+    public Wallet findById(Long walletId) throws NotFoundException {
         return walletRepository.findById(walletId).orElseThrow(
                 () -> new NotFoundException("Wallet not found")
         );
@@ -102,13 +102,4 @@ public class WalletServiceImpl implements WalletService {
         throw new IllegalArgumentException("Bad arguments");
     }
 
-    @Override
-    public void update(Wallet wallet) throws NotFoundException {
-        walletRepository.update(wallet);
-    }
-
-    @Override
-    public void delete(Long walletId) throws NotFoundException {
-        userRepository.deleteById(walletId);
-    }
 }

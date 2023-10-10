@@ -31,14 +31,8 @@ public class InMemoryRepositoryImpl<T extends Entity> implements Repository<T, L
 
     @Override
     public void update(T t) throws NotFoundException {
-        checkExistByid(t.getId());
+        checkExistById(t.getId());
         daoList.put(t.getId(), t);
-    }
-
-    @Override
-    public void deleteById(Long id) throws NotFoundException {
-        checkExistByid(id);
-        daoList.remove(id);
     }
 
     @Override
@@ -58,7 +52,7 @@ public class InMemoryRepositoryImpl<T extends Entity> implements Repository<T, L
         return daoList.containsKey(id);
     }
 
-    private void checkExistByid(Long id) throws NotFoundException {
+    private void checkExistById(Long id) throws NotFoundException {
         if (!exitsById(id)) {
             throw new NotFoundException(clazz.getName() + " not found");
         }

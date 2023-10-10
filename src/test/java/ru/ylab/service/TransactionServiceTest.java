@@ -14,7 +14,7 @@ import java.lang.reflect.Field;
 class TransactionServiceTest {
     private static TransactionRepository mockTransactionRepository;
     private static TransactionService transactionService;
-    private static TransactionRepository oldInstance;
+    private static TransactionRepositoryImpl oldInstance;
 
     private static void setMock(TransactionRepository mock) {
         try {
@@ -36,7 +36,7 @@ class TransactionServiceTest {
 
     @AfterAll
     static void afterAll() throws Exception {
-        Field instance = TransactionServiceImpl.class.getDeclaredField("instance");
+        Field instance = TransactionRepositoryImpl.class.getDeclaredField("instance");
         instance.setAccessible(true);
         instance.set(instance, oldInstance);
     }

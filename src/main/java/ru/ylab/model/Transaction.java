@@ -15,18 +15,6 @@ public class Transaction extends Entity {
         this.sum = sum;
     }
 
-    public LocalDateTime getTime() {
-        return time;
-    }
-
-    public TransactionType getType() {
-        return type;
-    }
-
-    public BigDecimal getSum() {
-        return sum;
-    }
-
     @Override
     public String toString() {
         return "Transaction{" +

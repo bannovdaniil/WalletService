@@ -33,12 +33,4 @@ public class PasswordEncoderSha256Impl implements PasswordEncoder {
         return new String(hash);
     }
 
-    public String stringToHex(String hashPassword) {
-        StringBuilder sb = new StringBuilder();
-        for (char c : hashPassword.toCharArray()) {
-            sb.append(String.format("%04x", (int) c)).append(" ");
-        }
-        return sb.toString();
-    }
-
 }

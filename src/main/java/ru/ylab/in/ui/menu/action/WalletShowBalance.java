@@ -18,7 +18,7 @@ public class WalletShowBalance implements ItemAction {
         if (session.isPresent()) {
             Long walletId = session.getUserWallet().getId();
             try {
-                Wallet wallet = walletService.find(walletId);
+                Wallet wallet = walletService.findById(walletId);
                 System.out.println("You Balance: " + NumberFormat.getCurrencyInstance().format(wallet.getBalance()));
             } catch (NotFoundException e) {
                 System.err.println("Wallet Not found.");

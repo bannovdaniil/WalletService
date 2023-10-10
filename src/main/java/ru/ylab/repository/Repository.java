@@ -11,8 +11,6 @@ public interface Repository<T extends Entity, K> {
 
     void update(T t) throws NotFoundException;
 
-    void deleteById(K id) throws NotFoundException;
-
     Optional<T> findById(K id);
 
     List<T> findAll();

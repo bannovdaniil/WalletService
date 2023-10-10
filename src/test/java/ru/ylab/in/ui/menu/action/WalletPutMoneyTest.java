@@ -10,6 +10,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 import ru.ylab.exception.NotFoundException;
 import ru.ylab.in.ui.Session;
 import ru.ylab.in.ui.SessionImpl;
+import ru.ylab.model.User;
 import ru.ylab.model.dto.UserIncomingDto;
 import ru.ylab.service.UserService;
 import ru.ylab.service.impl.UserServiceImpl;
@@ -32,13 +33,13 @@ class WalletPutMoneyTest {
 
     @BeforeAll
     static void beforeAll() throws NotFoundException, AccessDeniedException {
-        userService.add(new UserIncomingDto(
+        User user = userService.add(new UserIncomingDto(
                 "First",
                 "Last",
                 "123"
         ));
 
-        session.login(1L, "123");
+        session.login(user.getId(), "123");
     }
 
     @BeforeEach

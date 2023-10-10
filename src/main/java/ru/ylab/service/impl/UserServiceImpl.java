@@ -13,7 +13,6 @@ import ru.ylab.repository.impl.WalletRepositoryImpl;
 import ru.ylab.service.UserService;
 
 import java.math.BigDecimal;
-import java.nio.file.AccessDeniedException;
 import java.util.List;
 
 public class UserServiceImpl implements UserService {
@@ -49,40 +48,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User find(Long userId) throws NotFoundException {
+    public User findById(Long userId) throws NotFoundException {
         return userRepository.findById(userId).orElseThrow(
                 () -> new NotFoundException("User not found")
         );
-    }
-
-    @Override
-    public void update(User user) throws NotFoundException, AccessDeniedException {
-        if (user.getWallet() != null && walletRepository.exitsById(user.getWallet().getId())) {
-            Wallet wallet = walletRepository.findById(user.getWallet().getId()).orElseThrow(
-                    () -> new NotFoundException("Wallet of User not exist.")
-            );
-            if (wallet.getOwner() != null || !wallet.getOwner().getId().equals(user.getId())) {
-                throw new AccessDeniedException("This wallet does not belong to the user.");
-            }
-        }
-        if (user.getWallet() != null && user.getWallet().getId() == null) {
-            Wallet wallet = user.getWallet();
-            wallet.setOwner(user);
-            wallet = walletRepository.save(wallet);
-            user.setWallet(wallet);
-        }
-        userRepository.update(user);
-    }
-
-    @Override
-    public void delete(Long userId) throws NotFoundException {
-        User user = userRepository.findById(userId).orElseThrow(
-                () -> new NotFoundException("User not found.")
-        );
-        if (user.getWallet() != null && walletRepository.exitsById(user.getWallet().getId())) {
-            walletRepository.deleteById(user.getWallet().getId());
-        }
-        userRepository.deleteById(userId);
     }
 
     @Override

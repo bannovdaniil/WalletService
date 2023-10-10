@@ -26,13 +26,13 @@ class WalletGetMoneyTest {
     private final static UserService userService = UserServiceImpl.getInstance();
     private final static WalletService walletService = WalletServiceImpl.getInstance();
     private final static Session session = SessionImpl.getInstance();
+    private static User user;
     private WalletGetMoney walletGetMoney;
     private InputStream oldSystemIn;
     private PrintStream oldSystemOut;
     private PrintStream oldSystemErr;
     private ByteArrayOutputStream testOut;
     private ByteArrayOutputStream testErr;
-    private static User user;
 
     @BeforeAll
     static void beforeAll() throws NotFoundException, AccessDeniedException {

@@ -64,7 +64,7 @@ public class SessionImpl implements Session {
         if (userId == null || password == null) {
             throw new InvalidParameterException("Wrong Password or UserId.");
         }
-        User user = userService.find(userId);
+        User user = userService.findById(userId);
         if (passwordEncoder.encode(password).equals(user.getHashPassword())) {
             loggedUser = Optional.of(user);
         } else {

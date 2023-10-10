@@ -14,18 +14,6 @@ public class Action extends Entity {
         this.user = user;
     }
 
-    public LocalDateTime getTime() {
-        return time;
-    }
-
-    public String getUserAction() {
-        return userAction;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
     @Override
     public String toString() {
         return new StringJoiner(", ", Action.class.getSimpleName() + "[", "]")
