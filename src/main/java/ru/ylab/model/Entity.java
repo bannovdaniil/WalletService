@@ -1,5 +1,8 @@
 package ru.ylab.model;
 
+/**
+ * Базовая сущность для InMemory Model
+ */
 public abstract class Entity {
     protected Long id;
 

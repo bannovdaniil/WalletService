@@ -22,6 +22,9 @@ public class UserDtoMapperImpl implements UserDtoMapper {
     }
 
 
+    /**
+     * Преобразует входящее DTO в сущность.
+     */
     @Override
     public User map(UserIncomingDto dto) {
         return new User(

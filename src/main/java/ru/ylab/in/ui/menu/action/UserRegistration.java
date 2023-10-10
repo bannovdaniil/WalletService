@@ -7,6 +7,9 @@ import ru.ylab.service.impl.UserServiceImpl;
 
 import java.util.Scanner;
 
+/**
+ * Создание нового пользователя.
+ */
 public class UserRegistration implements ItemAction {
     private final UserService userService = UserServiceImpl.getInstance();
 

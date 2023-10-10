@@ -9,7 +9,6 @@ import ru.ylab.repository.UserRepository;
 import ru.ylab.repository.WalletRepository;
 import ru.ylab.repository.impl.UserRepositoryImpl;
 import ru.ylab.repository.impl.WalletRepositoryImpl;
-import ru.ylab.service.impl.UserServiceImpl;
 import ru.ylab.service.impl.WalletServiceImpl;
 import ru.ylab.util.PasswordEncoder;
 import ru.ylab.util.impl.PasswordEncoderSha256Impl;

@@ -1,5 +1,8 @@
 package ru.ylab.model.dto;
 
+/**
+ * Входящее DTO используется при создании пользователя.
+ */
 public class UserIncomingDto {
     private String firstName;
     private String lastName;

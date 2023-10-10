@@ -6,6 +6,11 @@ import ru.ylab.model.Entity;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Основная абстракция работы с базой.
+ * @param <T> тип
+ * @param <K> тип ID
+ */
 public interface Repository<T extends Entity, K> {
     T save(T t);
 

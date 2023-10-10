@@ -7,6 +7,10 @@ import ru.ylab.in.ui.SessionImpl;
 import java.nio.file.AccessDeniedException;
 import java.util.Scanner;
 
+/**
+ * Авторизация пользователя.
+ * логин: userID
+ */
 public class UserLogin implements ItemAction {
     private final Session session = SessionImpl.getInstance();
 

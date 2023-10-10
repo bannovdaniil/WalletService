@@ -7,6 +7,9 @@ import ru.ylab.service.impl.UserServiceImpl;
 
 import java.util.Scanner;
 
+/**
+ * Находит пользователя по ID
+ */
 public class UserFindById implements ItemAction {
     private final UserService userService = UserServiceImpl.getInstance();
 

@@ -6,6 +6,9 @@ import ru.ylab.service.impl.TransactionServiceImpl;
 
 import java.util.List;
 
+/**
+ * Показывает Историю транзакций
+ */
 public class TransactionHistory implements ItemAction {
     private TransactionService transactionService = TransactionServiceImpl.getInstance();
 

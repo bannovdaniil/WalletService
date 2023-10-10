@@ -4,6 +4,7 @@ package ru.ylab.model;
  * Пользователь - он же игрок
  * firstName - имя
  * lastName - фамилия
+ * hashPassword - хеш пароля игрока
  * wallet - счет игрока
  */
 public class User extends Entity {

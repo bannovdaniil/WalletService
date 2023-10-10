@@ -64,8 +64,8 @@ public class WalletServiceImpl implements WalletService {
                 transactionRepository.save(new Transaction(
                         LocalDateTime.now(),
                         TransactionType.PUT,
-                        addValue
-                ));
+                        addValue,
+                        wallet.getOwner()));
                 return walletRepository.findById(walletId).orElseThrow();
             }
             return wallet;
@@ -93,8 +93,8 @@ public class WalletServiceImpl implements WalletService {
                 transactionRepository.save(new Transaction(
                         LocalDateTime.now(),
                         TransactionType.GET,
-                        subtractValue
-                ));
+                        subtractValue,
+                        wallet.getOwner()));
                 return walletRepository.findById(walletId).orElseThrow();
             }
             return wallet;

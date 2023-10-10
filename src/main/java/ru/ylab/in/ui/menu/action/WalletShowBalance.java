@@ -9,6 +9,9 @@ import ru.ylab.service.impl.WalletServiceImpl;
 
 import java.text.NumberFormat;
 
+/**
+ * Показать баланс.
+ */
 public class WalletShowBalance implements ItemAction {
     private final Session session = SessionImpl.getInstance();
     private final WalletService walletService = WalletServiceImpl.getInstance();

@@ -3,6 +3,12 @@ package ru.ylab.model;
 import java.time.LocalDateTime;
 import java.util.StringJoiner;
 
+/**
+ * Сущность аудита действий пользователя.
+ * - время
+ * - что делал
+ * - кто делал.
+ */
 public class Action extends Entity {
     private LocalDateTime time;
     private String userAction;

@@ -5,6 +5,13 @@ import ru.ylab.in.ui.menu.ItemType;
 import ru.ylab.in.ui.menu.Menu;
 import ru.ylab.in.ui.menu.action.*;
 
+
+/**
+ * Wallet-Service.
+ * Сервис, который управляет кредитными/дебетовыми транзакциями от имени игроков.
+ *
+ * Инициализация меню.
+ */
 public class Main {
     public static void main(String[] args) {
 

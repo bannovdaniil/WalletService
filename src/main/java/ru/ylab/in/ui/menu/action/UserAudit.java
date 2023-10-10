@@ -6,6 +6,9 @@ import ru.ylab.service.impl.ActionServiceImpl;
 
 import java.util.List;
 
+/**
+ * Показывает Лог действий пользователя.
+ */
 public class UserAudit implements ItemAction {
     private final ActionService actionService = ActionServiceImpl.getInstance();
 

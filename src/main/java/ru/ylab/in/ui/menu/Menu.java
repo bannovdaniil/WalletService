@@ -11,6 +11,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * Реализация меню. Использован паттерн "Стратегия".
+ *
+ * @field itemList - хранит Пункты основного меню.
+ * @field loggedUserItemList - хранит Пункты меню пользователя.
+ *
+ */
 public class Menu {
     private final List<Item> itemList;
     private final List<Item> loggedUserItemList;
@@ -24,6 +31,11 @@ public class Menu {
         this.activeItemList = itemList;
     }
 
+    /**
+     * Добавляем пункты меню.
+     * @param type - тип меню, основное | меню пользователя.
+     * @param item - пункт меню с запрограммированным действием.
+     */
     public void addElement(ItemType type, Item item) {
         if (item != null) {
             if (type == ItemType.MAIN_MENU) {
@@ -34,6 +46,9 @@ public class Menu {
         }
     }
 
+    /**
+     * Основная обратка меню.
+     */
     public void doAction() {
         Scanner scanner = new Scanner(System.in);
 
@@ -66,6 +81,9 @@ public class Menu {
         scanner.close();
     }
 
+    /**
+     * Переключаем меню из общего в меню пользователя.
+     */
     private void switchMenuItem() {
         if (session.isPresent()) {
             activeItemList = loggedUserItemList;
@@ -91,6 +109,10 @@ public class Menu {
                 "> Select item: ");
     }
 
+    /**
+     * Выполняем выбранный пункт меню
+     * @param index - номер пункта.
+     */
     private void doElementAction(int index) {
         activeItemList.get(index).doAction();
     }

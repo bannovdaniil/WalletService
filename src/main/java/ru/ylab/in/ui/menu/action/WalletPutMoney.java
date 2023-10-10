@@ -9,6 +9,9 @@ import ru.ylab.service.impl.WalletServiceImpl;
 import java.text.NumberFormat;
 import java.util.Scanner;
 
+/**
+ * Кредит кошелька.
+ */
 public class WalletPutMoney implements ItemAction {
     private final Session session = SessionImpl.getInstance();
     private final WalletService walletService = WalletServiceImpl.getInstance();
