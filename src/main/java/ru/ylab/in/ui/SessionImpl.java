@@ -43,6 +43,11 @@ public class SessionImpl implements Session {
     }
 
     @Override
+    public Optional<User> getUser() {
+        return loggedUser;
+    }
+
+    @Override
     public Wallet getUserWallet() {
         return loggedUser.get().getWallet();
 

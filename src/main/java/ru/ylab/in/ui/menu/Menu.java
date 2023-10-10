@@ -2,7 +2,11 @@ package ru.ylab.in.ui.menu;
 
 import ru.ylab.in.ui.Session;
 import ru.ylab.in.ui.SessionImpl;
+import ru.ylab.model.Action;
+import ru.ylab.service.ActionService;
+import ru.ylab.service.impl.ActionServiceImpl;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -10,8 +14,9 @@ import java.util.Scanner;
 public class Menu {
     private final List<Item> itemList;
     private final List<Item> loggedUserItemList;
-    private final Session session = SessionImpl.getInstance();
     private List<Item> activeItemList;
+    private final Session session = SessionImpl.getInstance();
+    private final ActionService actionService = ActionServiceImpl.getInstance();
 
     public Menu() {
         this.itemList = new ArrayList<>();
@@ -45,6 +50,12 @@ public class Menu {
                     System.err.println("Не существует такого пункта, повторите ввод.");
                 } else {
                     doElementAction(index);
+                    
+                    actionService.add(new Action(
+                            LocalDateTime.now(),
+                            activeItemList.get(index).getName(),
+                            session.getUser().orElse(null)
+                    ));
                     switchMenuItem();
                 }
             } catch (NumberFormatException e) {

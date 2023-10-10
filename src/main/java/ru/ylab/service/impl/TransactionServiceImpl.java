@@ -1,6 +1,5 @@
 package ru.ylab.service.impl;
 
-import ru.ylab.exception.NotFoundException;
 import ru.ylab.model.Transaction;
 import ru.ylab.repository.TransactionRepository;
 import ru.ylab.repository.impl.TransactionRepositoryImpl;
@@ -21,13 +20,6 @@ public class TransactionServiceImpl implements TransactionService {
             instance = new TransactionServiceImpl();
         }
         return instance;
-    }
-
-    @Override
-    public Transaction find(Long id) throws NotFoundException {
-        return transactionRepository.findById(id).orElseThrow(
-                () -> new NotFoundException("Transaction not found.")
-        );
     }
 
     @Override
