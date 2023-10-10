@@ -1,6 +1,7 @@
 package ru.ylab.model;
 
 import java.math.BigDecimal;
+import java.text.NumberFormat;
 import java.time.LocalDateTime;
 
 public class Transaction extends Entity {
@@ -24,5 +25,15 @@ public class Transaction extends Entity {
 
     public BigDecimal getSum() {
         return sum;
+    }
+
+    @Override
+    public String toString() {
+        return "Transaction{" +
+               "id=" + id +
+               ", time=" + time +
+               ", type=" + type +
+               ", sum=" + NumberFormat.getCurrencyInstance().format(sum) +
+               '}';
     }
 }
