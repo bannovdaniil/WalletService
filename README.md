@@ -38,3 +38,5 @@ Unit-тестирование
 
 
 Enter number for navigate menu.
+
+добавил github workflows
