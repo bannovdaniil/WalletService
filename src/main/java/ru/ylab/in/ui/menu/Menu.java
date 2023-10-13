@@ -20,11 +20,13 @@ import java.util.Scanner;
 public class Menu {
     private final List<Item> itemList;
     private final List<Item> loggedUserItemList;
-    private final Session session = SessionImpl.getInstance();
-    private final ActionService actionService = ActionServiceImpl.getInstance();
+    private final Session session;
+    private final ActionService actionService;
     private List<Item> activeItemList;
 
     public Menu() {
+        session = SessionImpl.getInstance();
+        actionService = ActionServiceImpl.getInstance();
         this.itemList = new ArrayList<>();
         this.loggedUserItemList = new ArrayList<>();
         this.activeItemList = itemList;
@@ -93,9 +95,7 @@ public class Menu {
     }
 
     private void showMenu() {
-        System.out.printf("%n%2$s%n>%1$s%n%2$s%n",
-                session.getUserName(),
-                "-".repeat(30));
+        System.out.printf("%n%2$s%n>%1$s%n%2$s%n", session.getUserName(), "-".repeat(30));
 
         for (int i = 0; i < activeItemList.size(); i++) {
             Item item = activeItemList.get(i);
@@ -104,9 +104,7 @@ public class Menu {
 
         System.out.printf("%n%d. %s%n", (activeItemList.size() + 1), "Exit");
 
-        System.out.printf("%s%n%s",
-                "-".repeat(30),
-                "> Select item: ");
+        System.out.printf("%s%n%s", "-".repeat(30), "> Select item: ");
     }
 
     /**

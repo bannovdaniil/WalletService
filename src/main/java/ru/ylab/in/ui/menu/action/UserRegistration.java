@@ -8,6 +8,7 @@ import ru.ylab.service.impl.UserServiceImpl;
 import java.util.Scanner;
 
 /**
+ * {@inheritDoc}
  * Создание нового пользователя.
  */
 public class UserRegistration implements ItemAction {

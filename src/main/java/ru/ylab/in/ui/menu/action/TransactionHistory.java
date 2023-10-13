@@ -7,6 +7,7 @@ import ru.ylab.service.impl.TransactionServiceImpl;
 import java.util.List;
 
 /**
+ * {@inheritDoc}
  * Показывает Историю транзакций
  */
 public class TransactionHistory implements ItemAction {

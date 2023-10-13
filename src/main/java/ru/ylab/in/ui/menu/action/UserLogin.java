@@ -8,8 +8,9 @@ import java.nio.file.AccessDeniedException;
 import java.util.Scanner;
 
 /**
+ * {@inheritDoc}
  * Авторизация пользователя.
- * логин: userID
+ * Логин: userID
  */
 public class UserLogin implements ItemAction {
     private final Session session = SessionImpl.getInstance();

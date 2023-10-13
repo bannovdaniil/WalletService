@@ -10,6 +10,7 @@ import java.text.NumberFormat;
 import java.util.Scanner;
 
 /**
+ * {@inheritDoc}
  * Кредит кошелька.
  */
 public class WalletPutMoney implements ItemAction {

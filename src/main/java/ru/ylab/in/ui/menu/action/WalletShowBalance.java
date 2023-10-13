@@ -10,6 +10,7 @@ import ru.ylab.service.impl.WalletServiceImpl;
 import java.text.NumberFormat;
 
 /**
+ * {@inheritDoc}
  * Показать баланс.
  */
 public class WalletShowBalance implements ItemAction {

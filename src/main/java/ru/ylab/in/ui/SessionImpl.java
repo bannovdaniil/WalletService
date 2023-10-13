@@ -12,10 +12,16 @@ import java.nio.file.AccessDeniedException;
 import java.security.InvalidParameterException;
 import java.util.Optional;
 
+/**
+ * {@inheritDoc}
+ */
 public class SessionImpl implements Session {
     private static Session instance;
     private final PasswordEncoder passwordEncoder = PasswordEncoderSha256Impl.getInstance();
     private final UserService userService = UserServiceImpl.getInstance();
+    /**
+     * Сущность авторизированного пользователя.
+     */
     private Optional<User> loggedUser = Optional.empty();
 
     private SessionImpl() {
@@ -50,12 +56,11 @@ public class SessionImpl implements Session {
     @Override
     public Wallet getUserWallet() {
         return loggedUser.get().getWallet();
-
     }
 
     @Override
     public void setUserWallet(Wallet wallet) {
-        loggedUser.get().setWallet(wallet);
+        loggedUser.ifPresent(user -> user.setWallet(wallet));
     }
 
     @Override

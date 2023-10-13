@@ -7,6 +7,7 @@ import ru.ylab.service.impl.ActionServiceImpl;
 import java.util.List;
 
 /**
+ * {@inheritDoc}
  * Показывает Лог действий пользователя.
  */
 public class UserAudit implements ItemAction {

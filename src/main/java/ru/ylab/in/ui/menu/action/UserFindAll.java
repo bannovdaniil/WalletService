@@ -4,6 +4,7 @@ import ru.ylab.service.UserService;
 import ru.ylab.service.impl.UserServiceImpl;
 
 /**
+ * {@inheritDoc}
  * Выводит на экран всех зарегистрированных пользователей
  */
 public class UserFindAll implements ItemAction {
