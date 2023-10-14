@@ -6,28 +6,28 @@
 
     <changeSet id="001-create-table-users" author="ylab">
         <createTable tableName="users">
-            <column name="users_id" type="BIGSERIAL">
+            <column name="user_id" type="BIGINT">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="users_firstName" type="VARCHAR(255)"/>
-            <column name="users_lastName" type="VARCHAR(255)"/>
-            <column name="users_password" type="VARCHAR(255)"/>
+            <column name="user_firstname" type="VARCHAR(255)"/>
+            <column name="user_lastname" type="VARCHAR(255)"/>
+            <column name="user_password" type="VARCHAR(255)"/>
         </createTable>
     </changeSet>
 
     <changeSet id="002-create-table-wallets" author="ylab">
         <createTable tableName="wallets">
-            <column name="wallets_id" type="BIGSERIAL">
+            <column name="wallet_id" type="BIGSERIAL">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="wallets_name" type="VARCHAR(255)"/>
-            <column name="wallets_balance" type="VARCHAR(255)"/>
+            <column name="wallet_name" type="VARCHAR(255)"/>
+            <column name="wallet_balance" type="VARCHAR(255)"/>
         </createTable>
     </changeSet>
 
     <changeSet id="004-create-table-users_wallets" author="ylab">
         <createTable tableName="users_wallets">
-            <column name="users_wallets_id" type="BIGSERIAL">
+            <column name="user_wallet_id" type="BIGSERIAL">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="user_id" type="BIGINT">
@@ -41,12 +41,12 @@
 
     <changeSet id="004-create-table-Transactions" author="ylab">
         <createTable tableName="transactions">
-            <column name="transactions_id" type="BIGSERIAL">
+            <column name="transaction_id" type="BIGSERIAL">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="transactions_time" type="TIMESTAMP WITHOUT TIME ZONE"/>
-            <column name="transactions_type" type="VARCHAR(32)"/>
-            <column name="transactions_sum" type="VARCHAR(255)"/>
+            <column name="transaction_time" type="TIMESTAMP WITHOUT TIME ZONE"/>
+            <column name="transaction_type" type="VARCHAR(32)"/>
+            <column name="transaction_sum" type="VARCHAR(255)"/>
             <column name="user_id" type="BIGINT">
                 <constraints foreignKeyName="user" referencedTableName="users"/>
             </column>
@@ -55,11 +55,11 @@
 
     <changeSet id="005-create-table-Actions" author="ylab">
         <createTable tableName="actions">
-            <column name="actions_id" type="BIGSERIAL">
+            <column name="action_id" type="BIGSERIAL">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="actions_time" type="TIMESTAMP WITHOUT TIME ZONE"/>
-            <column name="actions_action" type="VARCHAR(255)"/>
+            <column name="action_time" type="TIMESTAMP WITHOUT TIME ZONE"/>
+            <column name="action_action" type="VARCHAR(255)"/>
             <column name="user_id" type="BIGINT">
                 <constraints foreignKeyName="user" referencedTableName="users"/>
             </column>
