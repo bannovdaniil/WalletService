@@ -24,6 +24,7 @@ public final class ConnectionManagerImpl implements ConnectionManager {
     public static synchronized ConnectionManager getInstance() {
         if (instance == null) {
             instance = new ConnectionManagerImpl();
+            propertiesUtil = DbPropertiesUtilImpl.getInstance();
             loadDriver(propertiesUtil.getProperties(DRIVER_CLASS_KEY), propertiesUtil.getProperties(DATABASE_SCHEMA));
         }
         return instance;
@@ -32,7 +33,7 @@ public final class ConnectionManagerImpl implements ConnectionManager {
     private static void loadDriver(String driverClass, String databaseSchema) {
         DbPropertiesUtilImpl.getInstance();
         try {
-            Class.forName(driverClass + "?currentSchema=" + databaseSchema);
+            Class.forName(driverClass + "&currentSchema=" + databaseSchema);
         } catch (ClassNotFoundException e) {
             throw new DataBaseDriverLoadException("Database driver not loaded.");
         }
