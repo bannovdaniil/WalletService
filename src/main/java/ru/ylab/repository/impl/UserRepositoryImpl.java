@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public final class UserRepositoryImpl extends RepositoryImpl<User> implements UserRepository {
+public final class UserRepositoryImpl implements UserRepository {
     private final ConnectionManager connectionManager = ConnectionManagerImpl.getInstance();
     private final WalletRepository walletRepository = WalletRepositoryImpl.getInstance();
     private static UserRepository instance;
@@ -27,8 +27,8 @@ public final class UserRepositoryImpl extends RepositoryImpl<User> implements Us
     }
 
     private static final String SAVE_SQL = """
-            INSERT INTO users (user_firstname, user_lastname, user_password)
-            VALUES (?, ? ,?) ;
+            INSERT INTO users (user_firstname, user_lastname, user_password, wallet_id)
+            VALUES (?, ? ,?, ?) ;
             """;
     private static final String UPDATE_SQL = """
             UPDATE users
@@ -56,15 +56,26 @@ public final class UserRepositoryImpl extends RepositoryImpl<User> implements Us
     @Override
     public User save(User user) {
         try (Connection connection = connectionManager.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(SAVE_SQL, Statement.RETURN_GENERATED_KEYS)) {
+            PreparedStatement preparedStatement = connection.prepareStatement(SAVE_SQL, Statement.RETURN_GENERATED_KEYS)) {
 
             preparedStatement.setString(1, user.getFirstName());
             preparedStatement.setString(2, user.getLastName());
             preparedStatement.setString(3, user.getHashPassword());
+            preparedStatement.setLong(4, user.getWallet().getId());
 
-            if (user.getWallet() != null) {
-                walletRepository.save(user.getWallet());
+            preparedStatement.executeUpdate();
+
+            ResultSet resultSet = preparedStatement.getGeneratedKeys();
+            if (resultSet.next()) {
+                user = new User(
+                        resultSet.getLong("user_id"),
+                        user.getFirstName(),
+                        user.getLastName(),
+                        user.getHashPassword(),
+                        user.getWallet()
+                );
             }
+
         } catch (SQLException e) {
             throw new RepositoryException(e.getMessage());
         }
@@ -147,7 +158,9 @@ public final class UserRepositoryImpl extends RepositoryImpl<User> implements Us
 
     private User createUser(ResultSet resultSet) throws SQLException {
         Long userId = resultSet.getLong("user_id");
-        Wallet wallet = walletRepository.findByUserId(userId);
+        Long walletId = resultSet.getLong("wallet_id");
+
+        Wallet wallet = walletRepository.findById(walletId).orElseThrow();
         return new User(
                 userId,
                 resultSet.getString("user_firstname"),

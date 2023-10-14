@@ -34,16 +34,15 @@ public class UserServiceImpl implements UserService {
     @Override
     public User add(UserIncomingDto dto) throws NotFoundException {
         User user = userDtoMapper.map(dto);
-        user = userRepository.save(user);
         Wallet wallet = new Wallet(
                 null,
                 user,
                 "wallet-1",
                 BigDecimal.ZERO
         );
-        walletRepository.save(wallet);
         user.setWallet(wallet);
-        userRepository.update(user);
+        walletRepository.save(wallet);
+        user = userRepository.save(user);
         return user;
     }
 

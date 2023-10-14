@@ -4,5 +4,4 @@ import ru.ylab.model.Wallet;
 
 public interface WalletRepository extends Repository<Wallet, Long> {
 
-    Wallet findByUserId(Long userId);
 }
