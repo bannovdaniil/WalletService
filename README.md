@@ -1,5 +1,20 @@
 # Wallet-Service
 
+### How use:
+
+##### You need java version: 17
+
+##### Postgres Docker Outer Port: 54320
+
+> docker-compose up -d
+
+> mvn clean package install
+
+> java -jar ./target/WalletService-1.0-SNAPSHOT.jar
+
+
+Enter number for navigate menu.
+
 ## ДЗ №2
 
 Необходимо обновить сервис, который вы разработали в первом задании согласно следующим требованиям и ограничениям
@@ -50,16 +65,5 @@
 ## Нефункциональные требования
 
 Unit-тестирование
-
-### How use:
-
-##### You need java version 17
-
-> mvn clean install
-
-> java -jar ./target/WalletService-1.0-SNAPSHOT.jar
-
-
-Enter number for navigate menu.
 
 добавил github workflows
