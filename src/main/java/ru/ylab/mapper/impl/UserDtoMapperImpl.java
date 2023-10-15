@@ -6,6 +6,9 @@ import ru.ylab.model.dto.UserIncomingDto;
 import ru.ylab.util.PasswordEncoder;
 import ru.ylab.util.impl.PasswordEncoderSha256Impl;
 
+/**
+ * Маппер для User Dto
+ */
 public class UserDtoMapperImpl implements UserDtoMapper {
     private static UserDtoMapper instance;
     private final PasswordEncoder passwordEncoder = PasswordEncoderSha256Impl.getInstance();

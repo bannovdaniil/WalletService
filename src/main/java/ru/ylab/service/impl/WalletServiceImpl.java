@@ -14,6 +14,9 @@ import ru.ylab.service.WalletService;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+/**
+ * Бизнес логика работы со счетами пользователя.
+ */
 public class WalletServiceImpl implements WalletService {
     private static final String REGEXP_FORMAT_MONEY = "^\\d*([\\.,]\\d{1,2})?$";
     private static WalletService instance;

@@ -12,6 +12,9 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Репозиторий для управления Transaction
+ */
 public final class TransactionRepositoryImpl implements TransactionRepository {
     private final ConnectionManager connectionManager = ConnectionManagerImpl.getInstance();
     private static TransactionRepository instance;

@@ -14,6 +14,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Репозиторий для управления Пользователями
+ */
 public final class UserRepositoryImpl implements UserRepository {
     private final ConnectionManager connectionManager = ConnectionManagerImpl.getInstance();
     private final WalletRepository walletRepository = WalletRepositoryImpl.getInstance();

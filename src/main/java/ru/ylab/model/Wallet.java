@@ -3,6 +3,11 @@ package ru.ylab.model;
 import java.math.BigDecimal;
 import java.text.NumberFormat;
 
+/**
+ * Счет пользователя.
+ * - название счета
+ * - баланс счета.
+ */
 public class Wallet extends Entity {
     private String name;
     private BigDecimal balance;

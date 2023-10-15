@@ -7,6 +7,9 @@ import ru.ylab.service.TransactionService;
 
 import java.util.List;
 
+/**
+ * Бизнес логика Transaction Событий которые происходят со счетом.
+ */
 public class TransactionServiceImpl implements TransactionService {
     private static TransactionService instance;
 

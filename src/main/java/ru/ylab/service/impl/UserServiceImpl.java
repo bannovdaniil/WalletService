@@ -15,6 +15,9 @@ import ru.ylab.service.UserService;
 import java.math.BigDecimal;
 import java.util.List;
 
+/**
+ * Бизнес логика работы с пользователями
+ */
 public class UserServiceImpl implements UserService {
     private static UserService instance;
     private final UserRepository userRepository = UserRepositoryImpl.getInstance();

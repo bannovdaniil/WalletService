@@ -9,6 +9,9 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+/**
+ * {@inheritDoc}
+ */
 public final class ConnectionManagerImpl implements ConnectionManager {
     private static PropertiesUtil propertiesUtil;
     private static ConnectionManager instance;
@@ -34,6 +37,11 @@ public final class ConnectionManagerImpl implements ConnectionManager {
         }
     }
 
+    /**
+     * Вернет соединение с базой и установит рабочую схему.
+     *
+     * @throws SQLException - при любых ошибках с базой.
+     */
     @Override
     @SuppressWarnings("squid:S2095")
     public Connection getConnection() throws SQLException {

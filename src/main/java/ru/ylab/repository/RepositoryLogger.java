@@ -5,7 +5,7 @@ import ru.ylab.model.Entity;
 import java.util.List;
 
 /**
- * Основная абстракция работы с базой.
+ * Основная абстракция работы с логирующими сущностями Action и Transaction.
  *
  * @param <T> тип
  */

@@ -12,6 +12,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Репозиторий для управления Счета пользователя.
+ */
 public final class WalletRepositoryImpl implements WalletRepository {
 
     private final ConnectionManager connectionManager = ConnectionManagerImpl.getInstance();

@@ -42,7 +42,9 @@ public class LiquibaseUtilImpl implements LiquibaseUtil {
     public void init() {
         try {
             Connection connection = connectionManager.getConnection();
+
             initLiquibaseSchema(connection);
+
             Database database = DatabaseFactory.getInstance().findCorrectDatabaseImplementation(new JdbcConnection(connection));
             database.setDefaultSchemaName(propertiesUtil.getProperties(ApplicationPropertiesUtilImpl.DEFAULT_SCHEMA_NAME));
             database.setLiquibaseSchemaName(propertiesUtil.getProperties(ApplicationPropertiesUtilImpl.LIQUIBASE_SCHEMA_NAME));
@@ -56,10 +58,18 @@ public class LiquibaseUtilImpl implements LiquibaseUtil {
         }
     }
 
+    /**
+     * Создает необходимые для работы схемы базы данных.
+     *
+     * @param connection
+     * @throws SQLException
+     */
     private void initLiquibaseSchema(Connection connection) throws SQLException {
         try (Statement statement = connection.createStatement()) {
-            String sqlSchema = "CREATE SCHEMA IF NOT EXISTS " + propertiesUtil.getProperties(ApplicationPropertiesUtilImpl.DEFAULT_SCHEMA_NAME) + ";" +
-                               "CREATE SCHEMA IF NOT EXISTS " + propertiesUtil.getProperties(ApplicationPropertiesUtilImpl.LIQUIBASE_SCHEMA_NAME) + ";";
+            String sqlSchema = String.format("CREATE SCHEMA IF NOT EXISTS %s; " +
+                                             "CREATE SCHEMA IF NOT EXISTS %s;",
+                    propertiesUtil.getProperties(ApplicationPropertiesUtilImpl.DEFAULT_SCHEMA_NAME),
+                    propertiesUtil.getProperties(ApplicationPropertiesUtilImpl.LIQUIBASE_SCHEMA_NAME));
 
             statement.execute(sqlSchema);
         }

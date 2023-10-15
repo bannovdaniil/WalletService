@@ -11,6 +11,9 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Репозиторий для управления Action
+ */
 public final class ActionRepositoryImpl implements ActionRepository {
     private final ConnectionManager connectionManager = ConnectionManagerImpl.getInstance();
     private static ActionRepository instance;

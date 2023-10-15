@@ -8,6 +8,7 @@ import java.util.StringJoiner;
  * - время
  * - что делал
  * - кто делал.
+ * - подробности о пользователе
  */
 public class Action extends Entity {
     private final LocalDateTime time;
