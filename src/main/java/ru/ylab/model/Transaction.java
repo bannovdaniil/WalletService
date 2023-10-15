@@ -15,13 +15,37 @@ public class Transaction extends Entity {
     private final LocalDateTime time;
     private final TransactionType type;
     private final BigDecimal sum;
-    private final User user;
+    private final Long userId;
 
-    public Transaction(LocalDateTime time, TransactionType type, BigDecimal sum, User user) {
+    public Transaction(LocalDateTime time, TransactionType type, BigDecimal sum, Long userId) {
         this.time = time;
         this.type = type;
         this.sum = sum;
-        this.user = user;
+        this.userId = userId;
+    }
+
+    public Transaction(Long id, LocalDateTime time, TransactionType type, BigDecimal sum, Long userId) {
+        super.setId(id);
+        this.time = time;
+        this.type = type;
+        this.sum = sum;
+        this.userId = userId;
+    }
+
+    public LocalDateTime getTime() {
+        return time;
+    }
+
+    public TransactionType getType() {
+        return type;
+    }
+
+    public BigDecimal getSum() {
+        return sum;
+    }
+
+    public Long getUserId() {
+        return userId;
     }
 
     @Override
@@ -31,7 +55,7 @@ public class Transaction extends Entity {
                 .add("time=" + time)
                 .add("type=" + type)
                 .add("sum=" + sum)
-                .add("user=" + user)
+                .add("userId=" + userId)
                 .toString();
     }
 }

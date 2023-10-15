@@ -39,6 +39,12 @@
             <column name="transaction_time" type="TIMESTAMP WITHOUT TIME ZONE"/>
             <column name="transaction_type" type="VARCHAR(32)"/>
             <column name="transaction_sum" type="VARCHAR(255)"/>
+            <column name="wallet_id" type="BIGINT">
+                <constraints foreignKeyName="wallet" referencedTableName="wallets"/>
+            </column>
+            <column name="user_id" type="BIGINT">
+                <constraints foreignKeyName="user" referencedTableName="users"/>
+            </column>
         </createTable>
     </changeSet>
 

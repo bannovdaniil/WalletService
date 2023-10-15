@@ -86,7 +86,7 @@ public final class UserRepositoryImpl implements UserRepository {
     public void update(User user) throws NotFoundException {
         checkExistById(user);
         try (Connection connection = connectionManager.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_SQL);) {
+             PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_SQL)) {
 
             preparedStatement.setString(1, user.getFirstName());
             preparedStatement.setString(2, user.getLastName());

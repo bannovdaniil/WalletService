@@ -19,7 +19,7 @@ public class WalletPutMoney implements ItemAction {
 
     @Override
     public void execution() {
-        if (session.isPresent()) {
+        if (session.isActive()) {
             Scanner scanner = new Scanner(System.in);
             System.out.println("Enter sum: ");
             String moneyValue = scanner.next();

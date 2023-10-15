@@ -78,7 +78,7 @@ public final class WalletRepositoryImpl implements WalletRepository {
     public void update(Wallet wallet) throws NotFoundException {
         checkExistById(wallet);
         try (Connection connection = connectionManager.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_SQL);) {
+             PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_SQL)) {
 
             preparedStatement.setString(1, wallet.getName());
             preparedStatement.setBigDecimal(2, wallet.getBalance());

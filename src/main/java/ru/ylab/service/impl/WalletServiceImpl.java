@@ -54,7 +54,7 @@ public class WalletServiceImpl implements WalletService {
                         LocalDateTime.now(),
                         TransactionType.PUT,
                         addValue,
-                        user));
+                        user.getId()));
                 return walletRepository.findById(walletId).orElseThrow();
             }
             return wallet;
@@ -84,7 +84,7 @@ public class WalletServiceImpl implements WalletService {
                         LocalDateTime.now(),
                         TransactionType.GET,
                         subtractValue,
-                        user));
+                        user.getId()));
                 return walletRepository.findById(walletId).orElseThrow();
             }
             return wallet;

@@ -12,14 +12,38 @@ import java.util.StringJoiner;
 public class Action extends Entity {
     private final LocalDateTime time;
     private final String userAction;
-    private final String information;
     private final Long userId;
+    private final String information;
 
-    public Action(LocalDateTime time, String userAction, String information, Long userId) {
+    public Action(LocalDateTime time, String userAction, Long userId, String information) {
         this.time = time;
         this.userAction = userAction;
         this.information = information;
         this.userId = userId;
+    }
+
+    public Action(Long id, LocalDateTime time, String userAction, Long userId, String information) {
+        super.setId(id);
+        this.time = time;
+        this.userAction = userAction;
+        this.information = information;
+        this.userId = userId;
+    }
+
+    public LocalDateTime getTime() {
+        return time;
+    }
+
+    public String getUserAction() {
+        return userAction;
+    }
+
+    public String getInformation() {
+        return information;
+    }
+
+    public Long getUserId() {
+        return userId;
     }
 
     @Override

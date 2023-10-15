@@ -12,7 +12,7 @@ public class UserLogout implements ItemAction {
 
     @Override
     public void execution() {
-        if (session.isPresent()) {
+        if (session.isActive()) {
             session.logout();
         }
     }

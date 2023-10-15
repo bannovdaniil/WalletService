@@ -35,7 +35,7 @@ public class SessionImpl implements Session {
     }
 
     @Override
-    public boolean isPresent() {
+    public boolean isActive() {
         return loggedUser.isPresent();
     }
 
