@@ -4,7 +4,7 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.10.xsd">
 
     <changeSet id="001-insert-data-actions" author="ylab">
-        <insert tableName="actions" >
+        <insert tableName="actions" schemaName="wallet_service">
             <column name="action_time" value="2023-01-01"/>
             <column name="action_action" value="Login"/>
             <column name="action_information" value="Not sign in"/>
