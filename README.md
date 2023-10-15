@@ -8,10 +8,11 @@
 
 > docker-compose up -d
 
-> mvn clean package install
+> ~~mvn clean package install~~
 
-> java -jar ./target/WalletService-1.0-SNAPSHOT.jar
+> ~~java -jar ./target/WalletService-1.0-SNAPSHOT.jar~~
 
+> Open project on IDE and Run Main.java 
 
 Enter number for navigate menu.
 
