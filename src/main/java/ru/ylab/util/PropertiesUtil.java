@@ -7,6 +7,7 @@ public interface PropertiesUtil {
 
     /**
      * Вернуть значение параметра по названию
+     *
      * @param key - название ключа
      * @return - значение параметра
      */

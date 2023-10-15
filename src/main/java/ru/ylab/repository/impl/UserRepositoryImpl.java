@@ -18,22 +18,10 @@ import java.util.Optional;
  * Репозиторий для управления Пользователями
  */
 public final class UserRepositoryImpl implements UserRepository {
-    private final ConnectionManager connectionManager = ConnectionManagerImpl.getInstance();
-    private final WalletRepository walletRepository = WalletRepositoryImpl.getInstance();
-    private static UserRepository instance;
-
-    public static synchronized UserRepository getInstance() {
-        if (instance == null) {
-            instance = new UserRepositoryImpl();
-        }
-        return instance;
-    }
-
     private static final String SAVE_SQL = """
             INSERT INTO users (user_firstname, user_lastname, user_password, wallet_id)
             VALUES (?, ? ,?, ?) ;
             """;
-
     private static final String UPDATE_SQL = """
             UPDATE users
             SET user_firstname = ?,
@@ -61,6 +49,16 @@ public final class UserRepositoryImpl implements UserRepository {
                         WHERE user_id = ?
                         LIMIT 1);
             """;
+    private static UserRepository instance;
+    private final ConnectionManager connectionManager = ConnectionManagerImpl.getInstance();
+    private final WalletRepository walletRepository = WalletRepositoryImpl.getInstance();
+
+    public static synchronized UserRepository getInstance() {
+        if (instance == null) {
+            instance = new UserRepositoryImpl();
+        }
+        return instance;
+    }
 
     @Override
     public User save(User user) {

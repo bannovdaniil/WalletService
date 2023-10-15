@@ -36,7 +36,8 @@ class WalletPutMoneyTest {
     private static final int localPort = 54320;
     private static final PropertiesUtil propertiesUtil = ApplicationPropertiesUtilImpl.getInstance();
     private static final LiquibaseUtil liquibaseUtil = LiquibaseUtilImpl.getInstance();
-
+    private final static UserService userService = UserServiceImpl.getInstance();
+    private final static Session session = SessionImpl.getInstance();
     @Container
     public static PostgreSQLContainer<?> container = new PostgreSQLContainer<>("postgres:15-alpine")
             .withDatabaseName("wallet_db")
@@ -46,9 +47,6 @@ class WalletPutMoneyTest {
             .withCreateContainerCmdModifier(cmd -> cmd.withHostConfig(
                     new HostConfig().withPortBindings(new PortBinding(Ports.Binding.bindPort(localPort), new ExposedPort(containerPort)))
             ));
-
-    private final static UserService userService = UserServiceImpl.getInstance();
-    private final static Session session = SessionImpl.getInstance();
     private WalletPutMoney walletPutMoney;
     private InputStream oldSystemIn;
     private PrintStream oldSystemOut;

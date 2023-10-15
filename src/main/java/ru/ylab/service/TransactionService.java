@@ -7,5 +7,6 @@ import java.util.List;
 public interface TransactionService {
     /**
      * Вернуть список событий.
-     */ List<Transaction> findAll();
+     */
+    List<Transaction> findAll();
 }

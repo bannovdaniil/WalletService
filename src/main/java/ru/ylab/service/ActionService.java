@@ -7,6 +7,7 @@ import java.util.List;
 public interface ActionService {
     /**
      * Добавить событие в базу
+     *
      * @param action - событие
      */
     Action add(Action action);

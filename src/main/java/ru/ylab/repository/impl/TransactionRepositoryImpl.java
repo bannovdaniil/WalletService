@@ -16,16 +16,6 @@ import java.util.List;
  * Репозиторий для управления Transaction
  */
 public final class TransactionRepositoryImpl implements TransactionRepository {
-    private final ConnectionManager connectionManager = ConnectionManagerImpl.getInstance();
-    private static TransactionRepository instance;
-
-    public static synchronized TransactionRepository getInstance() {
-        if (instance == null) {
-            instance = new TransactionRepositoryImpl();
-        }
-        return instance;
-    }
-
     private static final String SAVE_SQL = """
             INSERT INTO transactions (transaction_time, transaction_type, transaction_sum, user_id)
             VALUES (?, ?, ?, ?) ;
@@ -33,6 +23,15 @@ public final class TransactionRepositoryImpl implements TransactionRepository {
     private static final String FIND_ALL_SQL = """
             SELECT transaction_id, transaction_time, transaction_type, transaction_sum, user_id FROM transactions;
             """;
+    private static TransactionRepository instance;
+    private final ConnectionManager connectionManager = ConnectionManagerImpl.getInstance();
+
+    public static synchronized TransactionRepository getInstance() {
+        if (instance == null) {
+            instance = new TransactionRepositoryImpl();
+        }
+        return instance;
+    }
 
     @Override
     public Transaction save(Transaction transaction) {

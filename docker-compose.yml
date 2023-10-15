@@ -11,7 +11,7 @@ services:
       POSTGRES_USER: sa
       POSTGRES_PASSWORD: password
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -h localhost -p 5432 -d wallet_db -U sa"]
+      test: [ "CMD-SHELL", "pg_isready -h localhost -p 5432 -d wallet_db -U sa" ]
       interval: 10s
       timeout: 5s
       retries: 5

@@ -8,7 +8,6 @@ import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.testcontainers.containers.PostgreSQLContainer;
-import org.testcontainers.jdbc.JdbcDatabaseDelegate;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import ru.ylab.exception.NotFoundException;
@@ -31,9 +30,8 @@ import java.util.Optional;
 class UserRepositoryImplTest {
     private static final int containerPort = 5432;
     private static final int localPort = 54320;
-    private static PropertiesUtil propertiesUtil = ApplicationPropertiesUtilImpl.getInstance();
-    private static LiquibaseUtil liquibaseUtil = LiquibaseUtilImpl.getInstance();
-
+    private static final PropertiesUtil propertiesUtil = ApplicationPropertiesUtilImpl.getInstance();
+    private static final LiquibaseUtil liquibaseUtil = LiquibaseUtilImpl.getInstance();
     @Container
     public static PostgreSQLContainer<?> container = new PostgreSQLContainer<>("postgres:15-alpine")
             .withDatabaseName("wallet_db")
@@ -46,13 +44,10 @@ class UserRepositoryImplTest {
     private static UserRepository userRepository;
     private static WalletRepository walletRepository;
     private static PasswordEncoder passwordEncoder;
-    private static JdbcDatabaseDelegate jdbcDatabaseDelegate;
 
     @BeforeAll
     static void beforeAll() {
         container.start();
-        jdbcDatabaseDelegate = new JdbcDatabaseDelegate(container, "");
-
         userRepository = UserRepositoryImpl.getInstance();
         walletRepository = WalletRepositoryImpl.getInstance();
         passwordEncoder = PasswordEncoderSha256Impl.getInstance();
@@ -127,7 +122,7 @@ class UserRepositoryImplTest {
 
         userRepository.update(userForUpdate);
 
-        User userResult = userRepository.findById(user.getId()).get();
+        User userResult = userRepository.findById(user.getId()).orElseThrow();
 
         Assertions.assertNotEquals(expectedFirstname, user.getFirstName());
         Assertions.assertNotEquals(expectedLastname, user.getLastName());
@@ -159,6 +154,7 @@ class UserRepositoryImplTest {
                 passwordEncoder.encode("123"),
                 wallet
         );
+        userRepository.save(user);
 
         Optional<User> userResult = userRepository.findById(expectedId);
 

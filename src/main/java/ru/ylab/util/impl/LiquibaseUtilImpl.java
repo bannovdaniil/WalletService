@@ -21,10 +21,10 @@ import java.sql.Statement;
  * {@inheritDoc}
  */
 public class LiquibaseUtilImpl implements LiquibaseUtil {
+    private static final String CHANGE_LOGFILE_NAME = "db/changelog/changelog.xml";
     private static LiquibaseUtil instance;
     private static PropertiesUtil propertiesUtil;
     private final ConnectionManager connectionManager = ConnectionManagerImpl.getInstance();
-    private static final String CHANGE_LOGFILE_NAME = "db/changelog/changelog.xml";
 
     private LiquibaseUtilImpl() {
     }
@@ -60,9 +60,6 @@ public class LiquibaseUtilImpl implements LiquibaseUtil {
 
     /**
      * Создает необходимые для работы схемы базы данных.
-     *
-     * @param connection
-     * @throws SQLException
      */
     private void initLiquibaseSchema(Connection connection) throws SQLException {
         try (Statement statement = connection.createStatement()) {

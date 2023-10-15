@@ -9,15 +9,15 @@ import java.util.List;
 public interface UserService {
     /**
      * Создать нового пользователя.
-     * @param dto
-     * @return
+     *
      * @throws NotFoundException - если при создании пользователя не удалось прикрепить счет.
      */
     User add(UserIncomingDto dto) throws NotFoundException;
 
     /**
      * Найти пользователя по ID
-     * @param userId
+     *
+     * @param userId - ID пользователя
      * @return - Пользовательская сущность.
      * @throws NotFoundException - если пользователь не найден
      */
@@ -25,7 +25,8 @@ public interface UserService {
 
     /**
      * Вернуть список всех пользователей из базы.
-     * @return
+     *
+     * @return - список пользователей
      */
     List<User> findAll();
 }

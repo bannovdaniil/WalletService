@@ -6,7 +6,6 @@ import com.github.dockerjava.api.model.PortBinding;
 import com.github.dockerjava.api.model.Ports;
 import org.junit.jupiter.api.*;
 import org.testcontainers.containers.PostgreSQLContainer;
-import org.testcontainers.jdbc.JdbcDatabaseDelegate;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import ru.ylab.model.Transaction;
@@ -28,9 +27,9 @@ class TransactionRepositoryImplTest {
 
     private static final int containerPort = 5432;
     private static final int localPort = 54320;
-    private static PropertiesUtil propertiesUtil = ApplicationPropertiesUtilImpl.getInstance();
-    private static LiquibaseUtil liquibaseUtil = LiquibaseUtilImpl.getInstance();
-
+    private static final PropertiesUtil propertiesUtil = ApplicationPropertiesUtilImpl.getInstance();
+    private static final LiquibaseUtil liquibaseUtil = LiquibaseUtilImpl.getInstance();
+    public static TransactionRepository transactionRepository;
     @Container
     public static PostgreSQLContainer<?> container = new PostgreSQLContainer<>("postgres:15-alpine")
             .withDatabaseName("wallet_db")
@@ -40,14 +39,11 @@ class TransactionRepositoryImplTest {
             .withCreateContainerCmdModifier(cmd -> cmd.withHostConfig(
                     new HostConfig().withPortBindings(new PortBinding(Ports.Binding.bindPort(localPort), new ExposedPort(containerPort)))
             ));
-    public static TransactionRepository transactionRepository;
-    private static JdbcDatabaseDelegate jdbcDatabaseDelegate;
 
     @BeforeAll
     static void beforeAll() {
         container.start();
         transactionRepository = TransactionRepositoryImpl.getInstance();
-        jdbcDatabaseDelegate = new JdbcDatabaseDelegate(container, "");
     }
 
     @AfterAll
@@ -71,7 +67,7 @@ class TransactionRepositoryImplTest {
 
         Long transactionId = transactionRepository.save(transaction).getId();
         List<Transaction> transactionList = transactionRepository.findAll();
-        Optional<Transaction> resultTransaction = transactionList.stream().filter(a -> a.getId() == transactionId).findFirst();
+        Optional<Transaction> resultTransaction = transactionList.stream().filter(a -> transactionId.equals(a.getId())).findFirst();
 
         Assertions.assertTrue(resultTransaction.isPresent());
         Assertions.assertEquals(expectedSum, resultTransaction.get().getSum().toString());

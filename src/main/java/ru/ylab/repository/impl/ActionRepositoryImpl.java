@@ -15,8 +15,15 @@ import java.util.List;
  * Репозиторий для управления Action
  */
 public final class ActionRepositoryImpl implements ActionRepository {
-    private final ConnectionManager connectionManager = ConnectionManagerImpl.getInstance();
+    private static final String SAVE_SQL = """
+            INSERT INTO actions (action_time, action_action, action_information, user_id)
+            VALUES (?, ?, ?, ?) ;
+            """;
+    private static final String FIND_ALL_SQL = """
+            SELECT action_id, action_time, action_action, action_information, user_id FROM actions;
+            """;
     private static ActionRepository instance;
+    private final ConnectionManager connectionManager = ConnectionManagerImpl.getInstance();
 
     private ActionRepositoryImpl() {
     }
@@ -27,14 +34,6 @@ public final class ActionRepositoryImpl implements ActionRepository {
         }
         return instance;
     }
-
-    private static final String SAVE_SQL = """
-            INSERT INTO actions (action_time, action_action, action_information, user_id)
-            VALUES (?, ?, ?, ?) ;
-            """;
-    private static final String FIND_ALL_SQL = """
-            SELECT action_id, action_time, action_action, action_information, user_id FROM actions;
-            """;
 
     @Override
     public Action save(Action action) {

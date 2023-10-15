@@ -17,19 +17,6 @@ import java.util.Optional;
  */
 public final class WalletRepositoryImpl implements WalletRepository {
 
-    private final ConnectionManager connectionManager = ConnectionManagerImpl.getInstance();
-    private static WalletRepository instance;
-
-    private WalletRepositoryImpl() {
-    }
-
-    public static synchronized WalletRepository getInstance() {
-        if (instance == null) {
-            instance = new WalletRepositoryImpl();
-        }
-        return instance;
-    }
-
     private static final String SAVE_SQL = """
             INSERT INTO wallets (wallet_name, wallet_balance)
             VALUES (?, ?) ;
@@ -55,6 +42,18 @@ public final class WalletRepositoryImpl implements WalletRepository {
                         WHERE wallet_id = ?
                         LIMIT 1);
             """;
+    private static WalletRepository instance;
+    private final ConnectionManager connectionManager = ConnectionManagerImpl.getInstance();
+
+    private WalletRepositoryImpl() {
+    }
+
+    public static synchronized WalletRepository getInstance() {
+        if (instance == null) {
+            instance = new WalletRepositoryImpl();
+        }
+        return instance;
+    }
 
     @Override
     public Wallet save(Wallet wallet) {

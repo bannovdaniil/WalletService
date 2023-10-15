@@ -8,7 +8,6 @@ import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.testcontainers.containers.PostgreSQLContainer;
-import org.testcontainers.jdbc.JdbcDatabaseDelegate;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import ru.ylab.exception.NotFoundException;
@@ -28,9 +27,9 @@ class WalletRepositoryImplTest {
 
     private static final int containerPort = 5432;
     private static final int localPort = 54320;
-    private static PropertiesUtil propertiesUtil = ApplicationPropertiesUtilImpl.getInstance();
-    private static LiquibaseUtil liquibaseUtil = LiquibaseUtilImpl.getInstance();
-
+    private static final PropertiesUtil propertiesUtil = ApplicationPropertiesUtilImpl.getInstance();
+    private static final LiquibaseUtil liquibaseUtil = LiquibaseUtilImpl.getInstance();
+    public static WalletRepository walletRepository;
     @Container
     public static PostgreSQLContainer<?> container = new PostgreSQLContainer<>("postgres:15-alpine")
             .withDatabaseName("wallet_db")
@@ -40,14 +39,11 @@ class WalletRepositoryImplTest {
             .withCreateContainerCmdModifier(cmd -> cmd.withHostConfig(
                     new HostConfig().withPortBindings(new PortBinding(Ports.Binding.bindPort(localPort), new ExposedPort(containerPort)))
             ));
-    public static WalletRepository walletRepository;
-    private static JdbcDatabaseDelegate jdbcDatabaseDelegate;
 
     @BeforeAll
     static void beforeAll() {
         container.start();
         walletRepository = WalletRepositoryImpl.getInstance();
-        jdbcDatabaseDelegate = new JdbcDatabaseDelegate(container, "");
     }
 
     @AfterAll
@@ -95,7 +91,7 @@ class WalletRepositoryImplTest {
 
         walletRepository.update(walletForUpdate);
 
-        Wallet walletResult = walletRepository.findById(wallet.getId()).get();
+        Wallet walletResult = walletRepository.findById(wallet.getId()).orElseThrow();
 
         Assertions.assertNotEquals(expectedName, wallet.getName());
         Assertions.assertEquals(expectedName, walletResult.getName());

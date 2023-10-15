@@ -12,7 +12,7 @@
 
 > ~~java -jar ./target/WalletService-1.0-SNAPSHOT.jar~~
 
-> Open project on IDE and Run Main.java 
+> Open project on IDE and Run Main.java
 
 Enter number for navigate menu.
 
