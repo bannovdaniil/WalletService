@@ -5,7 +5,8 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.10.xsd">
 
     <changeSet id="001-create-table-users" author="ylab">
-        <createTable tableName="users">
+        <comment>База данных пользователей</comment>
+        <createTable tableName="users" schemaName="wallet_service">
             <column name="user_id" type="BIGINT" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -13,12 +14,13 @@
             <column name="user_lastname" type="VARCHAR(255)"/>
             <column name="user_password" type="VARCHAR(255)"/>
             <column name="wallet_id" type="BIGINT">
-                <constraints foreignKeyName="wallet_user" referencedTableName="wallets" />
+                <constraints foreignKeyName="wallet_user" referencedTableName="wallets"/>
             </column>
         </createTable>
     </changeSet>
 
     <changeSet id="002-create-table-wallets" author="ylab">
+        <comment>База данных счетов пользователей</comment>
         <createTable tableName="wallets">
             <column name="wallet_id" type="BIGINT" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
@@ -29,6 +31,7 @@
     </changeSet>
 
     <changeSet id="004-create-table-Transactions" author="ylab">
+        <comment>База данных транзакций</comment>
         <createTable tableName="transactions">
             <column name="transaction_id" type="BIGINT" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
@@ -40,6 +43,7 @@
     </changeSet>
 
     <changeSet id="005-create-table-Actions" author="ylab">
+        <comment>База данных действий пользователя</comment>
         <createTable tableName="actions">
             <column name="action_id" type="BIGINT" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
