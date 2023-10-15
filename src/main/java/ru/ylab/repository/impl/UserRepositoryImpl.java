@@ -39,17 +39,17 @@ public final class UserRepositoryImpl implements UserRepository {
             WHERE user_id = ?  ;
             """;
     private static final String FIND_BY_ID_SQL = """
-            SELECT user_id, user_firstname, user_lastname, user_password FROM users
+            SELECT user_id, user_firstname, user_lastname, user_password, wallet_id FROM users
             WHERE user_id = ?
             LIMIT 1;
             """;
     private static final String FIND_BY_WALLET_ID_SQL = """
-            SELECT user_id, user_firstname, user_lastname, user_password FROM users
+            SELECT user_id, user_firstname, user_lastname, user_password, wallet_id FROM users
             WHERE wallet_id = ?
             LIMIT 1;
             """;
     private static final String FIND_ALL_SQL = """
-            SELECT user_id, user_firstname, user_lastname, user_password FROM users;
+            SELECT user_id, user_firstname, user_lastname, user_password, wallet_id FROM users;
             """;
     private static final String EXIST_BY_ID_SQL = """
                 SELECT exists (

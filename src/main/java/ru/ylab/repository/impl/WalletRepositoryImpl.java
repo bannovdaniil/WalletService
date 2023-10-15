@@ -82,6 +82,7 @@ public final class WalletRepositoryImpl implements WalletRepository {
 
             preparedStatement.setString(1, wallet.getName());
             preparedStatement.setBigDecimal(2, wallet.getBalance());
+            preparedStatement.setLong(3, wallet.getId());
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
