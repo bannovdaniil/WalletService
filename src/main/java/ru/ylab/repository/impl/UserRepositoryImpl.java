@@ -94,6 +94,7 @@ public final class UserRepositoryImpl implements UserRepository {
             preparedStatement.setString(1, user.getFirstName());
             preparedStatement.setString(2, user.getLastName());
             preparedStatement.setString(3, user.getHashPassword());
+            preparedStatement.setLong(4, user.getId());
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
