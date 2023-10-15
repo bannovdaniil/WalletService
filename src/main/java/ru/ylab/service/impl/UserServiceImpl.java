@@ -36,12 +36,11 @@ public class UserServiceImpl implements UserService {
         User user = userDtoMapper.map(dto);
         Wallet wallet = new Wallet(
                 null,
-                user,
                 "wallet-1",
                 BigDecimal.ZERO
         );
+        wallet = walletRepository.save(wallet);
         user.setWallet(wallet);
-        walletRepository.save(wallet);
         user = userRepository.save(user);
         return user;
     }

@@ -57,7 +57,7 @@ class WalletGetMoneyTest {
         testErr = new ByteArrayOutputStream();
         System.setErr(new PrintStream(testErr));
 
-        walletService.putMoney(user.getWallet().getId(), "1000");
+        walletService.putMoney(user, "1000");
     }
 
     @AfterEach

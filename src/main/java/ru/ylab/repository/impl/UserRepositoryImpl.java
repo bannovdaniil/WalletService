@@ -30,6 +30,7 @@ public final class UserRepositoryImpl implements UserRepository {
             INSERT INTO users (user_firstname, user_lastname, user_password, wallet_id)
             VALUES (?, ? ,?, ?) ;
             """;
+
     private static final String UPDATE_SQL = """
             UPDATE users
             SET user_firstname = ?,
@@ -40,6 +41,11 @@ public final class UserRepositoryImpl implements UserRepository {
     private static final String FIND_BY_ID_SQL = """
             SELECT user_id, user_firstname, user_lastname, user_password FROM users
             WHERE user_id = ?
+            LIMIT 1;
+            """;
+    private static final String FIND_BY_WALLET_ID_SQL = """
+            SELECT user_id, user_firstname, user_lastname, user_password FROM users
+            WHERE wallet_id = ?
             LIMIT 1;
             """;
     private static final String FIND_ALL_SQL = """
@@ -56,7 +62,7 @@ public final class UserRepositoryImpl implements UserRepository {
     @Override
     public User save(User user) {
         try (Connection connection = connectionManager.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(SAVE_SQL, Statement.RETURN_GENERATED_KEYS)) {
+             PreparedStatement preparedStatement = connection.prepareStatement(SAVE_SQL, Statement.RETURN_GENERATED_KEYS)) {
 
             preparedStatement.setString(1, user.getFirstName());
             preparedStatement.setString(2, user.getLastName());
@@ -67,13 +73,7 @@ public final class UserRepositoryImpl implements UserRepository {
 
             ResultSet resultSet = preparedStatement.getGeneratedKeys();
             if (resultSet.next()) {
-                user = new User(
-                        resultSet.getLong("user_id"),
-                        user.getFirstName(),
-                        user.getLastName(),
-                        user.getHashPassword(),
-                        user.getWallet()
-                );
+                user = createUser(resultSet);
             }
 
         } catch (SQLException e) {
@@ -105,6 +105,24 @@ public final class UserRepositoryImpl implements UserRepository {
              PreparedStatement preparedStatement = connection.prepareStatement(FIND_BY_ID_SQL)) {
 
             preparedStatement.setLong(1, id);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                user = createUser(resultSet);
+            }
+        } catch (SQLException e) {
+            throw new RepositoryException(e.getMessage());
+        }
+        return Optional.ofNullable(user);
+    }
+
+    @Override
+    public Optional<User> findByWalletId(Long walletId) {
+        User user = null;
+        try (Connection connection = connectionManager.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(FIND_BY_WALLET_ID_SQL)) {
+
+            preparedStatement.setLong(1, walletId);
 
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {

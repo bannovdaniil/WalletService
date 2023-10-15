@@ -6,10 +6,8 @@ import ru.ylab.model.TransactionType;
 import ru.ylab.model.User;
 import ru.ylab.model.Wallet;
 import ru.ylab.repository.TransactionRepository;
-import ru.ylab.repository.UserRepository;
 import ru.ylab.repository.WalletRepository;
 import ru.ylab.repository.impl.TransactionRepositoryImpl;
-import ru.ylab.repository.impl.UserRepositoryImpl;
 import ru.ylab.repository.impl.WalletRepositoryImpl;
 import ru.ylab.service.WalletService;
 
@@ -19,7 +17,6 @@ import java.time.LocalDateTime;
 public class WalletServiceImpl implements WalletService {
     private static final String REGEXP_FORMAT_MONEY = "^\\d*([\\.,]\\d{1,2})?$";
     private static WalletService instance;
-    private final UserRepository userRepository = UserRepositoryImpl.getInstance();
     private final WalletRepository walletRepository = WalletRepositoryImpl.getInstance();
     private final TransactionRepository transactionRepository = TransactionRepositoryImpl.getInstance();
 
@@ -34,15 +31,6 @@ public class WalletServiceImpl implements WalletService {
     }
 
     @Override
-    public Wallet add(Long userId, Wallet wallet) throws NotFoundException {
-        User user = userRepository.findById(userId).orElseThrow(
-                () -> new NotFoundException("User for wallet isn't correct.")
-        );
-        wallet.setOwner(user);
-        return walletRepository.save(wallet);
-    }
-
-    @Override
     public Wallet findById(Long walletId) throws NotFoundException {
         return walletRepository.findById(walletId).orElseThrow(
                 () -> new NotFoundException("Wallet not found")
@@ -50,10 +38,11 @@ public class WalletServiceImpl implements WalletService {
     }
 
     @Override
-    public Wallet putMoney(Long walletId, String moneyValue) throws NotFoundException {
-        if (moneyValue.matches(REGEXP_FORMAT_MONEY)) {
+    public Wallet putMoney(User user, String moneyValue) throws NotFoundException {
+        if (moneyValue.matches(REGEXP_FORMAT_MONEY) && user != null && user.getWallet() != null) {
             BigDecimal addValue = new BigDecimal(moneyValue.replace(",", "."));
 
+            Long walletId = user.getWallet().getId();
             Wallet wallet = walletRepository.findById(walletId).orElseThrow(
                     () -> new NotFoundException("Wallet Not found.")
             );
@@ -65,7 +54,7 @@ public class WalletServiceImpl implements WalletService {
                         LocalDateTime.now(),
                         TransactionType.PUT,
                         addValue,
-                        wallet.getOwner()));
+                        user));
                 return walletRepository.findById(walletId).orElseThrow();
             }
             return wallet;
@@ -74,10 +63,11 @@ public class WalletServiceImpl implements WalletService {
     }
 
     @Override
-    public Wallet getMoney(Long walletId, String moneyValue) throws NotFoundException {
-        if (moneyValue.matches(REGEXP_FORMAT_MONEY)) {
+    public Wallet getMoney(User user, String moneyValue) throws NotFoundException {
+        if (moneyValue.matches(REGEXP_FORMAT_MONEY) && user != null && user.getWallet() != null) {
             BigDecimal subtractValue = new BigDecimal(moneyValue.replace(",", "."));
 
+            Long walletId = user.getWallet().getId();
             Wallet wallet = walletRepository.findById(walletId).orElseThrow(
                     () -> new IllegalStateException("Wallet Not found.")
             );
@@ -94,7 +84,7 @@ public class WalletServiceImpl implements WalletService {
                         LocalDateTime.now(),
                         TransactionType.GET,
                         subtractValue,
-                        wallet.getOwner()));
+                        user));
                 return walletRepository.findById(walletId).orElseThrow();
             }
             return wallet;

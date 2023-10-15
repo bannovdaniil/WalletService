@@ -25,8 +25,7 @@ public class WalletPutMoney implements ItemAction {
             String moneyValue = scanner.next();
 
             try {
-                Long walletId = session.getUserWallet().getId();
-                Wallet wallet = walletService.putMoney(walletId, moneyValue);
+                Wallet wallet = walletService.putMoney(session.getUser().orElseThrow(), moneyValue);
                 session.setUserWallet(wallet);
 
                 System.out.println("New balance: " + NumberFormat.getCurrencyInstance().format(wallet.getBalance()));
