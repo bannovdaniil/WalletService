@@ -71,7 +71,8 @@ public class Menu {
                     actionService.add(new Action(
                             LocalDateTime.now(),
                             activeItemList.get(index).getName(),
-                            session.getUser().orElse(null)
+                            session.getUser().toString(),
+                            session.getUser().orElse(null).getId()
                     ));
                     switchMenuItem();
                 }

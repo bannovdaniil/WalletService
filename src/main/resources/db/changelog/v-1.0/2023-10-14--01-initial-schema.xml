@@ -50,6 +50,7 @@
             </column>
             <column name="action_time" type="TIMESTAMP WITHOUT TIME ZONE"/>
             <column name="action_action" type="VARCHAR(255)"/>
+            <column name="action_information" type="VARCHAR(255)"/>
             <column name="user_id" type="BIGINT">
                 <constraints foreignKeyName="user" referencedTableName="users"/>
             </column>

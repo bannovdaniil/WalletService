@@ -49,7 +49,7 @@ class ActionServiceTest {
     void add() {
         Long expectedId = 1L;
 
-        Action action = new Action(LocalDateTime.now(), "Login", null);
+        Action action = new Action(LocalDateTime.now(), "Login", "information", null);
         action.setId(1L);
 
         Mockito.doReturn(action).when(mockActionRepository).save(Mockito.any(Action.class));
