@@ -9,15 +9,12 @@ import ru.ylab.repository.WalletRepository;
 import ru.ylab.repository.impl.UserRepositoryImpl;
 import ru.ylab.repository.impl.WalletRepositoryImpl;
 import ru.ylab.service.impl.WalletServiceImpl;
-import ru.ylab.util.PasswordEncoder;
-import ru.ylab.util.impl.PasswordEncoderSha256Impl;
 
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.util.Optional;
 
 class WalletServiceTest {
-    private final static PasswordEncoder passwordEncoder = PasswordEncoderSha256Impl.getInstance();
     private static WalletService walletService;
     private static UserRepository mockUserRepository;
     private static WalletRepository mockWalletRepository;

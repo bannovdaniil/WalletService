@@ -6,7 +6,6 @@ import com.github.dockerjava.api.model.PortBinding;
 import com.github.dockerjava.api.model.Ports;
 import org.junit.jupiter.api.*;
 import org.testcontainers.containers.PostgreSQLContainer;
-import org.testcontainers.jdbc.JdbcDatabaseDelegate;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import ru.ylab.model.Action;
@@ -25,8 +24,8 @@ import java.util.Optional;
 class ActionRepositoryImplTest {
     private static final int containerPort = 5432;
     private static final int localPort = 54320;
-    private static PropertiesUtil propertiesUtil = ApplicationPropertiesUtilImpl.getInstance();
-    private static LiquibaseUtil liquibaseUtil = LiquibaseUtilImpl.getInstance();
+    private static final PropertiesUtil propertiesUtil = ApplicationPropertiesUtilImpl.getInstance();
+    private static final LiquibaseUtil liquibaseUtil = LiquibaseUtilImpl.getInstance();
 
     @Container
     public static PostgreSQLContainer<?> container = new PostgreSQLContainer<>("postgres:15-alpine")
@@ -38,13 +37,11 @@ class ActionRepositoryImplTest {
                     new HostConfig().withPortBindings(new PortBinding(Ports.Binding.bindPort(localPort), new ExposedPort(containerPort)))
             ));
     public static ActionRepository actionRepository;
-    private static JdbcDatabaseDelegate jdbcDatabaseDelegate;
 
     @BeforeAll
     static void beforeAll() {
         container.start();
         actionRepository = ActionRepositoryImpl.getInstance();
-        jdbcDatabaseDelegate = new JdbcDatabaseDelegate(container, "");
     }
 
     @AfterAll
@@ -68,7 +65,7 @@ class ActionRepositoryImplTest {
 
         Long actionId = actionRepository.save(action).getId();
         List<Action> actionList = actionRepository.findAll();
-        Optional<Action> resultAction = actionList.stream().filter(a -> a.getId() == actionId).findFirst();
+        Optional<Action> resultAction = actionList.stream().filter(a -> actionId.equals(a.getId())).findFirst();
 
         Assertions.assertTrue(resultAction.isPresent());
         Assertions.assertEquals(expectedName, resultAction.get().getUserAction());
