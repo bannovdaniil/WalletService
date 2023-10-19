@@ -1,5 +1,7 @@
 package ru.ylab.model;
 
+import lombok.Getter;
+
 import java.time.LocalDateTime;
 import java.util.StringJoiner;
 
@@ -10,6 +12,7 @@ import java.util.StringJoiner;
  * - кто делал.
  * - подробности о пользователе
  */
+@Getter
 public class Action extends Entity {
     private final LocalDateTime time;
     private final String userAction;
@@ -29,22 +32,6 @@ public class Action extends Entity {
         this.userAction = userAction;
         this.information = information;
         this.userId = userId;
-    }
-
-    public LocalDateTime getTime() {
-        return time;
-    }
-
-    public String getUserAction() {
-        return userAction;
-    }
-
-    public String getInformation() {
-        return information;
-    }
-
-    public Long getUserId() {
-        return userId;
     }
 
     @Override

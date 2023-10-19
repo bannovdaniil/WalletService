@@ -1,5 +1,9 @@
 package ru.ylab.model;
 
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.math.BigDecimal;
 import java.text.NumberFormat;
 
@@ -8,25 +12,16 @@ import java.text.NumberFormat;
  * - название счета
  * - баланс счета.
  */
+@Setter
+@Getter
 public class Wallet extends Entity {
+    @Setter(AccessLevel.NONE)
     private String name;
     private BigDecimal balance;
 
     public Wallet(Long id, String name, BigDecimal balance) {
         this.id = id;
         this.name = name;
-        this.balance = balance;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public BigDecimal getBalance() {
-        return balance;
-    }
-
-    public void setBalance(BigDecimal balance) {
         this.balance = balance;
     }
 

@@ -1,5 +1,7 @@
 package ru.ylab.model;
 
+import lombok.Getter;
+
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.StringJoiner;
@@ -11,6 +13,7 @@ import java.util.StringJoiner;
  * - сумма.
  * - пользователь.
  */
+@Getter
 public class Transaction extends Entity {
     private final LocalDateTime time;
     private final TransactionType type;
@@ -30,22 +33,6 @@ public class Transaction extends Entity {
         this.type = type;
         this.sum = sum;
         this.userId = userId;
-    }
-
-    public LocalDateTime getTime() {
-        return time;
-    }
-
-    public TransactionType getType() {
-        return type;
-    }
-
-    public BigDecimal getSum() {
-        return sum;
-    }
-
-    public Long getUserId() {
-        return userId;
     }
 
     @Override
