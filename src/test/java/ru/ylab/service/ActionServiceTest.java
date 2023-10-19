@@ -13,13 +13,11 @@ import java.time.LocalDateTime;
 class ActionServiceTest {
     private static ActionRepository mockActionRepository;
     private static ActionService actionService;
-    private static ActionRepository oldInstance;
 
     private static void setMock(ActionRepository mock) {
         try {
             Field instance = ActionRepositoryImpl.class.getDeclaredField("instance");
             instance.setAccessible(true);
-            oldInstance = (ActionRepositoryImpl) instance.get(instance);
             instance.set(instance, mock);
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -37,7 +35,7 @@ class ActionServiceTest {
     static void afterAll() throws Exception {
         Field instance = ActionServiceImpl.class.getDeclaredField("instance");
         instance.setAccessible(true);
-        instance.set(instance, oldInstance);
+        instance.set(instance, null);
     }
 
     @BeforeEach
@@ -49,8 +47,7 @@ class ActionServiceTest {
     void add() {
         Long expectedId = 1L;
 
-        Action action = new Action(LocalDateTime.now(), "Login", null);
-        action.setId(1L);
+        Action action = new Action(expectedId, LocalDateTime.now(), "Login", null, "information");
 
         Mockito.doReturn(action).when(mockActionRepository).save(Mockito.any(Action.class));
 

@@ -1,41 +1,27 @@
 package ru.ylab.model;
 
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.math.BigDecimal;
 import java.text.NumberFormat;
 
+/**
+ * Счет пользователя.
+ * - название счета
+ * - баланс счета.
+ */
+@Setter
+@Getter
 public class Wallet extends Entity {
-    private User owner;
+    @Setter(AccessLevel.NONE)
     private String name;
     private BigDecimal balance;
 
-    public Wallet(Long id, User owner, String name, BigDecimal balance) {
+    public Wallet(Long id, String name, BigDecimal balance) {
         this.id = id;
-        this.owner = owner;
         this.name = name;
-        this.balance = balance;
-    }
-
-    public User getOwner() {
-        return owner;
-    }
-
-    public void setOwner(User owner) {
-        this.owner = owner;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public BigDecimal getBalance() {
-        return balance;
-    }
-
-    public void setBalance(BigDecimal balance) {
         this.balance = balance;
     }
 

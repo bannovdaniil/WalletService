@@ -1,0 +1,17 @@
+version: "3.8"
+services:
+  postgres:
+    container_name: "postgres"
+    image: postgres:15-alpine
+    restart: always
+    ports:
+      - "54320:5432"
+    environment:
+      POSTGRES_DB: wallet_db
+      POSTGRES_USER: sa
+      POSTGRES_PASSWORD: password
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -h localhost -p 5432 -d wallet_db -U sa" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5

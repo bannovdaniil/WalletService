@@ -4,6 +4,8 @@ import ru.ylab.in.ui.menu.Item;
 import ru.ylab.in.ui.menu.ItemType;
 import ru.ylab.in.ui.menu.Menu;
 import ru.ylab.in.ui.menu.action.*;
+import ru.ylab.util.LiquibaseUtil;
+import ru.ylab.util.impl.LiquibaseUtilImpl;
 
 
 /**
@@ -13,6 +15,9 @@ import ru.ylab.in.ui.menu.action.*;
  */
 public class Main {
     public static void main(String[] args) {
+
+        LiquibaseUtil util = LiquibaseUtilImpl.getInstance();
+        util.init();
 
         Menu menu = new Menu();
         menu.addElement(ItemType.MAIN_MENU, new Item("Registration User", new UserRegistration()));

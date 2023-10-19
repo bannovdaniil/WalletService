@@ -7,6 +7,9 @@ import ru.ylab.service.ActionService;
 
 import java.util.List;
 
+/**
+ * Бизнес логика Action Событий которые делает пользователь.
+ */
 public class ActionServiceImpl implements ActionService {
     private static ActionService instance;
     private ActionRepository actionRepository = ActionRepositoryImpl.getInstance();

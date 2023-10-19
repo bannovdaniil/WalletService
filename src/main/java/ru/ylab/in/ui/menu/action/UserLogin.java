@@ -26,7 +26,7 @@ public class UserLogin implements ItemAction {
             System.out.print("password: ");
             String password = scanner.next();
             session.login(userId, password);
-            if (session.isPresent()) {
+            if (session.isActive()) {
                 System.out.printf("%nHello %s,  glad to see you again. %n", session.getUserName());
             }
         } catch (NumberFormatException e) {

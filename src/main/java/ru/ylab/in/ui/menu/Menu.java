@@ -68,10 +68,18 @@ public class Menu {
                 } else {
                     doElementAction(index);
 
+                    Long userId = null;
+                    String information = "Not sign In.";
+                    if (session.getUser().isPresent()) {
+                        userId = session.getUser().orElseThrow().getId();
+                        information = session.getUser().orElseThrow().toString();
+
+                    }
                     actionService.add(new Action(
                             LocalDateTime.now(),
                             activeItemList.get(index).getName(),
-                            session.getUser().orElse(null)
+                            userId,
+                            information
                     ));
                     switchMenuItem();
                 }
@@ -87,7 +95,7 @@ public class Menu {
      * Переключаем меню из общего в меню пользователя.
      */
     private void switchMenuItem() {
-        if (session.isPresent()) {
+        if (session.isActive()) {
             activeItemList = loggedUserItemList;
         } else {
             activeItemList = itemList;

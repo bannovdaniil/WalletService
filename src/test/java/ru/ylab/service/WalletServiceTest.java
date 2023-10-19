@@ -3,22 +3,18 @@ package ru.ylab.service;
 import org.junit.jupiter.api.*;
 import org.mockito.Mockito;
 import ru.ylab.exception.NotFoundException;
-import ru.ylab.model.User;
 import ru.ylab.model.Wallet;
 import ru.ylab.repository.UserRepository;
 import ru.ylab.repository.WalletRepository;
 import ru.ylab.repository.impl.UserRepositoryImpl;
 import ru.ylab.repository.impl.WalletRepositoryImpl;
 import ru.ylab.service.impl.WalletServiceImpl;
-import ru.ylab.util.PasswordEncoder;
-import ru.ylab.util.impl.PasswordEncoderSha256Impl;
 
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.util.Optional;
 
 class WalletServiceTest {
-    private final static PasswordEncoder passwordEncoder = PasswordEncoderSha256Impl.getInstance();
     private static WalletService walletService;
     private static UserRepository mockUserRepository;
     private static WalletRepository mockWalletRepository;
@@ -84,38 +80,11 @@ class WalletServiceTest {
     }
 
     @Test
-    void add() throws NotFoundException {
-        Long expectedId = 1L;
-
-        Wallet wallet = new Wallet(
-                expectedId,
-                null,
-                "wallet",
-                BigDecimal.ZERO
-        );
-
-        User user = new User(1L,
-                "f1 name",
-                "l1 name",
-                passwordEncoder.encode("password"),
-                null
-        );
-
-        Mockito.doReturn(wallet).when(mockWalletRepository).save(Mockito.any(Wallet.class));
-        Mockito.doReturn(Optional.of(user)).when(mockUserRepository).findById(Mockito.anyLong());
-
-        Wallet result = walletService.add(1L, wallet);
-
-        Assertions.assertEquals(expectedId, result.getId());
-    }
-
-    @Test
     void find() throws NotFoundException {
         Long expectedId = 1L;
 
         Wallet wallet = new Wallet(
                 expectedId,
-                null,
                 "wallet",
                 BigDecimal.ZERO
         );

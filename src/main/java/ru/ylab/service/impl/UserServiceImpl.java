@@ -15,6 +15,9 @@ import ru.ylab.service.UserService;
 import java.math.BigDecimal;
 import java.util.List;
 
+/**
+ * Бизнес логика работы с пользователями
+ */
 public class UserServiceImpl implements UserService {
     private static UserService instance;
     private final UserRepository userRepository = UserRepositoryImpl.getInstance();
@@ -34,16 +37,14 @@ public class UserServiceImpl implements UserService {
     @Override
     public User add(UserIncomingDto dto) throws NotFoundException {
         User user = userDtoMapper.map(dto);
-        user = userRepository.save(user);
         Wallet wallet = new Wallet(
                 null,
-                user,
                 "wallet-1",
                 BigDecimal.ZERO
         );
-        walletRepository.save(wallet);
+        wallet = walletRepository.save(wallet);
         user.setWallet(wallet);
-        userRepository.update(user);
+        user = userRepository.save(user);
         return user;
     }
 

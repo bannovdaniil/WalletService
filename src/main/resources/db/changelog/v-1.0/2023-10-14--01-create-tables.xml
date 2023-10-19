@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.10.xsd">
+
+    <changeSet id="001-create-table-users" author="ylab">
+        <comment>База данных пользователей</comment>
+        <createSequence schemaName="wallet_service" sequenceName="USERS_ID_SEQ" incrementBy="1" startValue="1"/>
+        <createTable tableName="users" schemaName="wallet_service">
+            <column name="user_id" type="BIGINT" defaultValueComputed="nextval('USERS_ID_SEQ')">
+                <constraints primaryKey="true" nullable="false" primaryKeyName="users_pkey"/>
+            </column>
+            <column name="user_firstname" type="VARCHAR(255)"/>
+            <column name="user_lastname" type="VARCHAR(255)"/>
+            <column name="user_password" type="VARCHAR(255)"/>
+            <column name="wallet_id" type="BIGINT">
+                <constraints foreignKeyName="wallet_user" referencedTableName="wallets"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="002-create-table-wallets" author="ylab">
+        <comment>База данных счетов пользователей</comment>
+        <createSequence schemaName="wallet_service" sequenceName="WALLETS_ID_SEQ" incrementBy="1" startValue="1"/>
+        <createTable tableName="wallets">
+            <column name="wallet_id" type="BIGINT" defaultValueComputed="nextval('WALLETS_ID_SEQ')">
+                <constraints primaryKey="true" nullable="false" primaryKeyName="wallets_pkey"/>
+            </column>
+            <column name="wallet_name" type="VARCHAR(255)"/>
+            <column name="wallet_balance" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="004-create-table-Transactions" author="ylab">
+        <comment>База данных транзакций</comment>
+        <createSequence schemaName="wallet_service" sequenceName="TRANSACTIONS_ID_SEQ" incrementBy="1" startValue="1"/>
+        <createTable tableName="transactions">
+            <column name="transaction_id" type="BIGINT" defaultValueComputed="nextval('TRANSACTIONS_ID_SEQ')">
+                <constraints primaryKey="true" nullable="false" primaryKeyName="transactions_pkey"/>
+            </column>
+            <column name="transaction_time" type="TIMESTAMP WITHOUT TIME ZONE"/>
+            <column name="transaction_type" type="VARCHAR(32)"/>
+            <column name="transaction_sum" type="VARCHAR(255)"/>
+            <column name="wallet_id" type="BIGINT">
+                <constraints foreignKeyName="wallet" referencedTableName="wallets"/>
+            </column>
+            <column name="user_id" type="BIGINT">
+                <constraints foreignKeyName="user" referencedTableName="users"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="005-create-table-Actions" author="ylab">
+        <comment>База данных действий пользователя</comment>
+        <createSequence schemaName="wallet_service" sequenceName="ACTIONS_ID_SEQ" incrementBy="1" startValue="1"/>
+        <createTable tableName="actions">
+            <column name="action_id" type="BIGINT" defaultValueComputed="nextval('ACTIONS_ID_SEQ')">
+                <constraints primaryKey="true" nullable="false" primaryKeyName="actions_pkey"/>
+            </column>
+            <column name="action_time" type="TIMESTAMP WITHOUT TIME ZONE"/>
+            <column name="action_action" type="VARCHAR(255)"/>
+            <column name="action_information" type="VARCHAR(255)"/>
+            <column name="user_id" type="BIGINT">
+                <constraints foreignKeyName="user" referencedTableName="users"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+</databaseChangeLog>

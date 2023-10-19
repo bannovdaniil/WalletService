@@ -1,14 +1,32 @@
 package ru.ylab.service;
 
 import ru.ylab.exception.NotFoundException;
+import ru.ylab.model.User;
 import ru.ylab.model.Wallet;
 
 public interface WalletService {
-    Wallet add(Long userId, Wallet wallet) throws NotFoundException;
-
+    /**
+     * Найти счет по его ID
+     *
+     * @param walletId
+     * @return
+     * @throws NotFoundException
+     */
     Wallet findById(Long walletId) throws NotFoundException;
 
-    Wallet putMoney(Long walletId, String moneyValue) throws NotFoundException;
+    /**
+     * Внести деньги на счет
+     *
+     * @param user       - владелец счета
+     * @param moneyValue - сумма
+     */
+    Wallet putMoney(User user, String moneyValue) throws NotFoundException;
 
-    Wallet getMoney(Long walletId, String moneyValue) throws NotFoundException;
+    /**
+     * Снять деньги со счета
+     *
+     * @param user       - владелец счета
+     * @param moneyValue - сумма
+     */
+    Wallet getMoney(User user, String moneyValue) throws NotFoundException;
 }

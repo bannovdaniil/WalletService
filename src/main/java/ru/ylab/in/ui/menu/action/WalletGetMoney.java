@@ -19,14 +19,13 @@ public class WalletGetMoney implements ItemAction {
 
     @Override
     public void execution() {
-        if (session.isPresent()) {
+        if (session.isActive()) {
             Scanner scanner = new Scanner(System.in);
             System.out.println("Enter sum: ");
             String moneyValue = scanner.next();
 
             try {
-                Long walletId = session.getUserWallet().getId();
-                Wallet wallet = walletService.getMoney(walletId, moneyValue);
+                Wallet wallet = walletService.getMoney(session.getUser().orElseThrow(), moneyValue);
                 session.setUserWallet(wallet);
 
                 System.out.println("New balance: " + NumberFormat.getCurrencyInstance().format(wallet.getBalance()));

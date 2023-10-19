@@ -14,7 +14,7 @@ public interface Session {
     /**
      * Проверяет активна ли текущая сессия.
      */
-    boolean isPresent();
+    boolean isActive();
 
     /**
      * Получаем имя авторизированного пользователя.

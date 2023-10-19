@@ -7,6 +7,9 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+/**
+ * Реализация шифрования пароля с помощью sha256
+ */
 public class PasswordEncoderSha256Impl implements PasswordEncoder {
     private static PasswordEncoder instance;
     MessageDigest digest;

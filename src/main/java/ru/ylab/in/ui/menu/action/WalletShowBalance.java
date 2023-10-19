@@ -19,7 +19,7 @@ public class WalletShowBalance implements ItemAction {
 
     @Override
     public void execution() {
-        if (session.isPresent()) {
+        if (session.isActive()) {
             Long walletId = session.getUserWallet().getId();
             try {
                 Wallet wallet = walletService.findById(walletId);
