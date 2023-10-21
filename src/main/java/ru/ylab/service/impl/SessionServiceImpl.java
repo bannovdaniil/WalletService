@@ -1,5 +1,6 @@
 package ru.ylab.service.impl;
 
+import jakarta.servlet.http.Cookie;
 import ru.ylab.model.Session;
 import ru.ylab.model.User;
 import ru.ylab.model.Wallet;
@@ -17,7 +18,11 @@ import ru.ylab.util.impl.PasswordEncoderSha256Impl;
 import java.nio.file.AccessDeniedException;
 import java.security.InvalidParameterException;
 import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.Optional;
 import java.util.UUID;
+
+import static ru.ylab.Constants.SESSION_COOKIE;
 
 /**
  * Бизнес логика Action Событий которые делает пользователь.
@@ -93,6 +98,20 @@ public class SessionServiceImpl implements SessionService {
     @Override
     public boolean isActive(UUID sessionId) {
         return sessionRepository.isActive(sessionId);
+    }
+
+    @Override
+    public Optional<UUID> getUuidFromCookie(Cookie[] cookies) {
+        Optional<UUID> uuid = Optional.empty();
+
+        Optional<String> cookieValue = Arrays.stream(cookies)
+                .filter(cookie -> SESSION_COOKIE.equals(cookie.getName()))
+                .map(Cookie::getValue)
+                .findFirst();
+        if (cookieValue.isPresent()) {
+            uuid = Optional.ofNullable(UUID.fromString(cookieValue.get()));
+        }
+        return uuid;
     }
 
 }

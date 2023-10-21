@@ -1,11 +1,13 @@
 package ru.ylab.service;
 
+import jakarta.servlet.http.Cookie;
 import ru.ylab.exception.NotFoundException;
 import ru.ylab.model.User;
 import ru.ylab.model.Wallet;
 import ru.ylab.model.dto.UserLoginDto;
 
 import java.nio.file.AccessDeniedException;
+import java.util.Optional;
 import java.util.UUID;
 
 /**
@@ -43,4 +45,8 @@ public interface SessionService {
      */
     boolean isActive(UUID sessionId);
 
+    /**
+     * Получить ID сессии из cookie
+     */
+    Optional<UUID> getUuidFromCookie(Cookie[] cookies);
 }

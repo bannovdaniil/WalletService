@@ -27,7 +27,6 @@ public class LoginServlet extends HttpServlet {
     public LoginServlet() {
         this.sessionService = SessionServiceImpl.getInstance();
         this.objectMapper = new ObjectMapper();
-        this.objectMapper.registerModule(new JavaTimeModule());
     }
 
     @Override
