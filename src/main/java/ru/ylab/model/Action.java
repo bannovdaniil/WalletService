@@ -1,9 +1,10 @@
 package ru.ylab.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
+import ru.ylab.Constants;
 
 import java.time.LocalDateTime;
-import java.util.StringJoiner;
 
 /**
  * Сущность аудита действий пользователя.
@@ -14,6 +15,7 @@ import java.util.StringJoiner;
  */
 @Getter
 public class Action extends Entity {
+    @JsonFormat(pattern = Constants.DATE_TIME_STRING)
     private final LocalDateTime time;
     private final String userAction;
     private final Long userId;
@@ -32,16 +34,5 @@ public class Action extends Entity {
         this.userAction = userAction;
         this.information = information;
         this.userId = userId;
-    }
-
-    @Override
-    public String toString() {
-        return new StringJoiner(", ", Action.class.getSimpleName() + "[", "]")
-                .add("id=" + id)
-                .add("time=" + time)
-                .add("action='" + userAction + "'")
-                .add("userId=" + userId)
-                .add("information='" + information)
-                .toString();
     }
 }

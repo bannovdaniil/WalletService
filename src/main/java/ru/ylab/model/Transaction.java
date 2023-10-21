@@ -1,6 +1,8 @@
 package ru.ylab.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
+import ru.ylab.Constants;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -15,6 +17,7 @@ import java.util.StringJoiner;
  */
 @Getter
 public class Transaction extends Entity {
+    @JsonFormat(pattern = Constants.DATE_TIME_STRING)
     private final LocalDateTime time;
     private final TransactionType type;
     private final BigDecimal sum;
