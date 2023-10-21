@@ -3,27 +3,29 @@ package ru.ylab.servlet;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import ru.ylab.model.Transaction;
-import ru.ylab.service.TransactionService;
-import ru.ylab.service.impl.TransactionServiceImpl;
+import ru.ylab.service.SessionService;
+import ru.ylab.service.impl.SessionServiceImpl;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.List;
+import java.util.Arrays;
+import java.util.UUID;
+
+import static ru.ylab.Constants.SESSION_COOKIE;
 
 /**
- * Показывает Историю транзакций.
+ * Логин для пользователя.
  */
-@WebServlet(urlPatterns = {"/api/transaction"})
-public class TransactionServlet extends HttpServlet {
-    private final transient TransactionService transactionService;
+@WebServlet(urlPatterns = {"/api/logout"})
+public class LogoutServlet extends HttpServlet {
+    private final transient SessionService sessionService;
     private final ObjectMapper objectMapper;
 
-    public TransactionServlet() {
-        this.transactionService = TransactionServiceImpl.getInstance();
+    public LogoutServlet() {
+        this.sessionService = SessionServiceImpl.getInstance();
         this.objectMapper = new ObjectMapper();
         this.objectMapper.registerModule(new JavaTimeModule());
     }
@@ -32,18 +34,19 @@ public class TransactionServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         setJsonHeader(resp);
 
-        String responseAnswer;
         try {
-            List<Transaction> transactionList = transactionService.findAll();
-            resp.setStatus(HttpServletResponse.SC_OK);
-            responseAnswer = objectMapper.writeValueAsString(transactionList);
+            String cookieValue = Arrays.stream(req.getCookies())
+                    .filter(cookie -> SESSION_COOKIE.equals(cookie.getName()))
+                    .map(Cookie::getValue)
+                    .findFirst()
+                    .orElseThrow();
+            UUID sessionId = UUID.fromString(cookieValue);
+            if (sessionService.isActive(sessionId)) {
+                sessionService.logout(sessionId);
+            }
         } catch (Exception e) {
             resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            responseAnswer = "Bad request.";
         }
-        PrintWriter printWriter = resp.getWriter();
-        printWriter.write(responseAnswer);
-        printWriter.flush();
     }
 
     private void setJsonHeader(HttpServletResponse resp) {

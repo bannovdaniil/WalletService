@@ -58,7 +58,7 @@ public class ActionServlet extends HttpServlet {
         printWriter.flush();
     }
 
-    private static void setJsonHeader(HttpServletResponse resp) {
+    private void setJsonHeader(HttpServletResponse resp) {
         resp.setContentType("application/json");
         resp.setCharacterEncoding("UTF-8");
     }
