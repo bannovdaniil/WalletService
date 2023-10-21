@@ -3,7 +3,6 @@ package ru.ylab.service;
 import jakarta.servlet.http.Cookie;
 import ru.ylab.exception.NotFoundException;
 import ru.ylab.model.User;
-import ru.ylab.model.Wallet;
 import ru.ylab.model.dto.UserLoginDto;
 
 import java.nio.file.AccessDeniedException;
@@ -19,11 +18,6 @@ public interface SessionService {
      * Получаем авторизованного пользователя.
      */
     User getUser(UUID sessionId);
-
-    /**
-     * Получить счет авторизированного пользователя.
-     */
-    Wallet getUserWallet(UUID sessionId);
 
     /**
      * Обеспечивает авторизацию пользователя в системе.

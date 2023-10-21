@@ -3,6 +3,9 @@ package ru.ylab.service;
 import ru.ylab.exception.NotFoundException;
 import ru.ylab.model.User;
 import ru.ylab.model.Wallet;
+import ru.ylab.model.dto.BalanceDto;
+
+import java.util.UUID;
 
 public interface WalletService {
     /**
@@ -29,4 +32,10 @@ public interface WalletService {
      * @param moneyValue - сумма
      */
     Wallet getMoney(User user, String moneyValue) throws NotFoundException;
+
+
+    /**
+     * Получить баланс счета авторизированного пользователя.
+     */
+    BalanceDto getBalance(UUID sessionId);
 }

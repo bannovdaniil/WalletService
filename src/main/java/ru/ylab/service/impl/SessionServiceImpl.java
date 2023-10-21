@@ -3,7 +3,6 @@ package ru.ylab.service.impl;
 import jakarta.servlet.http.Cookie;
 import ru.ylab.model.Session;
 import ru.ylab.model.User;
-import ru.ylab.model.Wallet;
 import ru.ylab.model.dto.UserLoginDto;
 import ru.ylab.repository.SessionRepository;
 import ru.ylab.repository.UserRepository;
@@ -31,7 +30,6 @@ public class SessionServiceImpl implements SessionService {
     private static SessionService instance;
     private final SessionRepository sessionRepository = SessionRepositoryImpl.getInstance();
     private final UserRepository userRepository = UserRepositoryImpl.getInstance();
-    private final WalletRepository walletRepository = WalletRepositoryImpl.getInstance();
     private final PasswordEncoder passwordEncoder = PasswordEncoderSha256Impl.getInstance();
 
 
@@ -53,17 +51,6 @@ public class SessionServiceImpl implements SessionService {
             user = userRepository.findById(session.getUserId()).orElseThrow();
         }
         return user;
-    }
-
-    @Override
-    public Wallet getUserWallet(UUID sessionId) {
-        Wallet wallet = null;
-        if (isActive(sessionId)) {
-            Session session = sessionRepository.findById(sessionId).orElseThrow();
-            User user = userRepository.findById(session.getUserId()).orElseThrow();
-            wallet = walletRepository.findById(user.getWallet().getId()).orElseThrow();
-        }
-        return wallet;
     }
 
     @Override
