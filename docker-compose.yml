@@ -7,16 +7,16 @@ services:
     ports:
       - 8081:8080
     depends_on:
-      postgres:
+      postgres-service:
         condition: service_healthy
     environment:
-      - WAIT_HOSTS=postgres:54320
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://db-service:54320/wallet_db
+      - WAIT_HOSTS=postgres-service:54320
+      - DATASOURCE_URL=jdbc:postgresql://postgres-service:54320/wallet_db
       - POSTGRES_USER=sa
       - POSTGRES_PASSWORD=password
 
-  postgres:
-    container_name: "postgres"
+  postgres-service:
+    container_name: postgres_service
     image: postgres:15-alpine
     restart: always
     ports:

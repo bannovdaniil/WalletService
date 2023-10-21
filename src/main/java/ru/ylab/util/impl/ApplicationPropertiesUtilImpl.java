@@ -10,9 +10,9 @@ import java.util.Properties;
  */
 public final class ApplicationPropertiesUtilImpl implements PropertiesUtil {
     public static final String DRIVER_CLASS_KEY = "db.driver-class-name";
-    public static final String URL_KEY = "db.url";
-    public static final String USERNAME_KEY = "db.username";
-    public static final String PASSWORD_KEY = "db.password";
+    public static final String URL_KEY = "DATASOURCE_URL";
+    public static final String USERNAME_KEY = "POSTGRES_USER";
+    public static final String PASSWORD_KEY = "POSTGRES_PASSWORD";
     public static final String DEFAULT_SCHEMA_NAME = "liquibase.defaultSchemaName";
     public static final String LIQUIBASE_SCHEMA_NAME = "liquibase.liquibaseSchemaName";
     private static final Properties PROPERTIES = new Properties();
@@ -35,6 +35,9 @@ public final class ApplicationPropertiesUtilImpl implements PropertiesUtil {
 
     @Override
     public String getProperties(String key) {
+        if (System.getenv(key) != null) {
+            return System.getenv(key);
+        }
         return PROPERTIES.getProperty(key);
     }
 
