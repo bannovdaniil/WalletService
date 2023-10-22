@@ -20,7 +20,7 @@ import java.util.UUID;
 /**
  * Показывает Лог действий пользователя.
  */
-@WebServlet(urlPatterns = {"/api/wallet"})
+@WebServlet(urlPatterns = {"/api/wallet/*"})
 public class WalletServlet extends HttpServlet {
     private final transient SessionService sessionService;
     private final transient WalletService walletService;
@@ -46,6 +46,9 @@ public class WalletServlet extends HttpServlet {
             } else {
                 throw new AccessDeniedException("Error.");
             }
+        } catch (AccessDeniedException e) {
+            resp.setStatus(HttpServletResponse.SC_FORBIDDEN);
+            responseAnswer = "Forbidden";
         } catch (Exception e) {
             resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             responseAnswer = "Bad request.";

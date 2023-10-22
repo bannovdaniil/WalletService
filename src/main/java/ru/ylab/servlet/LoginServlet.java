@@ -1,7 +1,6 @@
 package ru.ylab.servlet;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
@@ -13,6 +12,7 @@ import ru.ylab.service.impl.SessionServiceImpl;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.nio.file.AccessDeniedException;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -40,6 +40,8 @@ public class LoginServlet extends HttpServlet {
             UUID sessionId = sessionService.login(dto);
             Cookie cookie = new Cookie("session", sessionId.toString());
             resp.addCookie(cookie);
+        } catch (AccessDeniedException e) {
+            resp.setStatus(HttpServletResponse.SC_FORBIDDEN);
         } catch (Exception e) {
             resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }
