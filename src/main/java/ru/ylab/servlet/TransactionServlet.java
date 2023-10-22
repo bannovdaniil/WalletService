@@ -6,6 +6,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import ru.ylab.exception.ErrorHeader;
 import ru.ylab.model.Transaction;
 import ru.ylab.service.TransactionService;
 import ru.ylab.service.impl.TransactionServiceImpl;
@@ -39,7 +40,7 @@ public class TransactionServlet extends HttpServlet {
             responseAnswer = objectMapper.writeValueAsString(transactionList);
         } catch (Exception e) {
             resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            responseAnswer = "Bad request.";
+            responseAnswer = objectMapper.writeValueAsString(new ErrorHeader(e.getMessage()));
         }
         PrintWriter printWriter = resp.getWriter();
         printWriter.write(responseAnswer);

@@ -5,6 +5,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import ru.ylab.exception.ErrorHeader;
 import ru.ylab.model.dto.UserIncomingDto;
 import ru.ylab.model.dto.UserOutDto;
 import ru.ylab.service.UserService;
@@ -33,7 +34,7 @@ public class UserServlet extends HttpServlet {
         setJsonHeader(resp);
         String json = getJson(req);
 
-        String responseAnswer = "";
+        String responseAnswer;
         try {
             UserIncomingDto dto = Optional.ofNullable(objectMapper.readValue(json, UserIncomingDto.class))
                     .orElseThrow(IllegalArgumentException::new);
@@ -42,7 +43,7 @@ public class UserServlet extends HttpServlet {
             resp.setStatus(HttpServletResponse.SC_OK);
         } catch (Exception e) {
             resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            responseAnswer = "Bad request.";
+            responseAnswer = objectMapper.writeValueAsString(new ErrorHeader(e.getMessage()));
         }
 
         PrintWriter printWriter = resp.getWriter();
@@ -59,7 +60,7 @@ public class UserServlet extends HttpServlet {
             resp.setStatus(HttpServletResponse.SC_OK);
         } catch (Exception e) {
             resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            responseAnswer = "Bad request.";
+            responseAnswer = objectMapper.writeValueAsString(new ErrorHeader(e.getMessage()));
         }
         PrintWriter printWriter = resp.getWriter();
         printWriter.write(responseAnswer);

@@ -8,6 +8,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import ru.ylab.exception.ErrorHeader;
 import ru.ylab.model.Action;
 import ru.ylab.service.ActionService;
 import ru.ylab.service.impl.ActionServiceImpl;
@@ -44,14 +45,14 @@ public class ActionServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         setJsonHeader(resp);
 
-        String responseAnswer = "";
+        String responseAnswer;
         try {
             List<Action> actionList = actionService.findAll();
             resp.setStatus(HttpServletResponse.SC_OK);
             responseAnswer = objectMapper.writeValueAsString(actionList);
         } catch (Exception e) {
             resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            responseAnswer = "Bad request.";
+            responseAnswer = objectMapper.writeValueAsString(new ErrorHeader(e.getMessage()));
         }
         PrintWriter printWriter = resp.getWriter();
         printWriter.write(responseAnswer);

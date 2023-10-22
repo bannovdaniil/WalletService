@@ -5,6 +5,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import ru.ylab.exception.ErrorHeader;
 import ru.ylab.model.dto.BalanceDto;
 import ru.ylab.model.dto.WalletIncomingDto;
 import ru.ylab.service.SessionService;
@@ -38,7 +39,7 @@ public class WalletServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         setJsonHeader(resp);
 
-        String responseAnswer = "";
+        String responseAnswer;
         try {
             Optional<UUID> sessionId = sessionService.getUuidFromCookie(req.getCookies());
             if (sessionId.isPresent() && sessionService.isActive(sessionId.get())) {
@@ -50,10 +51,10 @@ public class WalletServlet extends HttpServlet {
             }
         } catch (AccessDeniedException e) {
             resp.setStatus(HttpServletResponse.SC_FORBIDDEN);
-            responseAnswer = e.getMessage();
+            responseAnswer = objectMapper.writeValueAsString(new ErrorHeader(e.getMessage()));
         } catch (Exception e) {
             resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            responseAnswer = e.getMessage();
+            responseAnswer = objectMapper.writeValueAsString(new ErrorHeader(e.getMessage()));
         }
         PrintWriter printWriter = resp.getWriter();
         printWriter.write(responseAnswer);
@@ -64,7 +65,7 @@ public class WalletServlet extends HttpServlet {
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         setJsonHeader(resp);
 
-        String responseAnswer = "";
+        String responseAnswer;
         try {
             Optional<UUID> sessionId = sessionService.getUuidFromCookie(req.getCookies());
             if (sessionId.isPresent() && sessionService.isActive(sessionId.get())) {
@@ -81,10 +82,10 @@ public class WalletServlet extends HttpServlet {
             }
         } catch (AccessDeniedException e) {
             resp.setStatus(HttpServletResponse.SC_FORBIDDEN);
-            responseAnswer = e.getMessage();
+            responseAnswer = objectMapper.writeValueAsString(new ErrorHeader(e.getMessage()));
         } catch (Exception e) {
             resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            responseAnswer = e.getMessage();
+            responseAnswer = objectMapper.writeValueAsString(new ErrorHeader(e.getMessage()));
         }
         PrintWriter printWriter = resp.getWriter();
         printWriter.write(responseAnswer);

@@ -30,6 +30,9 @@ json:
 #### User transaction (logged user only)
 > GET http://localhost:8081/api/transaction
 
+#### Get all users list (logged user only)
+> GET http://localhost:8081/api/user/all
+
 #### Logged user show balance (logged user only)
 > GET http://localhost:8081/api/wallet
 
