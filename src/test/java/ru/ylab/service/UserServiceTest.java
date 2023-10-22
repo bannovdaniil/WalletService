@@ -5,6 +5,7 @@ import org.mockito.Mockito;
 import ru.ylab.exception.NotFoundException;
 import ru.ylab.model.User;
 import ru.ylab.model.dto.UserIncomingDto;
+import ru.ylab.model.dto.UserOutDto;
 import ru.ylab.repository.UserRepository;
 import ru.ylab.repository.WalletRepository;
 import ru.ylab.repository.impl.UserRepositoryImpl;
@@ -87,9 +88,9 @@ class UserServiceTest {
     @Test
     void add() throws NotFoundException {
         Long expectedId = 1L;
-
         UserIncomingDto dto = new UserIncomingDto("f1 name", "l1 name", "password");
-        User user = new User(expectedId,
+        User user = new User(
+                expectedId,
                 "f1 name",
                 "l1 name",
                 passwordEncoder.encode("password"),
@@ -99,7 +100,7 @@ class UserServiceTest {
         Mockito.doReturn(user).when(mockUserRepository).save(Mockito.any(User.class));
         Mockito.doReturn(Optional.of(user)).when(mockUserRepository).findById(Mockito.anyLong());
 
-        User result = userService.add(dto);
+        UserOutDto result = userService.add(dto);
 
         Assertions.assertEquals(expectedId, result.getId());
     }

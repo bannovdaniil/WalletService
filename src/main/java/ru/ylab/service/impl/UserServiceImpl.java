@@ -1,11 +1,11 @@
 package ru.ylab.service.impl;
 
 import ru.ylab.exception.NotFoundException;
-import ru.ylab.mapper.UserDtoMapper;
-import ru.ylab.mapper.impl.UserDtoMapperImpl;
+import ru.ylab.mapper.UserMapper;
 import ru.ylab.model.User;
 import ru.ylab.model.Wallet;
 import ru.ylab.model.dto.UserIncomingDto;
+import ru.ylab.model.dto.UserOutDto;
 import ru.ylab.repository.UserRepository;
 import ru.ylab.repository.WalletRepository;
 import ru.ylab.repository.impl.UserRepositoryImpl;
@@ -22,7 +22,7 @@ public class UserServiceImpl implements UserService {
     private static UserService instance;
     private final UserRepository userRepository = UserRepositoryImpl.getInstance();
     private final WalletRepository walletRepository = WalletRepositoryImpl.getInstance();
-    private final UserDtoMapper userDtoMapper = UserDtoMapperImpl.getInstance();
+    private static final UserMapper userMapper = UserMapper.INSTANCE;
 
     private UserServiceImpl() {
     }
@@ -35,8 +35,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User add(UserIncomingDto dto) throws NotFoundException {
-        User user = userDtoMapper.map(dto);
+    public UserOutDto add(UserIncomingDto dto) throws NotFoundException {
+        User user = userMapper.userIncomingDtoToUser(dto);
         Wallet wallet = new Wallet(
                 null,
                 "wallet-1",
@@ -45,7 +45,7 @@ public class UserServiceImpl implements UserService {
         wallet = walletRepository.save(wallet);
         user.setWallet(wallet);
         user = userRepository.save(user);
-        return user;
+        return userMapper.userToUserOutDto(user);
     }
 
     @Override

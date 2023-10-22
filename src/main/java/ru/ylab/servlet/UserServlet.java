@@ -5,8 +5,8 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import ru.ylab.model.User;
 import ru.ylab.model.dto.UserIncomingDto;
+import ru.ylab.model.dto.UserOutDto;
 import ru.ylab.service.UserService;
 import ru.ylab.service.impl.UserServiceImpl;
 
@@ -37,8 +37,8 @@ public class UserServlet extends HttpServlet {
         try {
             UserIncomingDto dto = Optional.ofNullable(objectMapper.readValue(json, UserIncomingDto.class))
                     .orElseThrow(IllegalArgumentException::new);
-            User user = userService.add(dto);
-            responseAnswer = objectMapper.writeValueAsString(user);
+            UserOutDto userOutDto = userService.add(dto);
+            responseAnswer = objectMapper.writeValueAsString(userOutDto);
             resp.setStatus(HttpServletResponse.SC_OK);
         } catch (Exception e) {
             resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
