@@ -14,7 +14,8 @@ import java.text.NumberFormat;
  */
 @Setter
 @Getter
-public class Wallet extends Entity {
+public class Wallet {
+    private final Long id;
     @Setter(AccessLevel.NONE)
     private String name;
     private BigDecimal balance;

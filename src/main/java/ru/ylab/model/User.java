@@ -13,7 +13,8 @@ import lombok.Setter;
  */
 @Getter
 @Setter()
-public class User extends Entity {
+public class User {
+    private final Long id;
     @Setter(AccessLevel.NONE)
     private final String firstName;
     @Setter(AccessLevel.NONE)
@@ -23,8 +24,8 @@ public class User extends Entity {
     private Wallet wallet;
 
     public User(Long id, String firstName, String lastName, String hashPassword, Wallet wallet) {
-        this.hashPassword = hashPassword;
         this.id = id;
+        this.hashPassword = hashPassword;
         this.firstName = firstName;
         this.lastName = lastName;
         this.wallet = wallet;

@@ -14,7 +14,8 @@ import java.time.LocalDateTime;
  * - подробности о пользователе
  */
 @Getter
-public class Action extends Entity {
+public class Action {
+    private final Long id;
     @JsonFormat(pattern = Constants.DATE_TIME_STRING)
     private final LocalDateTime time;
     private final String userAction;
@@ -22,6 +23,7 @@ public class Action extends Entity {
     private final String information;
 
     public Action(LocalDateTime time, String userAction, Long userId, String information) {
+        this.id = null;
         this.time = time;
         this.userAction = userAction;
         this.information = information;
@@ -29,7 +31,7 @@ public class Action extends Entity {
     }
 
     public Action(Long id, LocalDateTime time, String userAction, Long userId, String information) {
-        super.setId(id);
+        this.id = id;
         this.time = time;
         this.userAction = userAction;
         this.information = information;

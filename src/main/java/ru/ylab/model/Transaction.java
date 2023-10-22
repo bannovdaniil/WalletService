@@ -16,7 +16,8 @@ import java.util.StringJoiner;
  * - пользователь.
  */
 @Getter
-public class Transaction extends Entity {
+public class Transaction {
+    private final Long id;
     @JsonFormat(pattern = Constants.DATE_TIME_STRING)
     private final LocalDateTime time;
     private final TransactionType type;
@@ -24,6 +25,7 @@ public class Transaction extends Entity {
     private final Long userId;
 
     public Transaction(LocalDateTime time, TransactionType type, BigDecimal sum, Long userId) {
+        this.id = null;
         this.time = time;
         this.type = type;
         this.sum = sum;
@@ -31,7 +33,7 @@ public class Transaction extends Entity {
     }
 
     public Transaction(Long id, LocalDateTime time, TransactionType type, BigDecimal sum, Long userId) {
-        super.setId(id);
+        this.id = id;
         this.time = time;
         this.type = type;
         this.sum = sum;
