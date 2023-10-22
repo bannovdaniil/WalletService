@@ -6,10 +6,8 @@ import ru.ylab.model.User;
 import ru.ylab.model.dto.UserLoginDto;
 import ru.ylab.repository.SessionRepository;
 import ru.ylab.repository.UserRepository;
-import ru.ylab.repository.WalletRepository;
 import ru.ylab.repository.impl.SessionRepositoryImpl;
 import ru.ylab.repository.impl.UserRepositoryImpl;
-import ru.ylab.repository.impl.WalletRepositoryImpl;
 import ru.ylab.service.SessionService;
 import ru.ylab.util.PasswordEncoder;
 import ru.ylab.util.impl.PasswordEncoderSha256Impl;
@@ -90,15 +88,15 @@ public class SessionServiceImpl implements SessionService {
     @Override
     public Optional<UUID> getUuidFromCookie(Cookie[] cookies) {
         Optional<UUID> uuid = Optional.empty();
-
-        Optional<String> cookieValue = Arrays.stream(cookies)
-                .filter(cookie -> SESSION_COOKIE.equals(cookie.getName()))
-                .map(Cookie::getValue)
-                .findFirst();
-        if (cookieValue.isPresent()) {
-            uuid = Optional.ofNullable(UUID.fromString(cookieValue.get()));
+        if (cookies != null) {
+            Optional<String> cookieValue = Arrays.stream(cookies)
+                    .filter(cookie -> SESSION_COOKIE.equals(cookie.getName()))
+                    .map(Cookie::getValue)
+                    .findFirst();
+            if (cookieValue.isPresent()) {
+                uuid = Optional.ofNullable(UUID.fromString(cookieValue.get()));
+            }
         }
         return uuid;
     }
-
 }

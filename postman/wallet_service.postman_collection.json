@@ -1,0 +1,204 @@
+{
+	"info": {
+		"_postman_id": "714b244d-2ca6-4fcf-b59f-dc177dac6b80",
+		"name": "Wallet Service",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "21191133"
+	},
+	"item": [
+		{
+			"name": "User Balance No Cookie Error",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"the endpoint returns the expected status code\", () => {\r",
+							"  const expectedStatusCode = 403;\r",
+							"  pm.response.to.have.status(expectedStatusCode);\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/wallet",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"wallet"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User Registration",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"the endpoint returns the expected status code\", () => {\r",
+							"  const expectedStatusCode = 200;\r",
+							"  pm.response.to.have.status(expectedStatusCode);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"test UserOutDto json\", ()=>{\r",
+							" const resp = pm.response.json();\r",
+							"\r",
+							" pm.expect(resp).to.have.property(\"id\");\r",
+							" pm.expect(resp).to.have.property(\"firstName\", \"F1 first Name\");\r",
+							" pm.expect(resp).to.have.property(\"lastName\", \"L2 last Name\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"firstName\":\"F1 first Name\",\r\n    \"lastName\":\"L2 last Name\",\r\n    \"password\":\"1\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/user",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User Login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"the endpoint returns the expected status code\", () => {\r",
+							"  const expectedStatusCode = 200;\r",
+							"  pm.response.to.have.status(expectedStatusCode);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response contains a JSESSIONID cookie\", function() {\r",
+							"    var cook = pm.cookies.get('session');\r",
+							"    pm.globals.set('sessionCookie', cook);\r",
+							"    console.log('sessionCookie: ' + cook)\r",
+							"\r",
+							"    pm.expect(pm.cookies.has('session')).to.be.true;\r",
+							"\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userId\": \"1\",\r\n    \"password\": \"1\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User Balance Cookie",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"the endpoint returns the expected status code\", () => {\r",
+							"  const expectedStatusCode = 200;\r",
+							"  pm.response.to.have.status(expectedStatusCode);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"test Balance json\", ()=>{\r",
+							" const resp = pm.response.json();\r",
+							"\r",
+							" pm.expect(resp).to.have.property(\"balance\", 0);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Cookie",
+						"value": "session={{sessionCookie}}; Path=/api;",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/api/wallet",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"wallet"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

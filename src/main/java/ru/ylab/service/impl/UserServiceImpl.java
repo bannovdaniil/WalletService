@@ -11,6 +11,8 @@ import ru.ylab.repository.WalletRepository;
 import ru.ylab.repository.impl.UserRepositoryImpl;
 import ru.ylab.repository.impl.WalletRepositoryImpl;
 import ru.ylab.service.UserService;
+import ru.ylab.util.PasswordEncoder;
+import ru.ylab.util.impl.PasswordEncoderSha256Impl;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -22,6 +24,7 @@ public class UserServiceImpl implements UserService {
     private static UserService instance;
     private final UserRepository userRepository = UserRepositoryImpl.getInstance();
     private final WalletRepository walletRepository = WalletRepositoryImpl.getInstance();
+    private final PasswordEncoder passwordEncoder = PasswordEncoderSha256Impl.getInstance();
     private static final UserMapper userMapper = UserMapper.INSTANCE;
 
     private UserServiceImpl() {
@@ -37,6 +40,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserOutDto add(UserIncomingDto dto) throws NotFoundException {
         User user = userMapper.userIncomingDtoToUser(dto);
+        user.setHashPassword(passwordEncoder.encode(dto.getPassword()));
         Wallet wallet = new Wallet(
                 null,
                 "wallet-1",

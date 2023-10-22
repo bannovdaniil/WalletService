@@ -3,6 +3,7 @@ package ru.ylab.service.impl;
 import ru.ylab.exception.NotFoundException;
 import ru.ylab.model.*;
 import ru.ylab.model.dto.BalanceDto;
+import ru.ylab.model.dto.WalletIncomingDto;
 import ru.ylab.repository.SessionRepository;
 import ru.ylab.repository.TransactionRepository;
 import ru.ylab.repository.UserRepository;
@@ -46,8 +47,13 @@ public class WalletServiceImpl implements WalletService {
         );
     }
 
-    @Override
-    public Wallet putMoney(User user, String moneyValue) throws NotFoundException {
+    /**
+     * Внести деньги на счет
+     *
+     * @param user       - владелец счета
+     * @param moneyValue - сумма
+     */
+    private Wallet putMoney(User user, String moneyValue) throws NotFoundException {
         if (moneyValue.matches(REGEXP_FORMAT_MONEY) && user != null && user.getWallet() != null) {
             BigDecimal addValue = new BigDecimal(moneyValue.replace(",", "."));
 
@@ -71,8 +77,13 @@ public class WalletServiceImpl implements WalletService {
         throw new IllegalArgumentException("Bad arguments");
     }
 
-    @Override
-    public Wallet getMoney(User user, String moneyValue) throws NotFoundException {
+    /**
+     * Снять деньги со счета
+     *
+     * @param user       - владелец счета
+     * @param moneyValue - сумма
+     */
+    private Wallet getMoney(User user, String moneyValue) throws NotFoundException {
         if (moneyValue.matches(REGEXP_FORMAT_MONEY) && user != null && user.getWallet() != null) {
             BigDecimal subtractValue = new BigDecimal(moneyValue.replace(",", "."));
 
@@ -103,14 +114,33 @@ public class WalletServiceImpl implements WalletService {
 
     @Override
     public BalanceDto getBalance(UUID sessionId) {
-        BalanceDto dto = null;
-        if (sessionRepository.isActive(sessionId)) {
-            Session session = sessionRepository.findById(sessionId).orElseThrow();
-            User user = userRepository.findById(session.getUserId()).orElseThrow();
-            dto = new BalanceDto(
-                    walletRepository.findById(user.getWallet().getId()).orElseThrow().getBalance()
-            );
+        User user = getUserFromSession(sessionId);
+        return new BalanceDto(
+                walletRepository.findById(user.getWallet().getId()).orElseThrow().getBalance()
+        );
+    }
+
+    @Override
+    public BalanceDto changeBalance(UUID sessionId, WalletIncomingDto dto) throws NotFoundException {
+        User user = getUserFromSession(sessionId);
+        switch (dto.getType()) {
+            case GET:
+                getMoney(user, dto.getSum());
+                break;
+            case PUT:
+                putMoney(user, dto.getSum());
+                break;
+            default:
+                throw new IllegalArgumentException("Do not allow this method.");
         }
-        return dto;
+
+        return new BalanceDto(
+                walletRepository.findById(user.getWallet().getId()).orElseThrow().getBalance()
+        );
+    }
+
+    private User getUserFromSession(UUID sessionId) {
+        Session session = sessionRepository.findById(sessionId).orElseThrow();
+        return userRepository.findById(session.getUserId()).orElseThrow();
     }
 }

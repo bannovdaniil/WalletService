@@ -53,9 +53,8 @@ public final class SessionRepositoryImpl implements SessionRepository {
         try (Connection connection = connectionManager.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SAVE_SQL, Statement.RETURN_GENERATED_KEYS)) {
 
-            preparedStatement.setObject(1, session.getUuid());
-            preparedStatement.setObject(2, session.getTime());
-            preparedStatement.setLong(3, session.getUserId());
+            preparedStatement.setObject(1, session.getTime());
+            preparedStatement.setLong(2, session.getUserId());
 
             preparedStatement.executeUpdate();
 
@@ -121,9 +120,9 @@ public final class SessionRepositoryImpl implements SessionRepository {
 
     private Session createSession(ResultSet resultSet) throws SQLException {
         return new Session(
-                resultSet.getObject("sessionId", java.util.UUID.class),
+                resultSet.getObject("session_id", java.util.UUID.class),
                 resultSet.getObject("session_time", LocalDateTime.class),
-                resultSet.getLong("session_user_id")
+                resultSet.getLong("user_id")
         );
     }
 }

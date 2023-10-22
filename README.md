@@ -6,13 +6,53 @@
 
 ##### Postgres Docker Outer Port: 54320
 
+> docker-compose build
+
 > docker-compose up -d
 
-> ~~mvn clean package install~~
+Open in browser: 
 
-> ~~java -jar ./target/WalletService-1.0-SNAPSHOT.jar~~
+#### Login
+> POST http://localhost:8081/api/login 
 
-> Open project on IDE and Run Main.java
+json: 
+>{
+> "userId": "123",
+> "password": "password"
+>}
+
+#### Logout
+> GET http://localhost:8081/api/login
+
+#### User actions (logged user only)
+> GET http://localhost:8081/api/action
+
+#### User transaction (logged user only)
+> GET http://localhost:8081/api/transaction
+
+#### Logged user show balance (logged user only)
+> GET http://localhost:8081/api/wallet
+
+#### Logged user PUT money (logged user only)
+> PUT http://localhost:8081/api/wallet
+
+json:
+>{
+> "type": "PUT",
+> "sum": "100.12"
+>}
+
+#### Logged user GET money (logged user only)
+> PUT http://localhost:8081/api/wallet
+
+json:
+>{
+> "type": "GET",
+> "sum": "100.12"
+>}
+
+
+
 
 Enter number for navigate menu.
 
@@ -91,3 +131,4 @@ Unit-тестирование
 
 добавил github workflows
 добавил lombok
+добавил postman test
