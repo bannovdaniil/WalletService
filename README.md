@@ -5,6 +5,7 @@
 ##### You need java version: 17
 
 ##### Postgres Docker Outer Port: 54320
+
 ##### Tomcat Docker Outer Port: 8081
 
 > docker-compose build

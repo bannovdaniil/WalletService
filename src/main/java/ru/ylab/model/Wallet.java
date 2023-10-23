@@ -1,22 +1,14 @@
 package ru.ylab.model;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.Setter;
-
 import java.math.BigDecimal;
-import java.text.NumberFormat;
 
 /**
  * Счет пользователя.
  * - название счета
  * - баланс счета.
  */
-@Setter
-@Getter
 public class Wallet {
     private final Long id;
-    @Setter(AccessLevel.NONE)
     private String name;
     private BigDecimal balance;
 
@@ -26,12 +18,23 @@ public class Wallet {
         this.balance = balance;
     }
 
-    @Override
-    public String toString() {
-        return "Wallet{" +
-               "id=" + id +
-               ", name='" + name + '\'' +
-               ", balance=" + NumberFormat.getCurrencyInstance().format(balance) +
-               '}';
+    public Long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public BigDecimal getBalance() {
+        return balance;
+    }
+
+    public void setBalance(BigDecimal balance) {
+        this.balance = balance;
     }
 }

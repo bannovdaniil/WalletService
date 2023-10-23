@@ -1,10 +1,10 @@
 package ru.ylab.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.Getter;
 import ru.ylab.Constants;
 
 import java.time.LocalDateTime;
+import java.util.StringJoiner;
 
 /**
  * Сущность аудита действий пользователя.
@@ -13,7 +13,6 @@ import java.time.LocalDateTime;
  * - кто делал.
  * - подробности о пользователе
  */
-@Getter
 public class Action {
     private final Long id;
     @JsonFormat(pattern = Constants.DATE_TIME_STRING)
@@ -36,5 +35,36 @@ public class Action {
         this.userAction = userAction;
         this.information = information;
         this.userId = userId;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public LocalDateTime getTime() {
+        return time;
+    }
+
+    public String getUserAction() {
+        return userAction;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public String getInformation() {
+        return information;
+    }
+
+    @Override
+    public String toString() {
+        return new StringJoiner(", ", Action.class.getSimpleName() + "[", "]")
+                .add("id=" + id)
+                .add("time=" + time)
+                .add("userAction='" + userAction + "'")
+                .add("userId=" + userId)
+                .add("information='" + information + "'")
+                .toString();
     }
 }

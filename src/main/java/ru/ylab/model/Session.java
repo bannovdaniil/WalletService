@@ -1,7 +1,6 @@
 package ru.ylab.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.Getter;
 import ru.ylab.Constants;
 
 import java.time.LocalDateTime;
@@ -14,7 +13,6 @@ import java.util.UUID;
  * - время авторизации.
  * - подробности о пользователе
  */
-@Getter
 public class Session {
     private final UUID uuid;
     @JsonFormat(pattern = Constants.DATE_TIME_STRING)
@@ -31,5 +29,17 @@ public class Session {
         this.uuid = null;
         this.time = time;
         this.userId = userId;
+    }
+
+    public UUID getUuid() {
+        return uuid;
+    }
+
+    public LocalDateTime getTime() {
+        return time;
+    }
+
+    public Long getUserId() {
+        return userId;
     }
 }

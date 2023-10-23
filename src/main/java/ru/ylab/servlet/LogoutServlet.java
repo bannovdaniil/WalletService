@@ -4,10 +4,10 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import ru.ylab.aop.annotations.Audit;
 import ru.ylab.service.SessionService;
 import ru.ylab.service.impl.SessionServiceImpl;
 
-import java.io.IOException;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -22,8 +22,9 @@ public class LogoutServlet extends HttpServlet {
         this.sessionService = SessionServiceImpl.getInstance();
     }
 
+    @Audit
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
         setJsonHeader(resp);
 
         try {

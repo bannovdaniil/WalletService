@@ -5,6 +5,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import ru.ylab.aop.annotations.Audit;
 import ru.ylab.exception.ErrorHeader;
 import ru.ylab.model.dto.UserIncomingDto;
 import ru.ylab.model.dto.UserOutDto;
@@ -36,6 +37,7 @@ public class UserServlet extends HttpServlet {
         this.objectMapper = new ObjectMapper();
     }
 
+    @Audit
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         setJsonHeader(resp);
@@ -49,7 +51,7 @@ public class UserServlet extends HttpServlet {
                     List<UserOutDto> userList = userService.findAll();
                     resp.setStatus(HttpServletResponse.SC_OK);
                     responseAnswer = objectMapper.writeValueAsString(userList);
-                }else{
+                } else {
                     Long userId = Long.parseLong(pathPart[1]);
                     UserOutDto userDto = userService.findById(userId);
                     resp.setStatus(HttpServletResponse.SC_OK);
@@ -70,6 +72,7 @@ public class UserServlet extends HttpServlet {
         printWriter.flush();
     }
 
+    @Audit
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         setJsonHeader(resp);

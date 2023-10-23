@@ -6,6 +6,7 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import ru.ylab.aop.annotations.Audit;
 import ru.ylab.model.dto.UserLoginDto;
 import ru.ylab.service.SessionService;
 import ru.ylab.service.impl.SessionServiceImpl;
@@ -29,6 +30,7 @@ public class LoginServlet extends HttpServlet {
         this.objectMapper = new ObjectMapper();
     }
 
+    @Audit
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         setJsonHeader(resp);

@@ -21,11 +21,11 @@ import java.util.List;
  * Бизнес логика работы с пользователями
  */
 public class UserServiceImpl implements UserService {
+    private static final UserMapper userMapper = UserMapper.INSTANCE;
     private static UserService instance;
     private final UserRepository userRepository = UserRepositoryImpl.getInstance();
     private final WalletRepository walletRepository = WalletRepositoryImpl.getInstance();
     private final PasswordEncoder passwordEncoder = PasswordEncoderSha256Impl.getInstance();
-    private static final UserMapper userMapper = UserMapper.INSTANCE;
 
     private UserServiceImpl() {
     }

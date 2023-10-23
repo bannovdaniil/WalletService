@@ -8,6 +8,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import ru.ylab.aop.annotations.Audit;
 import ru.ylab.exception.ErrorHeader;
 import ru.ylab.model.Action;
 import ru.ylab.service.ActionService;
@@ -48,6 +49,7 @@ public class ActionServlet extends HttpServlet {
         liquibaseUtil.init();
     }
 
+    @Audit
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         setJsonHeader(resp);

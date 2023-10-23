@@ -1,9 +1,5 @@
 package ru.ylab.model;
 
-import lombok.AccessLevel;
-import lombok.Data;
-import lombok.Setter;
-
 /**
  * Пользователь - он же игрок
  * firstName - имя
@@ -11,12 +7,9 @@ import lombok.Setter;
  * hashPassword - хеш пароля игрока
  * wallet - счет игрока
  */
-@Data
 public class User {
     private final Long id;
-    @Setter(AccessLevel.NONE)
     private final String firstName;
-    @Setter(AccessLevel.NONE)
     private final String lastName;
     private String hashPassword;
     private Wallet wallet;
@@ -36,5 +29,33 @@ public class User {
                 firstName,
                 lastName,
                 wallet);
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public String getHashPassword() {
+        return hashPassword;
+    }
+
+    public void setHashPassword(String hashPassword) {
+        this.hashPassword = hashPassword;
+    }
+
+    public Wallet getWallet() {
+        return wallet;
+    }
+
+    public void setWallet(Wallet wallet) {
+        this.wallet = wallet;
     }
 }

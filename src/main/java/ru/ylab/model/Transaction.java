@@ -1,12 +1,10 @@
 package ru.ylab.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.Getter;
 import ru.ylab.Constants;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.StringJoiner;
 
 /**
  * Сущность хранящая историю транзакций.
@@ -15,7 +13,6 @@ import java.util.StringJoiner;
  * - сумма.
  * - пользователь.
  */
-@Getter
 public class Transaction {
     private final Long id;
     @JsonFormat(pattern = Constants.DATE_TIME_STRING)
@@ -40,14 +37,23 @@ public class Transaction {
         this.userId = userId;
     }
 
-    @Override
-    public String toString() {
-        return new StringJoiner(", ", Transaction.class.getSimpleName() + "[", "]")
-                .add("id=" + id)
-                .add("time=" + time)
-                .add("type=" + type)
-                .add("sum=" + sum)
-                .add("userId=" + userId)
-                .toString();
+    public Long getId() {
+        return id;
+    }
+
+    public LocalDateTime getTime() {
+        return time;
+    }
+
+    public TransactionType getType() {
+        return type;
+    }
+
+    public BigDecimal getSum() {
+        return sum;
+    }
+
+    public Long getUserId() {
+        return userId;
     }
 }

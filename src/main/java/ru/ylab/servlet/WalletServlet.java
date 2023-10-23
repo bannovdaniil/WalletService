@@ -5,6 +5,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import ru.ylab.aop.annotations.Audit;
 import ru.ylab.exception.ErrorHeader;
 import ru.ylab.model.dto.BalanceDto;
 import ru.ylab.model.dto.WalletIncomingDto;
@@ -35,6 +36,7 @@ public class WalletServlet extends HttpServlet {
         this.objectMapper = new ObjectMapper();
     }
 
+    @Audit
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         setJsonHeader(resp);
@@ -61,6 +63,7 @@ public class WalletServlet extends HttpServlet {
         printWriter.flush();
     }
 
+    @Audit
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         setJsonHeader(resp);

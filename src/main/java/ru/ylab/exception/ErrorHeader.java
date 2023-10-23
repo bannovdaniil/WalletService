@@ -1,12 +1,19 @@
 package ru.ylab.exception;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-
-@AllArgsConstructor
-@NoArgsConstructor
-@Getter
+/**
+ * Сообщения об ошибках, для web
+ */
 public class ErrorHeader {
     private String error;
+
+    public ErrorHeader() {
+    }
+
+    public ErrorHeader(String error) {
+        this.error = error;
+    }
+
+    public String getError() {
+        return error;
+    }
 }
