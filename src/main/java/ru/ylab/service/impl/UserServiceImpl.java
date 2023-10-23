@@ -39,7 +39,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserOutDto add(UserIncomingDto dto) throws NotFoundException {
-        User user = userMapper.userIncomingDtoToUser(dto);
+        User user = userMapper.dtoToUser(dto);
         user.setHashPassword(passwordEncoder.encode(dto.getPassword()));
         Wallet wallet = new Wallet(
                 null,
@@ -49,18 +49,20 @@ public class UserServiceImpl implements UserService {
         wallet = walletRepository.save(wallet);
         user.setWallet(wallet);
         user = userRepository.save(user);
-        return userMapper.userToUserOutDto(user);
+        return userMapper.userToDto(user);
     }
 
     @Override
-    public User findById(Long userId) throws NotFoundException {
-        return userRepository.findById(userId).orElseThrow(
+    public UserOutDto findById(Long userId) throws NotFoundException {
+        User user = userRepository.findById(userId).orElseThrow(
                 () -> new NotFoundException("User not found")
         );
+        return userMapper.userToDto(user);
     }
 
     @Override
-    public List<User> findAll() {
-        return userRepository.findAll();
+    public List<UserOutDto> findAll() {
+        List<User> userList = userRepository.findAll();
+        return userMapper.userToDto(userList);
     }
 }

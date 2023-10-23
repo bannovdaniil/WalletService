@@ -118,7 +118,7 @@ class UserServiceTest {
 
         Mockito.doReturn(user).when(mockUserRepository).findById(Mockito.anyLong());
 
-        User result = userService.findById(expectedId);
+        UserOutDto result = userService.findById(expectedId);
 
         Assertions.assertEquals(expectedId, result.getId());
     }

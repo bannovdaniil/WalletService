@@ -618,7 +618,7 @@
 							"pm.test(\"test Balance json\", ()=>{\r",
 							" const resp = pm.response.json();\r",
 							"\r",
-							" pm.expect(resp).to.have.property(\"message\", \"Not have same money.\");\r",
+							" pm.expect(resp).to.have.property(\"error\", \"Not have same money.\");\r",
 							"});"
 						],
 						"type": "text/javascript"
@@ -671,7 +671,7 @@
 			"response": []
 		},
 		{
-			"name": "User get List",
+			"name": "User all get List",
 			"event": [
 				{
 					"listen": "test",
@@ -711,6 +711,98 @@
 						"api",
 						"user",
 						"all"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User get by ID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"the endpoint returns the expected status code\", () => {\r",
+							"  const expectedStatusCode = 200;\r",
+							"  pm.response.to.have.status(expectedStatusCode);\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableCookies": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Cookie",
+						"value": "session={{sessionCookie}}; Path=/api;",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/api/user/{{userId}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"user",
+						"{{userId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User Error get",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"the endpoint returns the expected status code\", () => {\r",
+							"  const expectedStatusCode = 400;\r",
+							"  pm.response.to.have.status(expectedStatusCode);\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableCookies": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Cookie",
+						"value": "session={{sessionCookie}}; Path=/api;",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/api/user/error",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"user",
+						"error"
 					]
 				}
 			},

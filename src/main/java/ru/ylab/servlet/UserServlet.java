@@ -8,13 +8,18 @@ import jakarta.servlet.http.HttpServletResponse;
 import ru.ylab.exception.ErrorHeader;
 import ru.ylab.model.dto.UserIncomingDto;
 import ru.ylab.model.dto.UserOutDto;
+import ru.ylab.service.SessionService;
 import ru.ylab.service.UserService;
+import ru.ylab.service.impl.SessionServiceImpl;
 import ru.ylab.service.impl.UserServiceImpl;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.file.AccessDeniedException;
+import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 /**
  * Показывает Лог действий пользователя.
@@ -22,11 +27,47 @@ import java.util.Optional;
 @WebServlet(urlPatterns = {"/api/user/*"})
 public class UserServlet extends HttpServlet {
     private final transient UserService userService;
+    private final transient SessionService sessionService;
     private final ObjectMapper objectMapper;
 
     public UserServlet() {
         this.userService = UserServiceImpl.getInstance();
+        this.sessionService = SessionServiceImpl.getInstance();
         this.objectMapper = new ObjectMapper();
+    }
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        setJsonHeader(resp);
+
+        String responseAnswer;
+        try {
+            Optional<UUID> sessionId = sessionService.getUuidFromCookie(req.getCookies());
+            if (sessionId.isPresent() && sessionService.isActive(sessionId.get())) {
+                String[] pathPart = req.getPathInfo().split("/");
+                if ("all".equals(pathPart[1])) {
+                    List<UserOutDto> userList = userService.findAll();
+                    resp.setStatus(HttpServletResponse.SC_OK);
+                    responseAnswer = objectMapper.writeValueAsString(userList);
+                }else{
+                    Long userId = Long.parseLong(pathPart[1]);
+                    UserOutDto userDto = userService.findById(userId);
+                    resp.setStatus(HttpServletResponse.SC_OK);
+                    responseAnswer = objectMapper.writeValueAsString(userDto);
+                }
+            } else {
+                throw new AccessDeniedException("Forbidden");
+            }
+        } catch (AccessDeniedException e) {
+            resp.setStatus(HttpServletResponse.SC_FORBIDDEN);
+            responseAnswer = objectMapper.writeValueAsString(new ErrorHeader(e.getMessage()));
+        } catch (Exception e) {
+            resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            responseAnswer = objectMapper.writeValueAsString(new ErrorHeader(e.getMessage()));
+        }
+        PrintWriter printWriter = resp.getWriter();
+        printWriter.write(responseAnswer);
+        printWriter.flush();
     }
 
     @Override
@@ -46,22 +87,6 @@ public class UserServlet extends HttpServlet {
             responseAnswer = objectMapper.writeValueAsString(new ErrorHeader(e.getMessage()));
         }
 
-        PrintWriter printWriter = resp.getWriter();
-        printWriter.write(responseAnswer);
-        printWriter.flush();
-    }
-
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        setJsonHeader(resp);
-
-        String responseAnswer = "";
-        try {
-            resp.setStatus(HttpServletResponse.SC_OK);
-        } catch (Exception e) {
-            resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            responseAnswer = objectMapper.writeValueAsString(new ErrorHeader(e.getMessage()));
-        }
         PrintWriter printWriter = resp.getWriter();
         printWriter.write(responseAnswer);
         printWriter.flush();

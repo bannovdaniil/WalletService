@@ -5,60 +5,73 @@
 ##### You need java version: 17
 
 ##### Postgres Docker Outer Port: 54320
+##### Tomcat Docker Outer Port: 8081
 
 > docker-compose build
 
 > docker-compose up -d
 
-Open in browser: 
+#### Open in browser:
+
+_**postman v2.1: postman/wallet_service.postman_collection.json**_
 
 #### Login
-> POST http://localhost:8081/api/login 
 
-json: 
->{
+> POST http://localhost:8081/api/login
+
+json:
+> {
 > "userId": "123",
 > "password": "password"
->}
+> }
 
 #### Logout
+
 > GET http://localhost:8081/api/login
 
 #### User actions (logged user only)
+
 > GET http://localhost:8081/api/action
 
 #### User transaction (logged user only)
+
 > GET http://localhost:8081/api/transaction
 
 #### Get all users list (logged user only)
+
 > GET http://localhost:8081/api/user/all
 
+#### Get users information By ID (logged user only)
+
+> GET http://localhost:8081/api/user/{ID}
+
 #### Logged user show balance (logged user only)
+
 > GET http://localhost:8081/api/wallet
 
 #### Logged user PUT money (logged user only)
+
 > PUT http://localhost:8081/api/wallet
 
 json:
->{
+> {
 > "type": "PUT",
 > "sum": "100.12"
->}
+> }
 
 #### Logged user GET money (logged user only)
+
 > PUT http://localhost:8081/api/wallet
 
 json:
->{
+> {
 > "type": "GET",
 > "sum": "100.12"
->}
-
+> }
 
 
 
 Enter number for navigate menu.
-
 
 ## ДЗ №3
 
