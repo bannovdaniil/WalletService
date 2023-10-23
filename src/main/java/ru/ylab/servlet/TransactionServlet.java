@@ -8,12 +8,17 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import ru.ylab.exception.ErrorHeader;
 import ru.ylab.model.Transaction;
+import ru.ylab.service.SessionService;
 import ru.ylab.service.TransactionService;
+import ru.ylab.service.impl.SessionServiceImpl;
 import ru.ylab.service.impl.TransactionServiceImpl;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.file.AccessDeniedException;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 /**
  * Показывает Историю транзакций.
@@ -21,10 +26,13 @@ import java.util.List;
 @WebServlet(urlPatterns = {"/api/transaction"})
 public class TransactionServlet extends HttpServlet {
     private final transient TransactionService transactionService;
+    private final transient SessionService sessionService;
+
     private final ObjectMapper objectMapper;
 
     public TransactionServlet() {
         this.transactionService = TransactionServiceImpl.getInstance();
+        this.sessionService = SessionServiceImpl.getInstance();
         this.objectMapper = new ObjectMapper();
         this.objectMapper.registerModule(new JavaTimeModule());
     }
@@ -35,9 +43,17 @@ public class TransactionServlet extends HttpServlet {
 
         String responseAnswer;
         try {
-            List<Transaction> transactionList = transactionService.findAll();
-            resp.setStatus(HttpServletResponse.SC_OK);
-            responseAnswer = objectMapper.writeValueAsString(transactionList);
+            Optional<UUID> sessionId = sessionService.getUuidFromCookie(req.getCookies());
+            if (sessionId.isPresent() && sessionService.isActive(sessionId.get())) {
+                List<Transaction> transactionList = transactionService.findAll();
+                resp.setStatus(HttpServletResponse.SC_OK);
+                responseAnswer = objectMapper.writeValueAsString(transactionList);
+            } else {
+                throw new AccessDeniedException("Forbidden");
+            }
+        } catch (AccessDeniedException e) {
+            resp.setStatus(HttpServletResponse.SC_FORBIDDEN);
+            responseAnswer = objectMapper.writeValueAsString(new ErrorHeader(e.getMessage()));
         } catch (Exception e) {
             resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             responseAnswer = objectMapper.writeValueAsString(new ErrorHeader(e.getMessage()));

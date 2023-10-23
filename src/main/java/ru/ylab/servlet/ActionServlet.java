@@ -11,13 +11,18 @@ import jakarta.servlet.http.HttpServletResponse;
 import ru.ylab.exception.ErrorHeader;
 import ru.ylab.model.Action;
 import ru.ylab.service.ActionService;
+import ru.ylab.service.SessionService;
 import ru.ylab.service.impl.ActionServiceImpl;
+import ru.ylab.service.impl.SessionServiceImpl;
 import ru.ylab.util.LiquibaseUtil;
 import ru.ylab.util.impl.LiquibaseUtilImpl;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.file.AccessDeniedException;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 /**
  * Показывает Лог действий пользователя.
@@ -25,12 +30,14 @@ import java.util.List;
 @WebServlet(urlPatterns = {"/api/action"})
 public class ActionServlet extends HttpServlet {
     private final transient ActionService actionService;
+    private final transient SessionService sessionService;
     private final transient LiquibaseUtil liquibaseUtil;
     private final ObjectMapper objectMapper;
 
     public ActionServlet() {
-        this.actionService = ActionServiceImpl.getInstance();
         this.liquibaseUtil = LiquibaseUtilImpl.getInstance();
+        this.actionService = ActionServiceImpl.getInstance();
+        this.sessionService = SessionServiceImpl.getInstance();
         this.objectMapper = new ObjectMapper();
         this.objectMapper.registerModule(new JavaTimeModule());
     }
@@ -47,9 +54,17 @@ public class ActionServlet extends HttpServlet {
 
         String responseAnswer;
         try {
-            List<Action> actionList = actionService.findAll();
-            resp.setStatus(HttpServletResponse.SC_OK);
-            responseAnswer = objectMapper.writeValueAsString(actionList);
+            Optional<UUID> sessionId = sessionService.getUuidFromCookie(req.getCookies());
+            if (sessionId.isPresent() && sessionService.isActive(sessionId.get())) {
+                List<Action> actionList = actionService.findAll();
+                resp.setStatus(HttpServletResponse.SC_OK);
+                responseAnswer = objectMapper.writeValueAsString(actionList);
+            } else {
+                throw new AccessDeniedException("Forbidden");
+            }
+        } catch (AccessDeniedException e) {
+            resp.setStatus(HttpServletResponse.SC_FORBIDDEN);
+            responseAnswer = objectMapper.writeValueAsString(new ErrorHeader(e.getMessage()));
         } catch (Exception e) {
             resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             responseAnswer = objectMapper.writeValueAsString(new ErrorHeader(e.getMessage()));
