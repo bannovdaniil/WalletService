@@ -13,6 +13,8 @@ import ru.ylab.service.SessionService;
 import ru.ylab.service.UserService;
 import ru.ylab.service.impl.SessionServiceImpl;
 import ru.ylab.service.impl.UserServiceImpl;
+import ru.ylab.validator.Validator;
+import ru.ylab.validator.impl.UserIncomingDtoValidatorImpl;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -29,14 +31,20 @@ import java.util.UUID;
 public class UserServlet extends HttpServlet {
     private final transient UserService userService;
     private final transient SessionService sessionService;
+    private final Validator<UserIncomingDto> userIncomingDtoValidator;
+
     private final ObjectMapper objectMapper;
 
     public UserServlet() {
         this.userService = UserServiceImpl.getInstance();
         this.sessionService = SessionServiceImpl.getInstance();
+        this.userIncomingDtoValidator = UserIncomingDtoValidatorImpl.getInstance();
         this.objectMapper = new ObjectMapper();
     }
 
+    /**
+     * Получить пользователя по ID либо весь список
+     */
     @Audit
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
@@ -72,6 +80,9 @@ public class UserServlet extends HttpServlet {
         printWriter.flush();
     }
 
+    /**
+     * Создать пользователя
+     */
     @Audit
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
@@ -82,6 +93,11 @@ public class UserServlet extends HttpServlet {
         try {
             UserIncomingDto dto = Optional.ofNullable(objectMapper.readValue(json, UserIncomingDto.class))
                     .orElseThrow(IllegalArgumentException::new);
+
+            if (!userIncomingDtoValidator.isValid(dto)) {
+                throw new IllegalArgumentException("Error validation");
+            }
+
             UserOutDto userOutDto = userService.add(dto);
             responseAnswer = objectMapper.writeValueAsString(userOutDto);
             resp.setStatus(HttpServletResponse.SC_OK);

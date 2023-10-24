@@ -40,6 +40,9 @@ public class WalletServlet extends HttpServlet {
         this.objectMapper = new ObjectMapper();
     }
 
+    /**
+     * Получить баланс
+     */
     @Audit
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
@@ -67,6 +70,9 @@ public class WalletServlet extends HttpServlet {
         printWriter.flush();
     }
 
+    /**
+     * Изменить баланс
+     */
     @Audit
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws IOException {
