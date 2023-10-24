@@ -49,6 +49,9 @@ public class ActionServlet extends HttpServlet {
         liquibaseUtil.init();
     }
 
+    /**
+     * Получить список действий пользователя.
+     */
     @Audit
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {

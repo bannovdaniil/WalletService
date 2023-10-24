@@ -22,6 +22,9 @@ public class LogoutServlet extends HttpServlet {
         this.sessionService = SessionServiceImpl.getInstance();
     }
 
+    /**
+     * Закончить сессию пользователя.
+     */
     @Audit
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) {

@@ -38,6 +38,9 @@ public class TransactionServlet extends HttpServlet {
         this.objectMapper.registerModule(new JavaTimeModule());
     }
 
+    /**
+     * Получить список транзакций пользователя.
+     */
     @Audit
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {

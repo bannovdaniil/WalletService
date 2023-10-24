@@ -8,6 +8,8 @@
 
 ##### Tomcat Docker Outer Port: 8081
 
+> mvn -DskipTests=true clean compile package install
+
 > docker-compose build
 
 > docker-compose up -d

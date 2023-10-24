@@ -25,8 +25,30 @@ public class AuditAspect {
     private final ActionService actionService = ActionServiceImpl.getInstance();
     private final SessionService sessionService = SessionServiceImpl.getInstance();
 
+    /**
+     * Замеряем время для метода "UserRepositoryImpl.Save"
+     */
+    @Pointcut("within(ru.ylab.repository.impl.UserRepositoryImpl) && execution(* save(..))")
+    public void hookMethodTime() {
+    }
+
+
+    /**
+     * Замеряем время для методов над которыми висит аннотация @Audit
+     */
     @Pointcut("@annotation(ru.ylab.aop.annotations.Audit) && args(req, ..)")
     public void annotatedByAudit(HttpServletRequest req) {
+    }
+
+    @Around("hookMethodTime()")
+    public Object showMethodTime(ProceedingJoinPoint joinPoint) throws Throwable {
+        long startTime = System.currentTimeMillis();
+        Object result = joinPoint.proceed();
+        long endTime = System.currentTimeMillis() - startTime;
+
+        LOG.info("Method: {} time: {} ms", joinPoint.getSignature(), endTime);
+
+        return result;
     }
 
     @Around("annotatedByAudit(req)")
