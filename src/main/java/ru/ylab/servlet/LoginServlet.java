@@ -10,6 +10,8 @@ import ru.ylab.aop.annotations.Audit;
 import ru.ylab.model.dto.UserLoginDto;
 import ru.ylab.service.SessionService;
 import ru.ylab.service.impl.SessionServiceImpl;
+import ru.ylab.validator.Validator;
+import ru.ylab.validator.impl.UserLoginDtoValidatorImpl;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -23,13 +25,19 @@ import java.util.UUID;
 @WebServlet(urlPatterns = {"/api/login"})
 public class LoginServlet extends HttpServlet {
     private final transient SessionService sessionService;
+    private final Validator<UserLoginDto> userLoginDtoValidator;
+
     private final ObjectMapper objectMapper;
 
     public LoginServlet() {
         this.sessionService = SessionServiceImpl.getInstance();
+        this.userLoginDtoValidator = UserLoginDtoValidatorImpl.getInstance();
         this.objectMapper = new ObjectMapper();
     }
 
+    /**
+     * Логин пользователя.
+     */
     @Audit
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
@@ -39,6 +47,11 @@ public class LoginServlet extends HttpServlet {
         try {
             UserLoginDto dto = Optional.ofNullable(objectMapper.readValue(json, UserLoginDto.class))
                     .orElseThrow(IllegalArgumentException::new);
+
+            if (!userLoginDtoValidator.isValid(dto)) {
+                throw new IllegalArgumentException("Error validation");
+            }
+
             UUID sessionId = sessionService.login(dto);
             Cookie cookie = new Cookie("session", sessionId.toString());
             resp.addCookie(cookie);

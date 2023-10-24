@@ -21,8 +21,9 @@ public class UserIncomingDtoValidatorImpl implements Validator<UserIncomingDto> 
 
     /**
      * Проверка на Null
-     * Проверка Enum
-     * Проверка Входящего числа.
+     * Проверка firstname.
+     * Проверка lastname.
+     * Проверка пароля.
      */
     @Override
     public boolean isValid(UserIncomingDto dto) {
