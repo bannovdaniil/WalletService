@@ -38,6 +38,9 @@ public final class ApplicationPropertiesUtilImpl implements PropertiesUtil {
         if (System.getenv(key) != null) {
             return System.getenv(key);
         }
+        if (System.getProperty(key) != null) {
+            return System.getProperty(key);
+        }
         return PROPERTIES.getProperty(key);
     }
 

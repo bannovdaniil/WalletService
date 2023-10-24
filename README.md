@@ -6,6 +6,8 @@
 
 ##### Postgres Docker Outer Port: 54320
 
+##### TestContainers Postgres Docker Outer Port: 54321
+
 ##### Tomcat Docker Outer Port: 8081
 
 > mvn -DskipTests=true clean compile package install
@@ -14,9 +16,16 @@
 
 > docker-compose up -d
 
-#### Open in browser:
+#### Postman:
 
-_**postman v2.1: postman/wallet_service.postman_collection.json**_
+for Localhost:
+_**postman v2.1: postman/wallet_service_port-8080.postman_collection.json**_
+
+for Docker:
+_**postman v2.1: postman/wallet_service_port-8081.postman_collection.json**_
+
+
+#### Open in browser:
 
 #### Login
 

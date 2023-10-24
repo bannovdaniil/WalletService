@@ -29,7 +29,7 @@ import java.util.Optional;
 @Tag("DockerRequired")
 class UserRepositoryImplTest {
     private static final int containerPort = 5432;
-    private static final int localPort = 54320;
+    private static final int localPort = 54321;
     private static final PropertiesUtil propertiesUtil = ApplicationPropertiesUtilImpl.getInstance();
     private static final LiquibaseUtil liquibaseUtil = LiquibaseUtilImpl.getInstance();
     @Container
@@ -47,6 +47,7 @@ class UserRepositoryImplTest {
 
     @BeforeAll
     static void beforeAll() {
+        System.setProperty("DATASOURCE_URL", "jdbc:postgresql://localhost:" + localPort + "/wallet_db");
         container.start();
         userRepository = UserRepositoryImpl.getInstance();
         walletRepository = WalletRepositoryImpl.getInstance();
