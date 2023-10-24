@@ -13,6 +13,8 @@ import ru.ylab.service.SessionService;
 import ru.ylab.service.WalletService;
 import ru.ylab.service.impl.SessionServiceImpl;
 import ru.ylab.service.impl.WalletServiceImpl;
+import ru.ylab.validator.Validator;
+import ru.ylab.validator.impl.WalletIncomingDtoValidatorImpl;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -22,17 +24,19 @@ import java.util.Optional;
 import java.util.UUID;
 
 /**
- * Показывает Лог действий пользователя.
+ * Ручка, показывает Лог действий пользователя.
  */
 @WebServlet(urlPatterns = {"/api/wallet/*"})
 public class WalletServlet extends HttpServlet {
     private final transient SessionService sessionService;
     private final transient WalletService walletService;
+    private final Validator<WalletIncomingDto> walletIncomingDtoValidator;
     private final ObjectMapper objectMapper;
 
     public WalletServlet() {
         this.walletService = WalletServiceImpl.getInstance();
         this.sessionService = SessionServiceImpl.getInstance();
+        this.walletIncomingDtoValidator = WalletIncomingDtoValidatorImpl.getInstance();
         this.objectMapper = new ObjectMapper();
     }
 
@@ -45,8 +49,8 @@ public class WalletServlet extends HttpServlet {
         try {
             Optional<UUID> sessionId = sessionService.getUuidFromCookie(req.getCookies());
             if (sessionId.isPresent() && sessionService.isActive(sessionId.get())) {
-                BalanceDto balance = walletService.getBalance(sessionId.get());
-                responseAnswer = objectMapper.writeValueAsString(balance);
+                BalanceDto balanceDto = walletService.getBalance(sessionId.get());
+                responseAnswer = objectMapper.writeValueAsString(balanceDto);
                 resp.setStatus(HttpServletResponse.SC_OK);
             } else {
                 throw new AccessDeniedException("Forbidden");
@@ -76,8 +80,11 @@ public class WalletServlet extends HttpServlet {
                 WalletIncomingDto dto = Optional.ofNullable(objectMapper.readValue(json, WalletIncomingDto.class))
                         .orElseThrow(IllegalArgumentException::new);
 
-                BalanceDto balanceDto = walletService.changeBalance(sessionId.get(), dto);
+                if (!walletIncomingDtoValidator.isValid(dto)) {
+                    throw new IllegalArgumentException("Error validation");
+                }
 
+                BalanceDto balanceDto = walletService.changeBalance(sessionId.get(), dto);
                 responseAnswer = objectMapper.writeValueAsString(balanceDto);
                 resp.setStatus(HttpServletResponse.SC_OK);
             } else {
