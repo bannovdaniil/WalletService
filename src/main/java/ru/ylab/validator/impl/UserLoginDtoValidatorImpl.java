@@ -19,6 +19,12 @@ public class UserLoginDtoValidatorImpl implements Validator<UserLoginDto> {
         return instance;
     }
 
+    private static boolean isNotBlank(String s) {
+        return s != null
+               && !s.isEmpty()
+               && !s.isBlank();
+    }
+
     /**
      * Проверка на Null
      * Проверка Входящего числа.
@@ -31,11 +37,5 @@ public class UserLoginDtoValidatorImpl implements Validator<UserLoginDto> {
                && dto.getUserId() != null
                && dto.getUserId() > 0
                && isNotBlank(dto.getPassword());
-    }
-
-    private static boolean isNotBlank(String s) {
-        return s != null
-               && !s.isEmpty()
-               && !s.isBlank();
     }
 }

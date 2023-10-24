@@ -21,9 +21,9 @@ import java.util.UUID;
 
 @Aspect
 public class AuditAspect {
+    public static final Logger LOG = LoggerFactory.getLogger(AuditAspect.class);
     private final ActionService actionService = ActionServiceImpl.getInstance();
     private final SessionService sessionService = SessionServiceImpl.getInstance();
-    public static final Logger LOG = LoggerFactory.getLogger(AuditAspect.class);
 
     @Pointcut("@annotation(ru.ylab.aop.annotations.Audit) && args(req, ..)")
     public void annotatedByAudit(HttpServletRequest req) {
