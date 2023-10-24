@@ -1,6 +1,8 @@
 package ru.ylab.servlet;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.servlet.ServletConfig;
+import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -14,6 +16,8 @@ import ru.ylab.service.SessionService;
 import ru.ylab.service.UserService;
 import ru.ylab.service.impl.SessionServiceImpl;
 import ru.ylab.service.impl.UserServiceImpl;
+import ru.ylab.util.LiquibaseUtil;
+import ru.ylab.util.impl.LiquibaseUtilImpl;
 import ru.ylab.validator.Validator;
 import ru.ylab.validator.impl.UserIncomingDtoValidatorImpl;
 
@@ -32,6 +36,7 @@ import java.util.UUID;
 public class UserServlet extends HttpServlet {
     private final transient UserService userService;
     private final transient SessionService sessionService;
+    private final transient LiquibaseUtil liquibaseUtil;
     private final transient Validator<UserIncomingDto> userIncomingDtoValidator;
 
     private final ObjectMapper objectMapper;
@@ -40,9 +45,15 @@ public class UserServlet extends HttpServlet {
         this.userService = UserServiceImpl.getInstance();
         this.sessionService = SessionServiceImpl.getInstance();
         this.userIncomingDtoValidator = UserIncomingDtoValidatorImpl.getInstance();
+        this.liquibaseUtil = LiquibaseUtilImpl.getInstance();
         this.objectMapper = new ObjectMapper();
     }
 
+    @Override
+    public void init(ServletConfig config) throws ServletException {
+        super.init(config);
+        liquibaseUtil.init();
+    }
     /**
      * Получить пользователя по ID либо весь список
      */

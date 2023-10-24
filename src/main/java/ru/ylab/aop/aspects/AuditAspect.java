@@ -28,7 +28,7 @@ public class AuditAspect {
     /**
      * Замеряем время для метода "BalanceDto.getBalance"
      */
-    @Pointcut("within(ru.ylab.model.dto.BalanceDto) && execution(* getBalance(..))")
+    @Pointcut("within(ru.ylab.repository.impl.UserRepositoryImpl) && execution(* save(..))")
     public void hookMethodTime() {
     }
 

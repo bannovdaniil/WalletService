@@ -1,6 +1,8 @@
 package ru.ylab.servlet;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.servlet.ServletConfig;
+import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
@@ -10,6 +12,8 @@ import ru.ylab.aop.annotations.Audit;
 import ru.ylab.model.dto.UserLoginDto;
 import ru.ylab.service.SessionService;
 import ru.ylab.service.impl.SessionServiceImpl;
+import ru.ylab.util.LiquibaseUtil;
+import ru.ylab.util.impl.LiquibaseUtilImpl;
 import ru.ylab.validator.Validator;
 import ru.ylab.validator.impl.UserLoginDtoValidatorImpl;
 
@@ -26,13 +30,20 @@ import java.util.UUID;
 public class LoginServlet extends HttpServlet {
     private final transient SessionService sessionService;
     private final transient Validator<UserLoginDto> userLoginDtoValidator;
-
+    private final transient LiquibaseUtil liquibaseUtil;
     private final ObjectMapper objectMapper;
 
     public LoginServlet() {
         this.sessionService = SessionServiceImpl.getInstance();
         this.userLoginDtoValidator = UserLoginDtoValidatorImpl.getInstance();
+        this.liquibaseUtil = LiquibaseUtilImpl.getInstance();
         this.objectMapper = new ObjectMapper();
+    }
+
+    @Override
+    public void init(ServletConfig config) throws ServletException {
+        super.init(config);
+        liquibaseUtil.init();
     }
 
     /**

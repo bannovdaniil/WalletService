@@ -1,6 +1,8 @@
 package ru.ylab.servlet;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.servlet.ServletConfig;
+import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -13,6 +15,8 @@ import ru.ylab.service.SessionService;
 import ru.ylab.service.WalletService;
 import ru.ylab.service.impl.SessionServiceImpl;
 import ru.ylab.service.impl.WalletServiceImpl;
+import ru.ylab.util.LiquibaseUtil;
+import ru.ylab.util.impl.LiquibaseUtilImpl;
 import ru.ylab.validator.Validator;
 import ru.ylab.validator.impl.WalletIncomingDtoValidatorImpl;
 
@@ -30,6 +34,7 @@ import java.util.UUID;
 public class WalletServlet extends HttpServlet {
     private final transient SessionService sessionService;
     private final transient WalletService walletService;
+    private final transient LiquibaseUtil liquibaseUtil;
     private final transient Validator<WalletIncomingDto> walletIncomingDtoValidator;
     private final ObjectMapper objectMapper;
 
@@ -37,7 +42,14 @@ public class WalletServlet extends HttpServlet {
         this.walletService = WalletServiceImpl.getInstance();
         this.sessionService = SessionServiceImpl.getInstance();
         this.walletIncomingDtoValidator = WalletIncomingDtoValidatorImpl.getInstance();
+        this.liquibaseUtil = LiquibaseUtilImpl.getInstance();
         this.objectMapper = new ObjectMapper();
+    }
+
+    @Override
+    public void init(ServletConfig config) throws ServletException {
+        super.init(config);
+        liquibaseUtil.init();
     }
 
     /**

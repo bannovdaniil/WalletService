@@ -10,11 +10,15 @@
 
 ##### Tomcat Docker Outer Port: 8081
 
-> mvn -DskipTests=true clean compile package install
+> mvn -DskipTests=true clean compile package install -P "production Service"
 
 > docker-compose build
 
 > docker-compose up -d
+
+#### for test
+
+> mvn clean compile package install -P "test Service"
 
 #### Postman:
 

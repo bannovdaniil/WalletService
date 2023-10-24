@@ -1,5 +1,7 @@
 package ru.ylab.servlet;
 
+import jakarta.servlet.ServletConfig;
+import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -7,6 +9,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import ru.ylab.aop.annotations.Audit;
 import ru.ylab.service.SessionService;
 import ru.ylab.service.impl.SessionServiceImpl;
+import ru.ylab.util.LiquibaseUtil;
+import ru.ylab.util.impl.LiquibaseUtilImpl;
 
 import java.nio.file.AccessDeniedException;
 import java.util.Optional;
@@ -18,11 +22,18 @@ import java.util.UUID;
 @WebServlet(urlPatterns = {"/api/logout"})
 public class LogoutServlet extends HttpServlet {
     private final transient SessionService sessionService;
+    private final transient LiquibaseUtil liquibaseUtil;
 
     public LogoutServlet() {
         this.sessionService = SessionServiceImpl.getInstance();
+        this.liquibaseUtil = LiquibaseUtilImpl.getInstance();
     }
 
+    @Override
+    public void init(ServletConfig config) throws ServletException {
+        super.init(config);
+        liquibaseUtil.init();
+    }
     /**
      * Закончить сессию пользователя.
      */

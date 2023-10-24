@@ -2,6 +2,8 @@ package ru.ylab.servlet;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import jakarta.servlet.ServletConfig;
+import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -13,6 +15,8 @@ import ru.ylab.service.SessionService;
 import ru.ylab.service.TransactionService;
 import ru.ylab.service.impl.SessionServiceImpl;
 import ru.ylab.service.impl.TransactionServiceImpl;
+import ru.ylab.util.LiquibaseUtil;
+import ru.ylab.util.impl.LiquibaseUtilImpl;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -28,16 +32,23 @@ import java.util.UUID;
 public class TransactionServlet extends HttpServlet {
     private final transient TransactionService transactionService;
     private final transient SessionService sessionService;
+    private final transient LiquibaseUtil liquibaseUtil;
 
     private final ObjectMapper objectMapper;
 
     public TransactionServlet() {
         this.transactionService = TransactionServiceImpl.getInstance();
         this.sessionService = SessionServiceImpl.getInstance();
+        this.liquibaseUtil = LiquibaseUtilImpl.getInstance();
         this.objectMapper = new ObjectMapper();
         this.objectMapper.registerModule(new JavaTimeModule());
     }
 
+    @Override
+    public void init(ServletConfig config) throws ServletException {
+        super.init(config);
+        liquibaseUtil.init();
+    }
     /**
      * Получить список транзакций пользователя.
      */

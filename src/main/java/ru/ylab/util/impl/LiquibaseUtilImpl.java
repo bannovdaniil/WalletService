@@ -39,7 +39,8 @@ public class LiquibaseUtilImpl implements LiquibaseUtil {
 
     @Override
     @SuppressWarnings("squid:S1874")
-    public void init() {
+    public synchronized void init() {
+
         try {
             Connection connection = connectionManager.getConnection();
 
