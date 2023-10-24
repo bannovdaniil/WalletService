@@ -30,7 +30,7 @@ import java.util.UUID;
 public class WalletServlet extends HttpServlet {
     private final transient SessionService sessionService;
     private final transient WalletService walletService;
-    private final Validator<WalletIncomingDto> walletIncomingDtoValidator;
+    private final transient Validator<WalletIncomingDto> walletIncomingDtoValidator;
     private final ObjectMapper objectMapper;
 
     public WalletServlet() {

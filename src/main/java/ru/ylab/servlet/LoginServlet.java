@@ -25,7 +25,7 @@ import java.util.UUID;
 @WebServlet(urlPatterns = {"/api/login"})
 public class LoginServlet extends HttpServlet {
     private final transient SessionService sessionService;
-    private final Validator<UserLoginDto> userLoginDtoValidator;
+    private final transient Validator<UserLoginDto> userLoginDtoValidator;
 
     private final ObjectMapper objectMapper;
 

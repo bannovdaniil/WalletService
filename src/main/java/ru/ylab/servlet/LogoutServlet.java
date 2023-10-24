@@ -8,6 +8,7 @@ import ru.ylab.aop.annotations.Audit;
 import ru.ylab.service.SessionService;
 import ru.ylab.service.impl.SessionServiceImpl;
 
+import java.nio.file.AccessDeniedException;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -34,7 +35,12 @@ public class LogoutServlet extends HttpServlet {
             Optional<UUID> sessionId = sessionService.getUuidFromCookie(req.getCookies());
             if (sessionId.isPresent() && sessionService.isActive(sessionId.get())) {
                 sessionService.logout(sessionId.get());
+                resp.setStatus(HttpServletResponse.SC_OK);
+            } else {
+                throw new AccessDeniedException("Forbidden");
             }
+        } catch (AccessDeniedException e) {
+            resp.setStatus(HttpServletResponse.SC_FORBIDDEN);
         } catch (Exception e) {
             resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }

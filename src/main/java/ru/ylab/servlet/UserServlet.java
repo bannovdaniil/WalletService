@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import ru.ylab.aop.annotations.Audit;
 import ru.ylab.exception.ErrorHeader;
+import ru.ylab.exception.NotFoundException;
 import ru.ylab.model.dto.UserIncomingDto;
 import ru.ylab.model.dto.UserOutDto;
 import ru.ylab.service.SessionService;
@@ -31,7 +32,7 @@ import java.util.UUID;
 public class UserServlet extends HttpServlet {
     private final transient UserService userService;
     private final transient SessionService sessionService;
-    private final Validator<UserIncomingDto> userIncomingDtoValidator;
+    private final transient Validator<UserIncomingDto> userIncomingDtoValidator;
 
     private final ObjectMapper objectMapper;
 
@@ -70,6 +71,9 @@ public class UserServlet extends HttpServlet {
             }
         } catch (AccessDeniedException e) {
             resp.setStatus(HttpServletResponse.SC_FORBIDDEN);
+            responseAnswer = objectMapper.writeValueAsString(new ErrorHeader(e.getMessage()));
+        } catch (NotFoundException e) {
+            resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
             responseAnswer = objectMapper.writeValueAsString(new ErrorHeader(e.getMessage()));
         } catch (Exception e) {
             resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);

@@ -26,9 +26,9 @@ public class AuditAspect {
     private final SessionService sessionService = SessionServiceImpl.getInstance();
 
     /**
-     * Замеряем время для метода "UserRepositoryImpl.Save"
+     * Замеряем время для метода "BalanceDto.getBalance"
      */
-    @Pointcut("within(ru.ylab.repository.impl.UserRepositoryImpl) && execution(* save(..))")
+    @Pointcut("within(ru.ylab.model.dto.BalanceDto) && execution(* getBalance(..))")
     public void hookMethodTime() {
     }
 
