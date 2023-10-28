@@ -1,9 +1,5 @@
 package ru.ylab.model;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.Setter;
-
 /**
  * Пользователь - он же игрок
  * firstName - имя
@@ -11,20 +7,16 @@ import lombok.Setter;
  * hashPassword - хеш пароля игрока
  * wallet - счет игрока
  */
-@Getter
-@Setter()
-public class User extends Entity {
-    @Setter(AccessLevel.NONE)
+public class User {
+    private final Long id;
     private final String firstName;
-    @Setter(AccessLevel.NONE)
     private final String lastName;
-    @Setter(AccessLevel.NONE)
-    private final String hashPassword;
+    private String hashPassword;
     private Wallet wallet;
 
     public User(Long id, String firstName, String lastName, String hashPassword, Wallet wallet) {
-        this.hashPassword = hashPassword;
         this.id = id;
+        this.hashPassword = hashPassword;
         this.firstName = firstName;
         this.lastName = lastName;
         this.wallet = wallet;
@@ -37,5 +29,33 @@ public class User extends Entity {
                 firstName,
                 lastName,
                 wallet);
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public String getHashPassword() {
+        return hashPassword;
+    }
+
+    public void setHashPassword(String hashPassword) {
+        this.hashPassword = hashPassword;
+    }
+
+    public Wallet getWallet() {
+        return wallet;
+    }
+
+    public void setWallet(Wallet wallet) {
+        this.wallet = wallet;
     }
 }

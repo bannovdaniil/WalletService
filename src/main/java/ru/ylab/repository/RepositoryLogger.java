@@ -1,7 +1,5 @@
 package ru.ylab.repository;
 
-import ru.ylab.model.Entity;
-
 import java.util.List;
 
 /**
@@ -9,7 +7,7 @@ import java.util.List;
  *
  * @param <T> тип
  */
-public interface RepositoryLogger<T extends Entity> {
+public interface RepositoryLogger<T> {
     T save(T t);
 
     List<T> findAll();

@@ -33,7 +33,7 @@ class ActionServiceTest {
 
     @AfterAll
     static void afterAll() throws Exception {
-        Field instance = ActionServiceImpl.class.getDeclaredField("instance");
+        Field instance = ActionRepositoryImpl.class.getDeclaredField("instance");
         instance.setAccessible(true);
         instance.set(instance, null);
     }

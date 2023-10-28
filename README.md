@@ -6,15 +6,109 @@
 
 ##### Postgres Docker Outer Port: 54320
 
+##### TestContainers Postgres Docker Outer Port: 54321
+
+##### Tomcat Docker Outer Port: 8081
+
+> mvn -DskipTests=true clean compile package install -P "production Service"
+
+> docker-compose build
+
 > docker-compose up -d
 
-> ~~mvn clean package install~~
+#### for test
 
-> ~~java -jar ./target/WalletService-1.0-SNAPSHOT.jar~~
+> mvn clean compile package install -P "test Service"
 
-> Open project on IDE and Run Main.java
+#### Postman:
+
+for Localhost:
+_**postman v2.1: postman/wallet_service_port-8080.postman_collection.json**_
+
+for Docker:
+_**postman v2.1: postman/wallet_service_port-8081.postman_collection.json**_
+
+
+#### Open in browser:
+
+#### Login
+
+> POST http://localhost:8081/api/login
+
+json:
+> {
+> "userId": "123",
+> "password": "password"
+> }
+
+#### Logout
+
+> GET http://localhost:8081/api/login
+
+#### User actions (logged user only)
+
+> GET http://localhost:8081/api/action
+
+#### User transaction (logged user only)
+
+> GET http://localhost:8081/api/transaction
+
+#### Get all users list (logged user only)
+
+> GET http://localhost:8081/api/user/all
+
+#### Get users information By ID (logged user only)
+
+> GET http://localhost:8081/api/user/{ID}
+
+#### Logged user show balance (logged user only)
+
+> GET http://localhost:8081/api/wallet
+
+#### Logged user PUT money (logged user only)
+
+> PUT http://localhost:8081/api/wallet
+
+json:
+> {
+> "type": "PUT",
+> "sum": "100.12"
+> }
+
+#### Logged user GET money (logged user only)
+
+> PUT http://localhost:8081/api/wallet
+
+json:
+> {
+> "type": "GET",
+> "sum": "100.12"
+> }
+
+
 
 Enter number for navigate menu.
+
+## ДЗ №3
+
+### Домашнее задание №3 - Wallet-Service
+
+- Необходимо обновить сервис, который вы разработали в первом задании согласно следующим требованиям и ограничениям
+
+### Требования:
+
+- Все взаимодействие должно теперь осуществляться через отправку HTTP запросов
+- Сервлеты должны принимать JSON и отдавать также JSON
+- Использовать понятное именование эндпоинтов
+- Возвращать разные статус-коды
+- Добавить DTO (если ранее не было заложено)
+- Для маппинга сущностей в дто использовать MapStruct
+- Реализовать валидацию входящих ДТО
+- Аудит переделать на аспекты
+- Также реализовать на аспектах выполнение любого метода (с замером времени выполнения)
+- Сервлеты должны быть покрыты тестами
+- Метод логина должен выдавать JWT, остальные методы должны быть авторизационными и валидировать JWT
+- (В требования добавляется выдача токена и авторизация последующих запросов.)
 
 ## ДЗ №2
 
@@ -68,3 +162,5 @@ Enter number for navigate menu.
 Unit-тестирование
 
 добавил github workflows
+добавил lombok
+добавил postman test

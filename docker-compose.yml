@@ -1,17 +1,34 @@
 version: "3.8"
 services:
-  postgres:
-    container_name: "postgres"
+  tomcat-service:
+    build: .
+    container_name: tomcat_application
+    restart: on-failure
+    ports:
+      - 8081:8080
+    depends_on:
+      postgres-service:
+        condition: service_healthy
+    environment:
+      - WAIT_HOSTS=postgres-service:54320
+      - DATASOURCE_URL=jdbc:postgresql://postgres-service:54320/wallet_db
+      - POSTGRES_USER=sa
+      - POSTGRES_PASSWORD=password
+
+  postgres-service:
+    container_name: postgres_service
     image: postgres:15-alpine
     restart: always
     ports:
-      - "54320:5432"
+      - "54320:54320"
     environment:
       POSTGRES_DB: wallet_db
       POSTGRES_USER: sa
       POSTGRES_PASSWORD: password
     healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -h localhost -p 5432 -d wallet_db -U sa" ]
+      test: [ "CMD-SHELL", "pg_isready -h localhost -p 54320 -d wallet_db -U sa" ]
       interval: 10s
       timeout: 5s
       retries: 5
+    command:
+      -p 54320

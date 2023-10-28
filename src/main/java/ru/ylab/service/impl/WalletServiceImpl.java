@@ -1,27 +1,34 @@
 package ru.ylab.service.impl;
 
 import ru.ylab.exception.NotFoundException;
-import ru.ylab.model.Transaction;
-import ru.ylab.model.TransactionType;
-import ru.ylab.model.User;
-import ru.ylab.model.Wallet;
+import ru.ylab.model.*;
+import ru.ylab.model.dto.BalanceDto;
+import ru.ylab.model.dto.WalletIncomingDto;
+import ru.ylab.repository.SessionRepository;
 import ru.ylab.repository.TransactionRepository;
+import ru.ylab.repository.UserRepository;
 import ru.ylab.repository.WalletRepository;
+import ru.ylab.repository.impl.SessionRepositoryImpl;
 import ru.ylab.repository.impl.TransactionRepositoryImpl;
+import ru.ylab.repository.impl.UserRepositoryImpl;
 import ru.ylab.repository.impl.WalletRepositoryImpl;
 import ru.ylab.service.WalletService;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.UUID;
+
+import static ru.ylab.Constants.REGEXP_FORMAT_MONEY;
 
 /**
  * Бизнес логика работы со счетами пользователя.
  */
 public class WalletServiceImpl implements WalletService {
-    private static final String REGEXP_FORMAT_MONEY = "^\\d*([\\.,]\\d{1,2})?$";
     private static WalletService instance;
     private final WalletRepository walletRepository = WalletRepositoryImpl.getInstance();
     private final TransactionRepository transactionRepository = TransactionRepositoryImpl.getInstance();
+    private final SessionRepository sessionRepository = SessionRepositoryImpl.getInstance();
+    private final UserRepository userRepository = UserRepositoryImpl.getInstance();
 
     private WalletServiceImpl() {
     }
@@ -40,8 +47,13 @@ public class WalletServiceImpl implements WalletService {
         );
     }
 
-    @Override
-    public Wallet putMoney(User user, String moneyValue) throws NotFoundException {
+    /**
+     * Внести деньги на счет
+     *
+     * @param user       - владелец счета
+     * @param moneyValue - сумма
+     */
+    private Wallet putMoney(User user, String moneyValue) throws NotFoundException {
         if (moneyValue.matches(REGEXP_FORMAT_MONEY) && user != null && user.getWallet() != null) {
             BigDecimal addValue = new BigDecimal(moneyValue.replace(",", "."));
 
@@ -65,8 +77,13 @@ public class WalletServiceImpl implements WalletService {
         throw new IllegalArgumentException("Bad arguments");
     }
 
-    @Override
-    public Wallet getMoney(User user, String moneyValue) throws NotFoundException {
+    /**
+     * Снять деньги со счета
+     *
+     * @param user       - владелец счета
+     * @param moneyValue - сумма
+     */
+    private Wallet getMoney(User user, String moneyValue) throws NotFoundException {
         if (moneyValue.matches(REGEXP_FORMAT_MONEY) && user != null && user.getWallet() != null) {
             BigDecimal subtractValue = new BigDecimal(moneyValue.replace(",", "."));
 
@@ -95,4 +112,35 @@ public class WalletServiceImpl implements WalletService {
         throw new IllegalArgumentException("Bad arguments");
     }
 
+    @Override
+    public BalanceDto getBalance(UUID sessionId) {
+        User user = getUserFromSession(sessionId);
+        return new BalanceDto(
+                walletRepository.findById(user.getWallet().getId()).orElseThrow().getBalance()
+        );
+    }
+
+    @Override
+    public BalanceDto changeBalance(UUID sessionId, WalletIncomingDto dto) throws NotFoundException {
+        User user = getUserFromSession(sessionId);
+        switch (dto.getType()) {
+            case GET:
+                getMoney(user, dto.getSum());
+                break;
+            case PUT:
+                putMoney(user, dto.getSum());
+                break;
+            default:
+                throw new IllegalArgumentException("Do not allow this method.");
+        }
+
+        return new BalanceDto(
+                walletRepository.findById(user.getWallet().getId()).orElseThrow().getBalance()
+        );
+    }
+
+    private User getUserFromSession(UUID sessionId) {
+        Session session = sessionRepository.findById(sessionId).orElseThrow();
+        return userRepository.findById(session.getUserId()).orElseThrow();
+    }
 }

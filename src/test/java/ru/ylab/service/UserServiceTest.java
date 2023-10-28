@@ -5,6 +5,7 @@ import org.mockito.Mockito;
 import ru.ylab.exception.NotFoundException;
 import ru.ylab.model.User;
 import ru.ylab.model.dto.UserIncomingDto;
+import ru.ylab.model.dto.UserOutDto;
 import ru.ylab.repository.UserRepository;
 import ru.ylab.repository.WalletRepository;
 import ru.ylab.repository.impl.UserRepositoryImpl;
@@ -21,17 +22,13 @@ class UserServiceTest {
     private static UserService userService;
     private static UserRepository mockUserRepository;
     private static WalletRepository mockWalletRepository;
-    private static UserRepositoryImpl oldInstanceUserRepositoryImpl;
-    private static UserRepository oldInstanceUserRepository;
-    private static WalletRepositoryImpl oldWalletRepositoryInstance;
-    private static UserServiceImpl oldUserServiceImpl;
+
     private static PasswordEncoder passwordEncoder = PasswordEncoderSha256Impl.getInstance();
 
     private static void setMock(UserRepository mock) {
         try {
             Field instance = UserRepositoryImpl.class.getDeclaredField("instance");
             instance.setAccessible(true);
-            oldInstanceUserRepositoryImpl = (UserRepositoryImpl) instance.get(instance);
             instance.set(instance, mock);
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -42,7 +39,6 @@ class UserServiceTest {
         try {
             Field instance = WalletRepositoryImpl.class.getDeclaredField("instance");
             instance.setAccessible(true);
-            oldWalletRepositoryInstance = (WalletRepositoryImpl) instance.get(instance);
             instance.set(instance, mock);
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -56,10 +52,6 @@ class UserServiceTest {
         mockWalletRepository = Mockito.mock(WalletRepository.class);
         setMock(mockWalletRepository);
 
-        Field instance = UserServiceImpl.class.getDeclaredField("instance");
-        instance.setAccessible(true);
-        oldUserServiceImpl = (UserServiceImpl) instance.get(instance);
-
         userService = UserServiceImpl.getInstance();
     }
 
@@ -67,15 +59,15 @@ class UserServiceTest {
     static void afterAll() throws Exception {
         Field instance = UserRepositoryImpl.class.getDeclaredField("instance");
         instance.setAccessible(true);
-        instance.set(instance, oldInstanceUserRepositoryImpl);
+        instance.set(instance, null);
 
         instance = WalletRepositoryImpl.class.getDeclaredField("instance");
         instance.setAccessible(true);
-        instance.set(instance, oldWalletRepositoryInstance);
+        instance.set(instance, null);
 
         instance = UserServiceImpl.class.getDeclaredField("instance");
         instance.setAccessible(true);
-        instance.set(instance, oldUserServiceImpl);
+        instance.set(instance, null);
     }
 
     @BeforeEach
@@ -87,9 +79,9 @@ class UserServiceTest {
     @Test
     void add() throws NotFoundException {
         Long expectedId = 1L;
-
         UserIncomingDto dto = new UserIncomingDto("f1 name", "l1 name", "password");
-        User user = new User(expectedId,
+        User user = new User(
+                expectedId,
                 "f1 name",
                 "l1 name",
                 passwordEncoder.encode("password"),
@@ -99,7 +91,7 @@ class UserServiceTest {
         Mockito.doReturn(user).when(mockUserRepository).save(Mockito.any(User.class));
         Mockito.doReturn(Optional.of(user)).when(mockUserRepository).findById(Mockito.anyLong());
 
-        User result = userService.add(dto);
+        UserOutDto result = userService.add(dto);
 
         Assertions.assertEquals(expectedId, result.getId());
     }
@@ -117,7 +109,7 @@ class UserServiceTest {
 
         Mockito.doReturn(user).when(mockUserRepository).findById(Mockito.anyLong());
 
-        User result = userService.findById(expectedId);
+        UserOutDto result = userService.findById(expectedId);
 
         Assertions.assertEquals(expectedId, result.getId());
     }
