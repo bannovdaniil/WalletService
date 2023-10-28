@@ -1,7 +1,8 @@
 package ru.ylab.repository.impl;
 
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Repository;
 import ru.ylab.db.ConnectionManager;
-import ru.ylab.db.impl.ConnectionManagerImpl;
 import ru.ylab.exception.RepositoryException;
 import ru.ylab.model.Transaction;
 import ru.ylab.model.TransactionType;
@@ -15,6 +16,8 @@ import java.util.List;
 /**
  * Репозиторий для управления Transaction
  */
+@Repository
+@RequiredArgsConstructor
 public final class TransactionRepositoryImpl implements TransactionRepository {
     private static final String SAVE_SQL = """
             INSERT INTO transactions (transaction_time, transaction_type, transaction_sum, user_id)
@@ -23,15 +26,7 @@ public final class TransactionRepositoryImpl implements TransactionRepository {
     private static final String FIND_ALL_SQL = """
             SELECT transaction_id, transaction_time, transaction_type, transaction_sum, user_id FROM transactions;
             """;
-    private static TransactionRepository instance;
-    private final ConnectionManager connectionManager = ConnectionManagerImpl.getInstance();
-
-    public static synchronized TransactionRepository getInstance() {
-        if (instance == null) {
-            instance = new TransactionRepositoryImpl();
-        }
-        return instance;
-    }
+    private final ConnectionManager connectionManager;
 
     @Override
     public Transaction save(Transaction transaction) {

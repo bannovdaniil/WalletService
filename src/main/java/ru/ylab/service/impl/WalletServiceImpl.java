@@ -1,5 +1,7 @@
 package ru.ylab.service.impl;
 
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 import ru.ylab.exception.NotFoundException;
 import ru.ylab.model.*;
 import ru.ylab.model.dto.BalanceDto;
@@ -8,10 +10,6 @@ import ru.ylab.repository.SessionRepository;
 import ru.ylab.repository.TransactionRepository;
 import ru.ylab.repository.UserRepository;
 import ru.ylab.repository.WalletRepository;
-import ru.ylab.repository.impl.SessionRepositoryImpl;
-import ru.ylab.repository.impl.TransactionRepositoryImpl;
-import ru.ylab.repository.impl.UserRepositoryImpl;
-import ru.ylab.repository.impl.WalletRepositoryImpl;
 import ru.ylab.service.WalletService;
 
 import java.math.BigDecimal;
@@ -23,22 +21,13 @@ import static ru.ylab.Constants.REGEXP_FORMAT_MONEY;
 /**
  * Бизнес логика работы со счетами пользователя.
  */
+@Service
+@RequiredArgsConstructor
 public class WalletServiceImpl implements WalletService {
-    private static WalletService instance;
-    private final WalletRepository walletRepository = WalletRepositoryImpl.getInstance();
-    private final TransactionRepository transactionRepository = TransactionRepositoryImpl.getInstance();
-    private final SessionRepository sessionRepository = SessionRepositoryImpl.getInstance();
-    private final UserRepository userRepository = UserRepositoryImpl.getInstance();
-
-    private WalletServiceImpl() {
-    }
-
-    public static synchronized WalletService getInstance() {
-        if (instance == null) {
-            instance = new WalletServiceImpl();
-        }
-        return instance;
-    }
+    private final WalletRepository walletRepository;
+    private final TransactionRepository transactionRepository;
+    private final SessionRepository sessionRepository;
+    private final UserRepository userRepository;
 
     @Override
     public Wallet findById(Long walletId) throws NotFoundException {

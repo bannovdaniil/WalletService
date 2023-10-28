@@ -1,5 +1,6 @@
 package ru.ylab.util.impl;
 
+import org.springframework.stereotype.Component;
 import ru.ylab.exception.HashAlgorithmException;
 import ru.ylab.util.PasswordEncoder;
 
@@ -10,23 +11,16 @@ import java.security.NoSuchAlgorithmException;
 /**
  * Реализация шифрования пароля с помощью sha256
  */
+@Component
 public class PasswordEncoderSha256Impl implements PasswordEncoder {
-    private static PasswordEncoder instance;
     MessageDigest digest;
 
-    private PasswordEncoderSha256Impl() {
+    public PasswordEncoderSha256Impl() {
         try {
             digest = MessageDigest.getInstance("SHA-256");
         } catch (NoSuchAlgorithmException e) {
             throw new HashAlgorithmException("Алгоритм шифрования не найден.");
         }
-    }
-
-    public static synchronized PasswordEncoder getInstance() {
-        if (instance == null) {
-            instance = new PasswordEncoderSha256Impl();
-        }
-        return instance;
     }
 
     public String encode(String password) {

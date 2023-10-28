@@ -1,5 +1,6 @@
 package ru.ylab.util.impl;
 
+import org.springframework.stereotype.Component;
 import ru.ylab.util.PropertiesUtil;
 
 import java.io.InputStream;
@@ -8,6 +9,7 @@ import java.util.Properties;
 /**
  * {@inheritDoc}
  */
+@Component
 public final class ApplicationPropertiesUtilImpl implements PropertiesUtil {
     public static final String DRIVER_CLASS_KEY = "db.driver-class-name";
     public static final String URL_KEY = "DATASOURCE_URL";
@@ -20,18 +22,6 @@ public final class ApplicationPropertiesUtilImpl implements PropertiesUtil {
      * Имя файла для загрузки свойств.
      */
     private static final String PROPERTIES_FILE = "application.properties";
-    private static PropertiesUtil instance;
-
-    private ApplicationPropertiesUtilImpl() {
-        loadProperties();
-    }
-
-    public static synchronized PropertiesUtil getInstance() {
-        if (instance == null) {
-            instance = new ApplicationPropertiesUtilImpl();
-        }
-        return instance;
-    }
 
     @Override
     public String getProperties(String key) {
@@ -41,6 +31,7 @@ public final class ApplicationPropertiesUtilImpl implements PropertiesUtil {
         if (System.getProperty(key) != null) {
             return System.getProperty(key);
         }
+        loadProperties();
         return PROPERTIES.getProperty(key);
     }
 

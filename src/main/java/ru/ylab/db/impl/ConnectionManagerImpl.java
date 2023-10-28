@@ -1,5 +1,7 @@
 package ru.ylab.db.impl;
 
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 import ru.ylab.db.ConnectionManager;
 import ru.ylab.exception.DataBaseDriverLoadException;
 import ru.ylab.util.PropertiesUtil;
@@ -12,24 +14,15 @@ import java.sql.SQLException;
 /**
  * {@inheritDoc}
  */
+@Component
+@RequiredArgsConstructor
 public final class ConnectionManagerImpl implements ConnectionManager {
-    private static PropertiesUtil propertiesUtil;
-    private static ConnectionManager instance;
+    private final PropertiesUtil propertiesUtil;
 
-    private ConnectionManagerImpl() {
-    }
-
-    public static synchronized ConnectionManager getInstance() {
-        if (instance == null) {
-            instance = new ConnectionManagerImpl();
-            propertiesUtil = ApplicationPropertiesUtilImpl.getInstance();
-            loadDriver(propertiesUtil.getProperties(ApplicationPropertiesUtilImpl.DRIVER_CLASS_KEY));
-        }
-        return instance;
-    }
-
-    private static void loadDriver(String driverClass) {
-        ApplicationPropertiesUtilImpl.getInstance();
+    /**
+     * Подгружаем драйвер
+     */
+    private void loadDriver(String driverClass) {
         try {
             Class.forName(driverClass);
         } catch (ClassNotFoundException e) {
@@ -45,6 +38,7 @@ public final class ConnectionManagerImpl implements ConnectionManager {
     @Override
     @SuppressWarnings("squid:S2095")
     public Connection getConnection() throws SQLException {
+        loadDriver(propertiesUtil.getProperties(ApplicationPropertiesUtilImpl.DRIVER_CLASS_KEY));
         Connection connection = DriverManager.getConnection(
                 propertiesUtil.getProperties(ApplicationPropertiesUtilImpl.URL_KEY),
                 propertiesUtil.getProperties(ApplicationPropertiesUtilImpl.USERNAME_KEY),

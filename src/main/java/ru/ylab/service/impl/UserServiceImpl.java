@@ -1,5 +1,7 @@
 package ru.ylab.service.impl;
 
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 import ru.ylab.exception.NotFoundException;
 import ru.ylab.mapper.UserMapper;
 import ru.ylab.model.User;
@@ -8,11 +10,8 @@ import ru.ylab.model.dto.UserIncomingDto;
 import ru.ylab.model.dto.UserOutDto;
 import ru.ylab.repository.UserRepository;
 import ru.ylab.repository.WalletRepository;
-import ru.ylab.repository.impl.UserRepositoryImpl;
-import ru.ylab.repository.impl.WalletRepositoryImpl;
 import ru.ylab.service.UserService;
 import ru.ylab.util.PasswordEncoder;
-import ru.ylab.util.impl.PasswordEncoderSha256Impl;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -20,22 +19,13 @@ import java.util.List;
 /**
  * Бизнес логика работы с пользователями
  */
+@Service
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
     private static final UserMapper userMapper = UserMapper.INSTANCE;
-    private static UserService instance;
-    private final UserRepository userRepository = UserRepositoryImpl.getInstance();
-    private final WalletRepository walletRepository = WalletRepositoryImpl.getInstance();
-    private final PasswordEncoder passwordEncoder = PasswordEncoderSha256Impl.getInstance();
-
-    private UserServiceImpl() {
-    }
-
-    public static synchronized UserService getInstance() {
-        if (instance == null) {
-            instance = new UserServiceImpl();
-        }
-        return instance;
-    }
+    private final UserRepository userRepository;
+    private final WalletRepository walletRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public UserOutDto add(UserIncomingDto dto) throws NotFoundException {

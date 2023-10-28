@@ -1,7 +1,8 @@
 package ru.ylab.repository.impl;
 
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Repository;
 import ru.ylab.db.ConnectionManager;
-import ru.ylab.db.impl.ConnectionManagerImpl;
 import ru.ylab.exception.RepositoryException;
 import ru.ylab.model.Action;
 import ru.ylab.repository.ActionRepository;
@@ -14,7 +15,10 @@ import java.util.List;
 /**
  * Репозиторий для управления Action
  */
+@Repository
+@RequiredArgsConstructor
 public final class ActionRepositoryImpl implements ActionRepository {
+    private final ConnectionManager connectionManager;
     private static final String SAVE_SQL = """
             INSERT INTO actions (action_time, action_action, action_information, user_id)
             VALUES (?, ?, ?, ?) ;
@@ -22,18 +26,6 @@ public final class ActionRepositoryImpl implements ActionRepository {
     private static final String FIND_ALL_SQL = """
             SELECT action_id, action_time, action_action, action_information, user_id FROM actions;
             """;
-    private static ActionRepository instance;
-    private final ConnectionManager connectionManager = ConnectionManagerImpl.getInstance();
-
-    private ActionRepositoryImpl() {
-    }
-
-    public static synchronized ActionRepository getInstance() {
-        if (instance == null) {
-            instance = new ActionRepositoryImpl();
-        }
-        return instance;
-    }
 
     @Override
     public Action save(Action action) {

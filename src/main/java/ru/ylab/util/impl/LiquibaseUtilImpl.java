@@ -6,8 +6,9 @@ import liquibase.database.DatabaseFactory;
 import liquibase.database.jvm.JdbcConnection;
 import liquibase.exception.LiquibaseException;
 import liquibase.resource.ClassLoaderResourceAccessor;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 import ru.ylab.db.ConnectionManager;
-import ru.ylab.db.impl.ConnectionManagerImpl;
 import ru.ylab.exception.DatabaseConnectionException;
 import ru.ylab.exception.LiquibaseProcessException;
 import ru.ylab.util.LiquibaseUtil;
@@ -20,22 +21,12 @@ import java.sql.Statement;
 /**
  * {@inheritDoc}
  */
+@Component
+@RequiredArgsConstructor
 public class LiquibaseUtilImpl implements LiquibaseUtil {
+    private final PropertiesUtil propertiesUtil;
+    private final ConnectionManager connectionManager;
     private static final String CHANGE_LOGFILE_NAME = "db/changelog/changelog.xml";
-    private static LiquibaseUtil instance;
-    private static PropertiesUtil propertiesUtil;
-    private final ConnectionManager connectionManager = ConnectionManagerImpl.getInstance();
-
-    private LiquibaseUtilImpl() {
-    }
-
-    public static synchronized LiquibaseUtil getInstance() {
-        if (instance == null) {
-            propertiesUtil = ApplicationPropertiesUtilImpl.getInstance();
-            instance = new LiquibaseUtilImpl();
-        }
-        return instance;
-    }
 
     @Override
     @SuppressWarnings("squid:S1874")

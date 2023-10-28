@@ -1,8 +1,9 @@
 package ru.ylab.service.impl;
 
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 import ru.ylab.model.Action;
 import ru.ylab.repository.ActionRepository;
-import ru.ylab.repository.impl.ActionRepositoryImpl;
 import ru.ylab.service.ActionService;
 
 import java.util.List;
@@ -10,19 +11,10 @@ import java.util.List;
 /**
  * Бизнес логика Action Событий которые делает пользователь.
  */
+@Service
+@RequiredArgsConstructor
 public class ActionServiceImpl implements ActionService {
-    private static ActionService instance;
-    private ActionRepository actionRepository = ActionRepositoryImpl.getInstance();
-
-    private ActionServiceImpl() {
-    }
-
-    public static synchronized ActionService getInstance() {
-        if (instance == null) {
-            instance = new ActionServiceImpl();
-        }
-        return instance;
-    }
+    private final ActionRepository actionRepository;
 
     @Override
     public Action add(Action action) {
