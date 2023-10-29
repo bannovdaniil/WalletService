@@ -34,11 +34,11 @@ import java.util.Optional;
 @TestConstructor(autowireMode = TestConstructor.AutowireMode.ALL)
 @ContextConfiguration(classes = TestApplicationConfig.class)
 class ActionRepositoryImplTest {
+    private static final int containerPort = 5432;
+    private static final int localPort = 54321;
     private final PropertiesUtil propertiesUtil;
     private final LiquibaseUtil liquibaseUtil;
     private final ActionRepository actionRepository;
-    private static final int containerPort = 5432;
-    private static final int localPort = 54321;
     @Container
     public PostgreSQLContainer<?> container;
 

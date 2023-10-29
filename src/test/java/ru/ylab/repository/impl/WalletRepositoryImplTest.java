@@ -37,11 +37,11 @@ import java.util.Optional;
 @ContextConfiguration(classes = TestApplicationConfig.class)
 class WalletRepositoryImplTest {
 
+    private static final int containerPort = 5432;
+    private static final int localPort = 54321;
     private final PropertiesUtil propertiesUtil;
     private final LiquibaseUtil liquibaseUtil;
     private final WalletRepository walletRepository;
-    private static final int containerPort = 5432;
-    private static final int localPort = 54321;
     @Container
     public PostgreSQLContainer<?> container;
 
