@@ -2,10 +2,10 @@ package ru.ylab.model.dto;
 
 import java.math.BigDecimal;
 
-public class BalanceDto {
+public class WalletOutDto {
     private BigDecimal balance;
 
-    public BalanceDto(BigDecimal balance) {
+    public WalletOutDto(BigDecimal balance) {
         this.balance = balance;
     }
 

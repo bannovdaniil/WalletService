@@ -8,7 +8,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.ylab.Constants;
 import ru.ylab.exception.ErrorHeader;
-import ru.ylab.model.dto.BalanceDto;
+import ru.ylab.model.dto.WalletOutDto;
 import ru.ylab.model.dto.WalletIncomingDto;
 import ru.ylab.service.SessionService;
 import ru.ylab.service.WalletService;
@@ -37,8 +37,8 @@ public class WalletController {
         try {
             Optional<UUID> sessionId = sessionService.getUuidFromCookie(cookie);
             if (sessionId.isPresent() && sessionService.isActive(sessionId.get())) {
-                BalanceDto balanceDto = walletService.getBalance(sessionId.get());
-                return ResponseEntity.ok(balanceDto);
+                WalletOutDto walletOutDto = walletService.getBalance(sessionId.get());
+                return ResponseEntity.ok(walletOutDto);
             } else {
                 throw new AccessDeniedException("Forbidden");
             }
@@ -60,8 +60,8 @@ public class WalletController {
             Optional<UUID> sessionId = sessionService.getUuidFromCookie(cookie);
             if (sessionId.isPresent() && sessionService.isActive(sessionId.get())) {
 
-                BalanceDto balanceDto = walletService.changeBalance(sessionId.get(), incomingDto);
-                return ResponseEntity.ok(balanceDto);
+                WalletOutDto walletOutDto = walletService.changeBalance(sessionId.get(), incomingDto);
+                return ResponseEntity.ok(walletOutDto);
             } else {
                 throw new AccessDeniedException("Forbidden");
             }

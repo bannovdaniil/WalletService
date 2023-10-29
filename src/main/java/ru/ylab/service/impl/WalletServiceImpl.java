@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.ylab.exception.NotFoundException;
 import ru.ylab.model.*;
-import ru.ylab.model.dto.BalanceDto;
+import ru.ylab.model.dto.WalletOutDto;
 import ru.ylab.model.dto.WalletIncomingDto;
 import ru.ylab.repository.SessionRepository;
 import ru.ylab.repository.TransactionRepository;
@@ -102,15 +102,15 @@ public class WalletServiceImpl implements WalletService {
     }
 
     @Override
-    public BalanceDto getBalance(UUID sessionId) {
+    public WalletOutDto getBalance(UUID sessionId) {
         User user = getUserFromSession(sessionId);
-        return new BalanceDto(
+        return new WalletOutDto(
                 walletRepository.findById(user.getWallet().getId()).orElseThrow().getBalance()
         );
     }
 
     @Override
-    public BalanceDto changeBalance(UUID sessionId, WalletIncomingDto dto) throws NotFoundException {
+    public WalletOutDto changeBalance(UUID sessionId, WalletIncomingDto dto) throws NotFoundException {
         User user = getUserFromSession(sessionId);
         switch (dto.getType()) {
             case GET:
@@ -123,7 +123,7 @@ public class WalletServiceImpl implements WalletService {
                 throw new IllegalArgumentException("Do not allow this method.");
         }
 
-        return new BalanceDto(
+        return new WalletOutDto(
                 walletRepository.findById(user.getWallet().getId()).orElseThrow().getBalance()
         );
     }
