@@ -3,6 +3,8 @@ package ru.ylab.model.dto;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
 /**
  * Входящее DTO используется при создании пользователя.
@@ -13,6 +15,8 @@ import jakarta.validation.constraints.Size;
  * Проверка пароля.
  */
 
+@Getter
+@AllArgsConstructor
 public class UserIncomingDto {
     @NotNull
     @NotBlank
@@ -27,24 +31,4 @@ public class UserIncomingDto {
     @Size(min = 1)
     private String password;
 
-    public UserIncomingDto() {
-    }
-
-    public UserIncomingDto(String firstName, String lastName, String password) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.password = password;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public String getPassword() {
-        return password;
-    }
 }

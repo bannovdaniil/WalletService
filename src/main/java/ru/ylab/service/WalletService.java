@@ -10,10 +10,6 @@ import java.util.UUID;
 public interface WalletService {
     /**
      * Найти счет по его ID
-     *
-     * @param walletId
-     * @return
-     * @throws NotFoundException
      */
     Wallet findById(Long walletId) throws NotFoundException;
 

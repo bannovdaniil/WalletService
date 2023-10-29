@@ -1,6 +1,5 @@
 package ru.ylab.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -24,7 +23,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)
 class LogoutControllerTest {
-    private final ObjectMapper mapper = new ObjectMapper();
     @Mock
     private SessionService mockSessionService;
     @InjectMocks

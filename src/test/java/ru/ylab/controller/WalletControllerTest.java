@@ -66,7 +66,7 @@ class WalletControllerTest {
         mvc.perform(get("/api/wallet"))
                 .andExpect(status().isOk())
                 .andDo(print())
-                .andExpect(jsonPath("$.balance").value(outDto.getBalance()));
+                .andExpect(jsonPath("$.balance").value(outDto.balance()));
 
     }
 
@@ -83,7 +83,7 @@ class WalletControllerTest {
                         .accept(MediaType.APPLICATION_JSON)
                 )
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.balance").value(outDto.getBalance()));
+                .andExpect(jsonPath("$.balance").value(outDto.balance()));
     }
 
 }

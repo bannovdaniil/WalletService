@@ -22,14 +22,14 @@ class WalletIncomingDtoValidatorImplTest {
     })
     void isValid(String type, String sum, Boolean exceptedValue) {
         WalletIncomingDtoValidatorImpl dtoValidator = new WalletIncomingDtoValidatorImpl();
-        WalletIncomingDto dto = null;
+        WalletIncomingDto dto;
         try {
             dto = new WalletIncomingDto(
                     BalanceType.valueOf(type),
                     sum
             );
         } catch (Throwable ex) {
-
+            dto = null;
         }
 
         Assertions.assertEquals(exceptedValue, dtoValidator.isValid(dto, null));

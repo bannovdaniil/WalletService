@@ -170,9 +170,7 @@ class UserRepositoryImplTest {
         Optional<User> userResult = userRepository.findById(expectedId);
 
         Assertions.assertEquals(expectedValue, userResult.isPresent());
-        if (userResult.isPresent()) {
-            Assertions.assertEquals(expectedId, userResult.get().getId());
-        }
+        userResult.ifPresent(value -> Assertions.assertEquals(expectedId, value.getId()));
     }
 
     @Test

@@ -74,7 +74,7 @@ public class SessionServiceImpl implements SessionService {
     public Optional<UUID> getUuidFromCookie(String cookies) {
         Optional<UUID> uuid = Optional.empty();
         if (cookies != null && !cookies.isBlank()) {
-            uuid = Optional.ofNullable(UUID.fromString(cookies));
+            uuid = Optional.of(UUID.fromString(cookies));
         }
         return uuid;
     }

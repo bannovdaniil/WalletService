@@ -128,9 +128,7 @@ class WalletRepositoryImplTest {
         Optional<Wallet> walletResult = walletRepository.findById(expectedId);
 
         Assertions.assertEquals(expectedValue, walletResult.isPresent());
-        if (walletResult.isPresent()) {
-            Assertions.assertEquals(expectedId, walletResult.get().getId());
-        }
+        walletResult.ifPresent(value -> Assertions.assertEquals(expectedId, value.getId()));
     }
 
     @Test
