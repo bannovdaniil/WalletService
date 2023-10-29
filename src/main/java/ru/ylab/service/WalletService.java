@@ -2,8 +2,8 @@ package ru.ylab.service;
 
 import ru.ylab.exception.NotFoundException;
 import ru.ylab.model.Wallet;
-import ru.ylab.model.dto.WalletOutDto;
 import ru.ylab.model.dto.WalletIncomingDto;
+import ru.ylab.model.dto.WalletOutDto;
 
 import java.util.UUID;
 
