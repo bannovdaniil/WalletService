@@ -1,0 +1,189 @@
+openapi: 3.0.3
+info:
+  title: Wallet Service
+  version: 1.0.0
+  contact:
+    name: Bannov Daniil
+    email: baddan@mail.ru
+servers:
+  - url: http://localhost:8080
+paths:
+  /api/login:
+    post:
+      summary: User Login
+      description: User Login
+      operationId: userLogin
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                password:
+                  type: string
+                  example: '1'
+                userId:
+                  type: string
+                  example: '{{userId}}'
+            examples:
+              User Login:
+                value:
+                  password: '1'
+                  userId: '{{userId}}'
+      responses:
+        '200':
+          description: ''
+  /api/logout:
+    get:
+      summary: User Logout
+      description: User Logout
+      operationId: userLogout
+      parameters:
+        - name: Cookie
+          in: header
+          schema:
+            type: string
+            example: session={{sessionCookie}}; Path=/api;
+      responses:
+        '200':
+          description: ''
+  /api/user:
+    post:
+      summary: User Registration
+      description: User Registration
+      operationId: userRegistration
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                firstName:
+                  type: string
+                  example: F1 first Name
+                lastName:
+                  type: string
+                  example: L2 last Name
+                password:
+                  type: string
+                  example: '1'
+            examples:
+              User Registration:
+                value:
+                  firstName: F1 first Name
+                  lastName: L2 last Name
+                  password: '1'
+      responses:
+        '200':
+          description: ''
+  /api/user/all:
+    get:
+      summary: User all get List
+      description: User all get List
+      operationId: userAllGetList
+      parameters:
+        - name: Cookie
+          in: header
+          schema:
+            type: string
+            example: session={{sessionCookie}}; Path=/api;
+      responses:
+        '200':
+          description: ''
+  /api/user/{userId}:
+    get:
+      summary: User get by ID
+      description: User get by ID
+      operationId: userGetById
+      parameters:
+        - name: Cookie
+          in: header
+          schema:
+            type: string
+            example: session={{sessionCookie}}; Path=/api;
+      responses:
+        '200':
+          description: ''
+    parameters:
+      - name: userId
+        in: path
+        required: true
+        schema:
+          type: string
+  /api/wallet:
+    get:
+      summary: User Balance No Cookie Error
+      description: User Balance No Cookie Error
+      operationId: userBalanceNoCookieError
+      parameters:
+        - name: Cookie
+          in: header
+          schema:
+            type: string
+            example: session={{sessionCookie}}; Path=/api;
+      responses:
+        '200':
+          description: ''
+    put:
+      summary: User Balance PUT +100.01 No Cookie error
+      description: User Balance PUT +100.01 No Cookie error
+      operationId: userBalancePut10001NoCookieError
+      parameters:
+        - name: Cookie
+          in: header
+          schema:
+            type: string
+            example: session={{sessionCookie}}; Path=/api;
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                sum:
+                  type: string
+                  example: '500'
+                type:
+                  type: string
+                  example: GET
+            examples:
+              User Balance GET -5.85:
+                value:
+                  sum: '5.85'
+                  type: GET
+              User Balance PUT +10.03:
+                value:
+                  sum: '10.03'
+                  type: PUT
+      responses:
+        '200':
+          description: ''
+  /api/action:
+    get:
+      summary: Action No cookie
+      description: Action No cookie
+      operationId: actionNoCookie
+      parameters:
+        - name: Cookie
+          in: header
+          schema:
+            type: string
+            example: session={{sessionCookie}}; Path=/api;
+      responses:
+        '200':
+          description: ''
+  /api/transaction:
+    get:
+      summary: Transactions No cookie
+      description: Transactions No cookie
+      operationId: transactionsNoCookie
+      parameters:
+        - name: Cookie
+          in: header
+          schema:
+            type: string
+            example: session={{sessionCookie}}; Path=/api;
+      responses:
+        '200':
+          description: ''
+tags: []
