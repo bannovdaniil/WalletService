@@ -1,6 +1,5 @@
 package ru.ylab.service;
 
-import jakarta.servlet.http.Cookie;
 import ru.ylab.exception.NotFoundException;
 import ru.ylab.model.User;
 import ru.ylab.model.dto.UserLoginDto;
@@ -42,5 +41,5 @@ public interface SessionService {
     /**
      * Получить ID сессии из cookie
      */
-    Optional<UUID> getUuidFromCookie(Cookie[] cookies);
+    Optional<UUID> getUuidFromCookie(String cookies);
 }

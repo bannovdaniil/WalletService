@@ -1,6 +1,5 @@
 package ru.ylab.service.impl;
 
-import jakarta.servlet.http.Cookie;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.ylab.model.Session;
@@ -14,11 +13,8 @@ import ru.ylab.util.PasswordEncoder;
 import java.nio.file.AccessDeniedException;
 import java.security.InvalidParameterException;
 import java.time.LocalDateTime;
-import java.util.Arrays;
 import java.util.Optional;
 import java.util.UUID;
-
-import static ru.ylab.Constants.SESSION_COOKIE;
 
 /**
  * Бизнес логика Action Событий которые делает пользователь.
@@ -75,16 +71,10 @@ public class SessionServiceImpl implements SessionService {
     }
 
     @Override
-    public Optional<UUID> getUuidFromCookie(Cookie[] cookies) {
+    public Optional<UUID> getUuidFromCookie(String cookies) {
         Optional<UUID> uuid = Optional.empty();
-        if (cookies != null) {
-            Optional<String> cookieValue = Arrays.stream(cookies)
-                    .filter(cookie -> SESSION_COOKIE.equals(cookie.getName()))
-                    .map(Cookie::getValue)
-                    .findFirst();
-            if (cookieValue.isPresent()) {
-                uuid = Optional.ofNullable(UUID.fromString(cookieValue.get()));
-            }
+        if (cookies != null && !cookies.isBlank()) {
+            uuid = Optional.ofNullable(UUID.fromString(cookies));
         }
         return uuid;
     }

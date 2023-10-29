@@ -18,7 +18,6 @@ import java.util.List;
 @Repository
 @RequiredArgsConstructor
 public final class ActionRepositoryImpl implements ActionRepository {
-    private final ConnectionManager connectionManager;
     private static final String SAVE_SQL = """
             INSERT INTO actions (action_time, action_action, action_information, user_id)
             VALUES (?, ?, ?, ?) ;
@@ -26,6 +25,7 @@ public final class ActionRepositoryImpl implements ActionRepository {
     private static final String FIND_ALL_SQL = """
             SELECT action_id, action_time, action_action, action_information, user_id FROM actions;
             """;
+    private final ConnectionManager connectionManager;
 
     @Override
     public Action save(Action action) {

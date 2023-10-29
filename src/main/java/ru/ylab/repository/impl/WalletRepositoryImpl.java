@@ -19,8 +19,6 @@ import java.util.Optional;
 @Repository
 @RequiredArgsConstructor
 public final class WalletRepositoryImpl implements WalletRepository {
-    private final ConnectionManager connectionManager;
-
     private static final String SAVE_SQL = """
             INSERT INTO wallets (wallet_name, wallet_balance)
             VALUES (?, ?) ;
@@ -46,6 +44,7 @@ public final class WalletRepositoryImpl implements WalletRepository {
                         WHERE wallet_id = ?
                         LIMIT 1);
             """;
+    private final ConnectionManager connectionManager;
 
     @Override
     public Wallet save(Wallet wallet) {

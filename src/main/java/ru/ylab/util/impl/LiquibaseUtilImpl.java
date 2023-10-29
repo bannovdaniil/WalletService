@@ -24,9 +24,9 @@ import java.sql.Statement;
 @Component
 @RequiredArgsConstructor
 public class LiquibaseUtilImpl implements LiquibaseUtil {
+    private static final String CHANGE_LOGFILE_NAME = "db/changelog/changelog.xml";
     private final PropertiesUtil propertiesUtil;
     private final ConnectionManager connectionManager;
-    private static final String CHANGE_LOGFILE_NAME = "db/changelog/changelog.xml";
 
     @Override
     @SuppressWarnings("squid:S1874")
