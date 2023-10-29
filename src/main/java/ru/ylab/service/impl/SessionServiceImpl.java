@@ -47,7 +47,7 @@ public class SessionServiceImpl implements SessionService {
                 () -> new AccessDeniedException("Wrong.")
         );
 
-        if (passwordEncoder.encode(dto.getPassword()).equals(user.getHashPassword())) {
+        if (passwordEncoder.matches(dto.getPassword(), user.getHashPassword())) {
             Session session = new Session(
                     LocalDateTime.now(),
                     dto.getUserId()

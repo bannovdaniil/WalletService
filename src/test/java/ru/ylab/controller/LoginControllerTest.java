@@ -15,7 +15,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import ru.ylab.exception.RepositoryException;
 import ru.ylab.model.dto.UserLoginDto;
-import ru.ylab.service.ActionService;
 import ru.ylab.service.SessionService;
 
 import java.nio.charset.StandardCharsets;
@@ -31,14 +30,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class LoginControllerTest {
     private final ObjectMapper mapper = new ObjectMapper();
     @Mock
-    private ActionService mockActionService;
-    @Mock
     private SessionService mockSessionService;
     @InjectMocks
     private LoginController controller;
     private MockMvc mvc;
     private UserLoginDto dto;
-    private UserLoginDto badDto;
 
     @BeforeEach
     void setUp() {
@@ -48,10 +44,7 @@ class LoginControllerTest {
                 123L,
                 "password"
         );
-        badDto = new UserLoginDto(
-                0L,
-                "password"
-        );
+
     }
 
     @Test
