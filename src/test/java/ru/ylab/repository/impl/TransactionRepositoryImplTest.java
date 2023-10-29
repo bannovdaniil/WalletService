@@ -14,7 +14,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
-import ru.ylab.configuration.TestApplicationConfig;
+import ru.ylab.TestApplicationConfig;
 import ru.ylab.model.Transaction;
 import ru.ylab.model.TransactionType;
 import ru.ylab.repository.TransactionRepository;

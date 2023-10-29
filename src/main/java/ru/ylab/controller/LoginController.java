@@ -22,14 +22,13 @@ import java.util.UUID;
  */
 @RestController
 @RequiredArgsConstructor
-@Validated
 public class LoginController {
     private final SessionService sessionService;
 
     @PostMapping(value = "/api/login", produces = MediaType.APPLICATION_JSON_VALUE)
     public void loginAction(
             @CookieValue(value = Constants.SESSION_COOKIE, defaultValue = "") String cookie,
-            @RequestBody UserLoginDto dto,
+            @RequestBody @Validated UserLoginDto dto,
             HttpServletResponse response) {
         try {
             Optional<UUID> sessionIdFromCookie = sessionService.getUuidFromCookie(cookie);

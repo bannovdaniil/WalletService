@@ -1,38 +1,26 @@
 package ru.ylab.validator.impl;
 
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
+import org.springframework.stereotype.Component;
 import ru.ylab.model.dto.UserLoginDto;
-import ru.ylab.validator.Validator;
+import ru.ylab.validator.UserLoginDtoValidation;
 
 /**
- * {@inheritDoc}
+ * Проверка на Null
+ * Проверка Входящего числа.
+ * Проверка пароля.
  */
-public class UserLoginDtoValidatorImpl implements Validator<UserLoginDto> {
-    private static Validator<UserLoginDto> instance;
-
-    private UserLoginDtoValidatorImpl() {
-    }
-
-    public static synchronized Validator<UserLoginDto> getInstance() {
-        if (instance == null) {
-            instance = new UserLoginDtoValidatorImpl();
-        }
-        return instance;
-    }
-
+@Component
+public class UserLoginDtoValidatorImpl implements ConstraintValidator<UserLoginDtoValidation, UserLoginDto> {
     private static boolean isNotBlank(String s) {
         return s != null
                && !s.isEmpty()
                && !s.isBlank();
     }
 
-    /**
-     * Проверка на Null
-     * Проверка Входящего числа.
-     * Проверка пароля.
-     */
     @Override
-    public boolean isValid(UserLoginDto dto) {
-
+    public boolean isValid(UserLoginDto dto, ConstraintValidatorContext constraintValidatorContext) {
         return dto != null
                && dto.getUserId() != null
                && dto.getUserId() > 0

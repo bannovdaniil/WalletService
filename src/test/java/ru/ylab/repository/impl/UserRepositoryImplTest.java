@@ -17,7 +17,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
-import ru.ylab.configuration.TestApplicationConfig;
+import ru.ylab.TestApplicationConfig;
 import ru.ylab.exception.NotFoundException;
 import ru.ylab.model.User;
 import ru.ylab.model.Wallet;

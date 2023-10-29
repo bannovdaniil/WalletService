@@ -4,11 +4,11 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-class BCryptEncoderTest {
+class ByCryptEncoderTest {
 
     @Test
     void encode() {
-        PasswordEncoder passwordEncoder = new BCryptEncoder();
+        PasswordEncoder passwordEncoder = new ByCryptEncoder();
 
         String expected = "password";
 

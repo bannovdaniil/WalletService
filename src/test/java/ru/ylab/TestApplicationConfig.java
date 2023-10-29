@@ -1,8 +1,9 @@
-package ru.ylab.configuration;
+package ru.ylab;
 
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.FilterType;
+import ru.ylab.configuration.WebConfig;
 
 @Configuration
 @ComponentScan(

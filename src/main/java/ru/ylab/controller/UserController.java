@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.ylab.Constants;
 import ru.ylab.exception.ErrorHeader;
@@ -78,7 +79,7 @@ public class UserController {
     @PostMapping(value = "/api/user", produces = MediaType.APPLICATION_JSON_VALUE)
     @SuppressWarnings("squid:S3740")
     public ResponseEntity createUser(@CookieValue(value = Constants.SESSION_COOKIE, defaultValue = "") String cookie,
-                                     @RequestBody UserIncomingDto userIncomingDto) {
+                                     @RequestBody @Validated UserIncomingDto userIncomingDto) {
         try {
             UserOutDto userOutDto = userService.add(userIncomingDto);
             return ResponseEntity.ok(userOutDto);

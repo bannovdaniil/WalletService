@@ -1,5 +1,8 @@
 package ru.ylab.model.dto;
 
+import ru.ylab.validator.WalletIncomingDtoValidation;
+
+@WalletIncomingDtoValidation
 public class WalletIncomingDto {
     private BalanceType type;
     private String sum;
