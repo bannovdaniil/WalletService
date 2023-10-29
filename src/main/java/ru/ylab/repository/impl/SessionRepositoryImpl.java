@@ -29,7 +29,6 @@ public final class SessionRepositoryImpl implements SessionRepository {
     private static final String DELETE_BY_ID_SQL = """
             DELETE FROM sessions WHERE session_id = ?;
             """;
-
     private static final String EXIST_BY_ID_SQL = """
                 SELECT exists (
                 SELECT 1
@@ -38,7 +37,6 @@ public final class SessionRepositoryImpl implements SessionRepository {
                         LIMIT 1);
             """;
     private final ConnectionManager connectionManager;
-
 
     @Override
     public Session save(Session session) {

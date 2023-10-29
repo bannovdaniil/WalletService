@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CookieValue;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.ylab.Constants;
 import ru.ylab.service.SessionService;
@@ -24,8 +24,8 @@ import java.util.UUID;
 public class LogoutController {
     private final SessionService sessionService;
 
-    @PostMapping(value = "/api/logout", produces = MediaType.APPLICATION_JSON_VALUE)
-    public void loginAction(
+    @GetMapping(value = "/api/logout", produces = MediaType.APPLICATION_JSON_VALUE)
+    public void logoutAction(
             @CookieValue(value = Constants.SESSION_COOKIE, defaultValue = "") String cookie,
             HttpServletResponse response) {
         try {

@@ -15,7 +15,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class TransactionServiceImpl implements TransactionService {
 
-    private TransactionRepository transactionRepository;
+    private final TransactionRepository transactionRepository;
 
     @Override
     public List<Transaction> findAll() {

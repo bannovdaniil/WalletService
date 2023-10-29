@@ -54,7 +54,7 @@ public class WalletController {
     @PutMapping(value = "/api/wallet", produces = MediaType.APPLICATION_JSON_VALUE)
     @SuppressWarnings("squid:S3740")
     public ResponseEntity changeBalance(@CookieValue(value = Constants.SESSION_COOKIE, defaultValue = "") String cookie,
-                                        @RequestParam WalletIncomingDto incomingDto) {
+                                        @RequestBody WalletIncomingDto incomingDto) {
         try {
             Optional<UUID> sessionId = sessionService.getUuidFromCookie(cookie);
             if (sessionId.isPresent() && sessionService.isActive(sessionId.get())) {
