@@ -1,8 +1,18 @@
 package ru.ylab.model.dto;
 
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+
+/**
+ * Для передачи данных при логине.
+ */
 public class UserLoginDto {
+    @Positive
     private Long userId;
+    @NotNull
+    @NotBlank
     private String password;
 
     public UserLoginDto() {

@@ -18,6 +18,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+/**
+ * Показывает Лог действий пользователя.
+ */
 @RestController
 @RequiredArgsConstructor
 public class ActionController {
@@ -25,6 +28,7 @@ public class ActionController {
     private final SessionService sessionService;
 
     @GetMapping(value = "/api/action", produces = MediaType.APPLICATION_JSON_VALUE)
+    @SuppressWarnings("squid:S3740")
     public ResponseEntity getActionList(@CookieValue(value = Constants.SESSION_COOKIE, defaultValue = "") String cookie) {
         try {
             Optional<UUID> sessionId = sessionService.getUuidFromCookie(cookie);
