@@ -1,6 +1,7 @@
 package ru.ylab.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.ylab.exception.NotFoundException;
 import ru.ylab.mapper.UserMapper;
@@ -11,7 +12,6 @@ import ru.ylab.model.dto.UserOutDto;
 import ru.ylab.repository.UserRepository;
 import ru.ylab.repository.WalletRepository;
 import ru.ylab.service.UserService;
-import ru.ylab.util.PasswordEncoder;
 
 import java.math.BigDecimal;
 import java.util.List;

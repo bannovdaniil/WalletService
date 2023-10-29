@@ -9,6 +9,7 @@ import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestConstructor;
@@ -23,7 +24,6 @@ import ru.ylab.model.Wallet;
 import ru.ylab.repository.UserRepository;
 import ru.ylab.repository.WalletRepository;
 import ru.ylab.util.LiquibaseUtil;
-import ru.ylab.util.PasswordEncoder;
 import ru.ylab.util.PropertiesUtil;
 import ru.ylab.util.impl.ApplicationPropertiesUtilImpl;
 

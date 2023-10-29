@@ -1,6 +1,7 @@
 package ru.ylab.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.ylab.model.Session;
 import ru.ylab.model.User;
@@ -8,7 +9,6 @@ import ru.ylab.model.dto.UserLoginDto;
 import ru.ylab.repository.SessionRepository;
 import ru.ylab.repository.UserRepository;
 import ru.ylab.service.SessionService;
-import ru.ylab.util.PasswordEncoder;
 
 import java.nio.file.AccessDeniedException;
 import java.security.InvalidParameterException;
