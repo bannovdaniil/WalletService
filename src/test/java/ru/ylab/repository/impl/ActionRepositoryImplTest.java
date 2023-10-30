@@ -14,12 +14,12 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
+import ru.ylab.Constants;
 import ru.ylab.TestApplicationConfig;
 import ru.ylab.model.Action;
 import ru.ylab.repository.ActionRepository;
 import ru.ylab.util.LiquibaseUtil;
 import ru.ylab.util.PropertiesUtil;
-import ru.ylab.util.impl.ApplicationPropertiesUtilImpl;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -39,6 +39,7 @@ class ActionRepositoryImplTest {
     private final PropertiesUtil propertiesUtil;
     private final LiquibaseUtil liquibaseUtil;
     private final ActionRepository actionRepository;
+
     @Container
     public PostgreSQLContainer<?> container;
 
@@ -46,8 +47,8 @@ class ActionRepositoryImplTest {
     void beforeAll() {
         container = new PostgreSQLContainer<>("postgres:15-alpine")
                 .withDatabaseName("wallet_db")
-                .withUsername(propertiesUtil.getProperties(ApplicationPropertiesUtilImpl.USERNAME_KEY))
-                .withPassword(propertiesUtil.getProperties(ApplicationPropertiesUtilImpl.PASSWORD_KEY))
+                .withUsername(propertiesUtil.getProperties(Constants.USERNAME_KEY, "test"))
+                .withPassword(propertiesUtil.getProperties(Constants.PASSWORD_KEY, "test"))
                 .withExposedPorts(containerPort)
                 .withCreateContainerCmdModifier(cmd -> cmd.withHostConfig(
                         new HostConfig().withPortBindings(new PortBinding(Ports.Binding.bindPort(localPort), new ExposedPort(containerPort)))
@@ -86,7 +87,6 @@ class ActionRepositoryImplTest {
     @Test
     void findAll() {
         int expectedSize = actionRepository.findAll().size() + 1;
-
         Action action = new Action(
                 LocalDateTime.now(),
                 "action Name",

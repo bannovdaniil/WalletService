@@ -16,13 +16,13 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
+import ru.ylab.Constants;
 import ru.ylab.TestApplicationConfig;
 import ru.ylab.exception.NotFoundException;
 import ru.ylab.model.Wallet;
 import ru.ylab.repository.WalletRepository;
 import ru.ylab.util.LiquibaseUtil;
 import ru.ylab.util.PropertiesUtil;
-import ru.ylab.util.impl.ApplicationPropertiesUtilImpl;
 
 import java.math.BigDecimal;
 import java.util.Optional;
@@ -49,8 +49,8 @@ class WalletRepositoryImplTest {
     void beforeAll() {
         container = new PostgreSQLContainer<>("postgres:15-alpine")
                 .withDatabaseName("wallet_db")
-                .withUsername(propertiesUtil.getProperties(ApplicationPropertiesUtilImpl.USERNAME_KEY))
-                .withPassword(propertiesUtil.getProperties(ApplicationPropertiesUtilImpl.PASSWORD_KEY))
+                .withUsername(propertiesUtil.getProperties(Constants.USERNAME_KEY, "test"))
+                .withPassword(propertiesUtil.getProperties(Constants.PASSWORD_KEY, "test"))
                 .withExposedPorts(containerPort)
                 .withCreateContainerCmdModifier(cmd -> cmd.withHostConfig(
                         new HostConfig().withPortBindings(new PortBinding(Ports.Binding.bindPort(localPort), new ExposedPort(containerPort)))

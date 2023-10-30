@@ -11,5 +11,5 @@ public interface PropertiesUtil {
      * @param key - название ключа
      * @return - значение параметра
      */
-    String getProperties(String key);
+    String getProperties(String... key);
 }

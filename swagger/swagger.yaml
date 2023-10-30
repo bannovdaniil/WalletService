@@ -4,12 +4,16 @@ info:
   version: 1.0.0
   contact:
     name: Bannov Daniil
+    url: https://github.com/bannovdaniil
     email: baddan@mail.ru
 servers:
   - url: http://localhost:8080
 paths:
+# Login/Logout
   /api/login:
     post:
+      tags:
+        - autorization
       summary: User Login
       description: User Login
       operationId: userLogin
@@ -35,6 +39,8 @@ paths:
           description: ''
   /api/logout:
     get:
+      tags:
+        - autorization
       summary: User Logout
       description: User Logout
       operationId: userLogout
@@ -49,6 +55,8 @@ paths:
           description: ''
   /api/user:
     post:
+      tags:
+        - User
       summary: User Registration
       description: User Registration
       operationId: userRegistration
@@ -78,6 +86,8 @@ paths:
           description: ''
   /api/user/all:
     get:
+      tags:
+        - User
       summary: User all get List
       description: User all get List
       operationId: userAllGetList
@@ -92,6 +102,8 @@ paths:
           description: ''
   /api/user/{userId}:
     get:
+      tags:
+        - User
       summary: User get by ID
       description: User get by ID
       operationId: userGetById
@@ -112,9 +124,11 @@ paths:
           type: string
   /api/wallet:
     get:
-      summary: User Balance No Cookie Error
-      description: User Balance No Cookie Error
-      operationId: userBalanceNoCookieError
+      tags:
+        - Wallet
+      summary: User Balance
+      description: User Balance
+      operationId: userBalance
       parameters:
         - name: Cookie
           in: header
@@ -125,6 +139,8 @@ paths:
         '200':
           description: ''
     put:
+      tags:
+        - Wallet
       summary: User Balance PUT +100.01 No Cookie error
       description: User Balance PUT +100.01 No Cookie error
       operationId: userBalancePut10001NoCookieError
@@ -160,6 +176,8 @@ paths:
           description: ''
   /api/action:
     get:
+      tags:
+        - Action log
       summary: Action No cookie
       description: Action No cookie
       operationId: actionNoCookie
@@ -174,6 +192,8 @@ paths:
           description: ''
   /api/transaction:
     get:
+      tags:
+        - Transaction log
       summary: Transactions No cookie
       description: Transactions No cookie
       operationId: transactionsNoCookie

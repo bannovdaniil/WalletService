@@ -8,6 +8,7 @@ import liquibase.exception.LiquibaseException;
 import liquibase.resource.ClassLoaderResourceAccessor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import ru.ylab.Constants;
 import ru.ylab.db.ConnectionManager;
 import ru.ylab.exception.DatabaseConnectionException;
 import ru.ylab.exception.LiquibaseProcessException;
@@ -38,8 +39,8 @@ public class LiquibaseUtilImpl implements LiquibaseUtil {
             initLiquibaseSchema(connection);
 
             Database database = DatabaseFactory.getInstance().findCorrectDatabaseImplementation(new JdbcConnection(connection));
-            database.setDefaultSchemaName(propertiesUtil.getProperties(ApplicationPropertiesUtilImpl.DEFAULT_SCHEMA_NAME));
-            database.setLiquibaseSchemaName(propertiesUtil.getProperties(ApplicationPropertiesUtilImpl.LIQUIBASE_SCHEMA_NAME));
+            database.setDefaultSchemaName(propertiesUtil.getProperties(Constants.DEFAULT_SCHEMA_NAME));
+            database.setLiquibaseSchemaName(propertiesUtil.getProperties(Constants.LIQUIBASE_SCHEMA_NAME));
             Liquibase liquibase = new Liquibase(CHANGE_LOGFILE_NAME, new ClassLoaderResourceAccessor(), database);
 
             liquibase.update();
@@ -57,8 +58,8 @@ public class LiquibaseUtilImpl implements LiquibaseUtil {
         try (Statement statement = connection.createStatement()) {
             String sqlSchema = String.format("CREATE SCHEMA IF NOT EXISTS %s; " +
                                              "CREATE SCHEMA IF NOT EXISTS %s;",
-                    propertiesUtil.getProperties(ApplicationPropertiesUtilImpl.DEFAULT_SCHEMA_NAME),
-                    propertiesUtil.getProperties(ApplicationPropertiesUtilImpl.LIQUIBASE_SCHEMA_NAME));
+                    propertiesUtil.getProperties(Constants.DEFAULT_SCHEMA_NAME),
+                    propertiesUtil.getProperties(Constants.LIQUIBASE_SCHEMA_NAME));
 
             statement.execute(sqlSchema);
         }
