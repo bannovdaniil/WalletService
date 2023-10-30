@@ -28,6 +28,23 @@ public final class YmlPropertiesUtilImpl implements PropertiesUtil {
         loadProperties();
     }
 
+    /**
+     * Собираем все свойства в одну мапу
+     */
+    @SuppressWarnings("squid:S3740")
+    private static void extractedYamlProperty(Map<Object, Object> yamlMap, String keyPath) {
+        for (Map.Entry entry : yamlMap.entrySet()) {
+            String newKeyPath = keyPath.concat(keyPath.isBlank() ? "" : ".").concat((String) entry.getKey());
+            if (entry.getValue() instanceof String || entry.getValue() instanceof Integer) {
+                properties.put(newKeyPath, entry.getValue().toString());
+            } else if (entry.getValue() instanceof LinkedHashMap<?, ?>) {
+                extractedYamlProperty((Map) entry.getValue(), newKeyPath);
+            } else {
+                log.error("Unknown type yamlMap = " + yamlMap);
+            }
+        }
+    }
+
     @Override
     public String getProperties(String... key) {
         if (key.length == 0) {
@@ -55,23 +72,6 @@ public final class YmlPropertiesUtilImpl implements PropertiesUtil {
         Map<Object, Object> yamlProperties = yaml.load(inputStream);
         log.info("Property: {}", yamlProperties);
         extractedYamlProperty(yamlProperties, "");
-    }
-
-    /**
-     * Собираем все свойства в одну мапу
-     */
-    @SuppressWarnings("squid:S3740")
-    private static void extractedYamlProperty(Map<Object, Object> yamlMap, String keyPath) {
-        for (Map.Entry entry : yamlMap.entrySet()) {
-            String newKeyPath = keyPath.concat(keyPath.isBlank() ? "" : ".").concat((String) entry.getKey());
-            if (entry.getValue() instanceof String || entry.getValue() instanceof Integer) {
-                properties.put(newKeyPath, entry.getValue().toString());
-            } else if (entry.getValue() instanceof LinkedHashMap<?, ?>) {
-                extractedYamlProperty((Map) entry.getValue(), newKeyPath);
-            } else {
-                log.error("Unknown type yamlMap = " + yamlMap);
-            }
-        }
     }
 
 }

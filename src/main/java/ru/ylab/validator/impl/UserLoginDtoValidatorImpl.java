@@ -1,10 +1,11 @@
 package ru.ylab.validator.impl;
 
-import jakarta.validation.ConstraintValidator;
-import jakarta.validation.ConstraintValidatorContext;
 import org.springframework.stereotype.Component;
 import ru.ylab.model.dto.UserLoginDto;
 import ru.ylab.validator.UserLoginDtoValidation;
+
+import javax.validation.ConstraintValidator;
+import javax.validation.ConstraintValidatorContext;
 
 /**
  * Проверка на Null

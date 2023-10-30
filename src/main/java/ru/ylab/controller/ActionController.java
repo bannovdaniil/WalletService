@@ -1,6 +1,5 @@
 package ru.ylab.controller;
 
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +12,7 @@ import ru.ylab.model.Action;
 import ru.ylab.service.ActionService;
 import ru.ylab.service.SessionService;
 
+import javax.servlet.http.HttpServletResponse;
 import java.nio.file.AccessDeniedException;
 import java.util.List;
 import java.util.Optional;

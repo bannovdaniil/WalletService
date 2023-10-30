@@ -1,7 +1,5 @@
 package ru.ylab.controller;
 
-import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
@@ -11,6 +9,8 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.ylab.Constants;
 import ru.ylab.service.SessionService;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import java.nio.file.AccessDeniedException;
 import java.util.Optional;
 import java.util.UUID;
