@@ -1,6 +1,14 @@
 package ru.ylab.model.dto;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
 import java.math.BigDecimal;
 
-public record WalletOutDto(BigDecimal balance) {
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+public class WalletOutDto {
+    private BigDecimal balance;
 }

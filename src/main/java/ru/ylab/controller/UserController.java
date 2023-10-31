@@ -6,13 +6,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.ylab.Constants;
-import ru.ylab.exception.ErrorHeader;
+import ru.ylab.exception.ResponseAccessDeniedException;
+import ru.ylab.exception.ResponseBadRequestException;
 import ru.ylab.model.dto.UserIncomingDto;
 import ru.ylab.model.dto.UserOutDto;
 import ru.ylab.service.SessionService;
 import ru.ylab.service.UserService;
 
-import javax.servlet.http.HttpServletResponse;
 import java.nio.file.AccessDeniedException;
 import java.util.List;
 import java.util.Optional;
@@ -34,9 +34,8 @@ public class UserController {
      * Получить пользователя по ID
      */
     @GetMapping(value = "/api/user/{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @SuppressWarnings("squid:S3740")
-    public ResponseEntity getUserById(@CookieValue(value = Constants.SESSION_COOKIE, defaultValue = "") String cookie,
-                                      @PathVariable Long userId) {
+    public ResponseEntity<UserOutDto> getUserById(@CookieValue(value = Constants.SESSION_COOKIE, defaultValue = "") String cookie,
+                                                  @PathVariable Long userId) {
         try {
             Optional<UUID> sessionId = sessionService.getUuidFromCookie(cookie);
             if (sessionId.isPresent() && sessionService.isActive(sessionId.get())) {
@@ -46,9 +45,9 @@ public class UserController {
                 throw new AccessDeniedException("Forbidden");
             }
         } catch (AccessDeniedException e) {
-            return ResponseEntity.status(HttpServletResponse.SC_FORBIDDEN).body(new ErrorHeader(e.getMessage()));
+            throw new ResponseAccessDeniedException(e.getMessage());
         } catch (Exception e) {
-            return ResponseEntity.status(HttpServletResponse.SC_BAD_REQUEST).body(new ErrorHeader(e.getMessage()));
+            throw new ResponseBadRequestException(e.getMessage());
         }
     }
 
@@ -56,8 +55,7 @@ public class UserController {
      * Получить весь список Пользователей
      */
     @GetMapping(value = "/api/user/all", produces = MediaType.APPLICATION_JSON_VALUE)
-    @SuppressWarnings("squid:S3740")
-    public ResponseEntity getUserList(@CookieValue(value = Constants.SESSION_COOKIE, defaultValue = "") String cookie) {
+    public ResponseEntity<List<UserOutDto>> getUserList(@CookieValue(value = Constants.SESSION_COOKIE, defaultValue = "") String cookie) {
         try {
             Optional<UUID> sessionId = sessionService.getUuidFromCookie(cookie);
             if (sessionId.isPresent() && sessionService.isActive(sessionId.get())) {
@@ -67,9 +65,9 @@ public class UserController {
                 throw new AccessDeniedException("Forbidden");
             }
         } catch (AccessDeniedException e) {
-            return ResponseEntity.status(HttpServletResponse.SC_FORBIDDEN).body(new ErrorHeader(e.getMessage()));
+            throw new ResponseAccessDeniedException(e.getMessage());
         } catch (Exception e) {
-            return ResponseEntity.status(HttpServletResponse.SC_BAD_REQUEST).body(new ErrorHeader(e.getMessage()));
+            throw new ResponseBadRequestException(e.getMessage());
         }
     }
 
@@ -77,14 +75,13 @@ public class UserController {
      * Создать пользователя
      */
     @PostMapping(value = "/api/user", produces = MediaType.APPLICATION_JSON_VALUE)
-    @SuppressWarnings("squid:S3740")
-    public ResponseEntity createUser(@CookieValue(value = Constants.SESSION_COOKIE, defaultValue = "") String cookie,
-                                     @RequestBody @Validated UserIncomingDto userIncomingDto) {
+    public ResponseEntity<UserOutDto> createUser(@CookieValue(value = Constants.SESSION_COOKIE, defaultValue = "") String cookie,
+                                                 @RequestBody @Validated UserIncomingDto userIncomingDto) {
         try {
             UserOutDto userOutDto = userService.add(userIncomingDto);
             return ResponseEntity.ok(userOutDto);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpServletResponse.SC_BAD_REQUEST).body(new ErrorHeader(e.getMessage()));
+            throw new ResponseBadRequestException(e.getMessage());
         }
     }
 

@@ -2,11 +2,11 @@ package ru.ylab.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.ylab.Constants;
+import ru.ylab.exception.ResponseAccessDeniedException;
 import ru.ylab.service.SessionService;
 
 import javax.servlet.http.Cookie;
@@ -20,7 +20,6 @@ import java.util.UUID;
  */
 @RestController
 @RequiredArgsConstructor
-@Validated
 public class LogoutController {
     private final SessionService sessionService;
 
@@ -40,7 +39,7 @@ public class LogoutController {
                 throw new AccessDeniedException("Forbidden");
             }
         } catch (AccessDeniedException e) {
-            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+            throw new ResponseAccessDeniedException(e.getMessage());
         } catch (Exception e) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }

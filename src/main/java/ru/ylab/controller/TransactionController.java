@@ -7,12 +7,12 @@ import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.ylab.Constants;
-import ru.ylab.exception.ErrorHeader;
+import ru.ylab.exception.ResponseAccessDeniedException;
+import ru.ylab.exception.ResponseBadRequestException;
 import ru.ylab.model.Transaction;
 import ru.ylab.service.SessionService;
 import ru.ylab.service.TransactionService;
 
-import javax.servlet.http.HttpServletResponse;
 import java.nio.file.AccessDeniedException;
 import java.util.List;
 import java.util.Optional;
@@ -28,22 +28,18 @@ public class TransactionController {
     private final SessionService sessionService;
 
     @GetMapping(value = "/api/transaction", produces = MediaType.APPLICATION_JSON_VALUE)
-    @SuppressWarnings("squid:S3740")
-    public ResponseEntity getTransactionList(@CookieValue(value = Constants.SESSION_COOKIE, defaultValue = "") String cookie) {
+    public ResponseEntity<List<Transaction>> getTransactionList(@CookieValue(value = Constants.SESSION_COOKIE, defaultValue = "") String cookie) {
         try {
             Optional<UUID> sessionId = sessionService.getUuidFromCookie(cookie);
             if (sessionId.isPresent() && sessionService.isActive(sessionId.get())) {
-                List<Transaction> transactionList = transactionService.findAll();
-                return ResponseEntity.ok(
-                        transactionList
-                );
+                return ResponseEntity.ok(transactionService.findAll());
             } else {
                 throw new AccessDeniedException("Forbidden");
             }
         } catch (AccessDeniedException e) {
-            return ResponseEntity.status(HttpServletResponse.SC_FORBIDDEN).body(new ErrorHeader(e.getMessage()));
+            throw new ResponseAccessDeniedException(e.getMessage());
         } catch (Exception e) {
-            return ResponseEntity.status(HttpServletResponse.SC_BAD_REQUEST).body(new ErrorHeader(e.getMessage()));
+            throw new ResponseBadRequestException(e.getMessage());
         }
     }
 }

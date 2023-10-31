@@ -3,16 +3,16 @@ package ru.ylab.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.ylab.Constants;
-import ru.ylab.exception.ErrorHeader;
+import ru.ylab.exception.ResponseAccessDeniedException;
+import ru.ylab.exception.ResponseBadRequestException;
 import ru.ylab.model.dto.WalletIncomingDto;
 import ru.ylab.model.dto.WalletOutDto;
 import ru.ylab.service.SessionService;
 import ru.ylab.service.WalletService;
 
-import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import java.nio.file.AccessDeniedException;
 import java.util.Optional;
 import java.util.UUID;
@@ -23,6 +23,7 @@ import java.util.UUID;
  * - Изменить баланс
  */
 @RestController
+@RequestMapping("/api/wallet")
 @RequiredArgsConstructor
 public class WalletController {
     private final WalletService walletService;
@@ -31,44 +32,39 @@ public class WalletController {
     /**
      * Получить баланс пользователя
      */
-    @GetMapping(value = "/api/wallet", produces = MediaType.APPLICATION_JSON_VALUE)
-    @SuppressWarnings("squid:S3740")
-    public ResponseEntity getWalletBalance(@CookieValue(value = Constants.SESSION_COOKIE, defaultValue = "") String cookie) {
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<WalletOutDto> getWalletBalance(@CookieValue(value = Constants.SESSION_COOKIE, defaultValue = "") String cookie) {
         try {
             Optional<UUID> sessionId = sessionService.getUuidFromCookie(cookie);
             if (sessionId.isPresent() && sessionService.isActive(sessionId.get())) {
-                WalletOutDto walletOutDto = walletService.getBalance(sessionId.get());
-                return ResponseEntity.ok(walletOutDto);
+                return ResponseEntity.ok(walletService.getBalance(sessionId.get()));
             } else {
                 throw new AccessDeniedException("Forbidden");
             }
         } catch (AccessDeniedException e) {
-            return ResponseEntity.status(HttpServletResponse.SC_FORBIDDEN).body(new ErrorHeader(e.getMessage()));
+            throw new ResponseAccessDeniedException(e.getMessage());
         } catch (Exception e) {
-            return ResponseEntity.status(HttpServletResponse.SC_BAD_REQUEST).body(new ErrorHeader(e.getMessage()));
+            throw new ResponseBadRequestException(e.getMessage());
         }
     }
 
     /**
      * Изменить баланс пользователя
      */
-    @PutMapping(value = "/api/wallet", produces = MediaType.APPLICATION_JSON_VALUE)
-    @SuppressWarnings("squid:S3740")
-    public ResponseEntity changeBalance(@CookieValue(value = Constants.SESSION_COOKIE, defaultValue = "") String cookie,
-                                        @RequestBody @Validated WalletIncomingDto incomingDto) {
+    @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<WalletOutDto> changeBalance(@CookieValue(value = Constants.SESSION_COOKIE, defaultValue = "") String cookie,
+                                                      @RequestBody @Valid WalletIncomingDto incomingDto) {
         try {
             Optional<UUID> sessionId = sessionService.getUuidFromCookie(cookie);
             if (sessionId.isPresent() && sessionService.isActive(sessionId.get())) {
-
-                WalletOutDto walletOutDto = walletService.changeBalance(sessionId.get(), incomingDto);
-                return ResponseEntity.ok(walletOutDto);
+                return ResponseEntity.ok(walletService.changeBalance(sessionId.get(), incomingDto));
             } else {
                 throw new AccessDeniedException("Forbidden");
             }
         } catch (AccessDeniedException e) {
-            return ResponseEntity.status(HttpServletResponse.SC_FORBIDDEN).body(new ErrorHeader(e.getMessage()));
+            throw new ResponseAccessDeniedException(e.getMessage());
         } catch (Exception e) {
-            return ResponseEntity.status(HttpServletResponse.SC_BAD_REQUEST).body(new ErrorHeader(e.getMessage()));
+            throw new ResponseBadRequestException(e.getMessage());
         }
     }
 
