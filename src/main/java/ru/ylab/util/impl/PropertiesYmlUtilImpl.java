@@ -15,16 +15,16 @@ import java.util.Map;
  */
 @Component
 @Slf4j
-public final class YmlPropertiesUtilImpl implements PropertiesUtil {
+public final class PropertiesYmlUtilImpl implements PropertiesUtil {
     public static final String DEFAULT_SCHEMA = "spring.";
     private static final Yaml yaml = new Yaml();
     /**
      * Имя файла для загрузки свойств.
      */
     private static final String PROPERTIES_FILE = "application.yml";
-    private static Map<String, String> properties = new HashMap<>();
+    private static final Map<String, String> properties = new HashMap<>();
 
-    public YmlPropertiesUtilImpl() {
+    public PropertiesYmlUtilImpl() {
         loadProperties();
     }
 
