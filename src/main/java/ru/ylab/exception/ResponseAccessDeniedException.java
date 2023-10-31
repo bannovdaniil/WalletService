@@ -8,5 +8,4 @@ public class ResponseAccessDeniedException extends RuntimeException {
     public ResponseAccessDeniedException(String message) {
         super(message);
     }
-
 }
