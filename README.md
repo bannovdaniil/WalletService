@@ -8,9 +8,17 @@
 
 ##### TestContainers Postgres Docker Outer Port: 54321
 
+#### Swagger
+
+http://localhost:8080/v2/api-docs
+
+http://localhost:8080/swagger-ui/
+
 ##### Tomcat Docker Outer Port: 8081
 
-> mvn -DskipTests=true clean compile package install -P "production Service"
+##### For execute:
+
+> mvn -DskipTests=true clean compile package install
 
 > docker-compose build
 
