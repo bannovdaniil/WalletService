@@ -8,9 +8,17 @@
 
 ##### TestContainers Postgres Docker Outer Port: 54321
 
+#### Swagger
+
+http://localhost:8080/v2/api-docs
+
+http://localhost:8080/swagger-ui/
+
 ##### Tomcat Docker Outer Port: 8081
 
-> mvn -DskipTests=true clean compile package install -P "production Service"
+##### For execute:
+
+> mvn -DskipTests=true clean compile package install
 
 > docker-compose build
 
@@ -27,7 +35,6 @@ _**postman v2.1: postman/wallet_service_port-8080.postman_collection.json**_
 
 for Docker:
 _**postman v2.1: postman/wallet_service_port-8081.postman_collection.json**_
-
 
 #### Open in browser:
 
@@ -61,6 +68,17 @@ json:
 
 > GET http://localhost:8081/api/user/{ID}
 
+#### Get users information By ID (logged user only)
+
+> POST http://localhost:8081/api/user
+
+json:
+> {
+> "firstName":"F1 first Name",
+> "lastName":"L2 last Name",
+> "password":"1"
+> }
+
 #### Logged user show balance (logged user only)
 
 > GET http://localhost:8081/api/wallet
@@ -85,9 +103,20 @@ json:
 > "sum": "100.12"
 > }
 
+## ДЗ №4
 
+- Необходимо обновить сервис, который вы разработали в первом задании согласно следующим требованиям и ограничениям.
 
-Enter number for navigate menu.
+### Требования:
+
+- Java-конфигурация приложения
+- Кастомные конфигурационные файлы заменить на application.yml
+- Удалить сервлеты, реализовать Rest-контроллеры (Spring MVC)
+- Swagger + Swagger UI
+- Аспекты переписать на Spring AOP
+- Внедрение зависимостей ТОЛЬКО через конструктор
+- Удалить всю логику создания сервисов, репозиториев и тд. Приложение должно полностью управляться спрингом
+- Добавить тесты на контроллеры (WebMVC)
 
 ## ДЗ №3
 

@@ -4,58 +4,67 @@ import com.github.dockerjava.api.model.ExposedPort;
 import com.github.dockerjava.api.model.HostConfig;
 import com.github.dockerjava.api.model.PortBinding;
 import com.github.dockerjava.api.model.Ports;
+import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestConstructor;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
+import ru.ylab.Constants;
+import ru.ylab.TestApplicationConfig;
 import ru.ylab.exception.NotFoundException;
 import ru.ylab.model.User;
 import ru.ylab.model.Wallet;
 import ru.ylab.repository.UserRepository;
 import ru.ylab.repository.WalletRepository;
 import ru.ylab.util.LiquibaseUtil;
-import ru.ylab.util.PasswordEncoder;
 import ru.ylab.util.PropertiesUtil;
-import ru.ylab.util.impl.ApplicationPropertiesUtilImpl;
-import ru.ylab.util.impl.LiquibaseUtilImpl;
-import ru.ylab.util.impl.PasswordEncoderSha256Impl;
 
 import java.math.BigDecimal;
 import java.util.Optional;
 
 @Testcontainers
 @Tag("DockerRequired")
+@ActiveProfiles("test")
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@ExtendWith(SpringExtension.class)
+@RequiredArgsConstructor
+@TestConstructor(autowireMode = TestConstructor.AutowireMode.ALL)
+@ContextConfiguration(classes = TestApplicationConfig.class)
 class UserRepositoryImplTest {
     private static final int containerPort = 5432;
     private static final int localPort = 54321;
-    private static final PropertiesUtil propertiesUtil = ApplicationPropertiesUtilImpl.getInstance();
-    private static final LiquibaseUtil liquibaseUtil = LiquibaseUtilImpl.getInstance();
+    private final PropertiesUtil propertiesUtil;
+    private final LiquibaseUtil liquibaseUtil;
+    private final UserRepository userRepository;
+    private final WalletRepository walletRepository;
+    private final PasswordEncoder passwordEncoder;
     @Container
-    public static PostgreSQLContainer<?> container = new PostgreSQLContainer<>("postgres:15-alpine")
-            .withDatabaseName("wallet_db")
-            .withUsername(propertiesUtil.getProperties(ApplicationPropertiesUtilImpl.USERNAME_KEY))
-            .withPassword(propertiesUtil.getProperties(ApplicationPropertiesUtilImpl.PASSWORD_KEY))
-            .withExposedPorts(containerPort)
-            .withCreateContainerCmdModifier(cmd -> cmd.withHostConfig(
-                    new HostConfig().withPortBindings(new PortBinding(Ports.Binding.bindPort(localPort), new ExposedPort(containerPort)))
-            ));
-    private static UserRepository userRepository;
-    private static WalletRepository walletRepository;
-    private static PasswordEncoder passwordEncoder;
+    public PostgreSQLContainer<?> container;
 
     @BeforeAll
-    static void beforeAll() {
+    void beforeAll() {
+        container = new PostgreSQLContainer<>("postgres:15-alpine")
+                .withDatabaseName("wallet_db")
+                .withUsername(propertiesUtil.getProperties(Constants.USERNAME_KEY, "test"))
+                .withPassword(propertiesUtil.getProperties(Constants.PASSWORD_KEY, "test"))
+                .withExposedPorts(containerPort)
+                .withCreateContainerCmdModifier(cmd -> cmd.withHostConfig(
+                        new HostConfig().withPortBindings(new PortBinding(Ports.Binding.bindPort(localPort), new ExposedPort(containerPort)))
+                ));
         System.setProperty("DATASOURCE_URL", "jdbc:postgresql://localhost:" + localPort + "/wallet_db");
         container.start();
-        userRepository = UserRepositoryImpl.getInstance();
-        walletRepository = WalletRepositoryImpl.getInstance();
-        passwordEncoder = PasswordEncoderSha256Impl.getInstance();
     }
 
     @AfterAll
-    static void afterAll() {
+    void afterAll() {
         container.stop();
     }
 
@@ -64,6 +73,8 @@ class UserRepositoryImplTest {
         liquibaseUtil.init();
     }
 
+
+    @DisplayName("Save User Entity")
     @Test
     void save() {
         String expectedName = "new User Test Name";
@@ -90,6 +101,7 @@ class UserRepositoryImplTest {
         Assertions.assertEquals(expectedName, resultUser.get().getFirstName());
     }
 
+    @DisplayName("Update User Entity")
     @Test
     void update() throws NotFoundException {
         String expectedFirstname = "UPDATE User First";
@@ -134,7 +146,7 @@ class UserRepositoryImplTest {
         Assertions.assertEquals(expectedPassword, userResult.getHashPassword());
     }
 
-    @DisplayName("Find by ID")
+    @DisplayName("Find User by ID")
     @ParameterizedTest
     @CsvSource(value = {
             "1; true",
@@ -160,11 +172,10 @@ class UserRepositoryImplTest {
         Optional<User> userResult = userRepository.findById(expectedId);
 
         Assertions.assertEquals(expectedValue, userResult.isPresent());
-        if (userResult.isPresent()) {
-            Assertions.assertEquals(expectedId, userResult.get().getId());
-        }
+        userResult.ifPresent(value -> Assertions.assertEquals(expectedId, value.getId()));
     }
 
+    @DisplayName("find User By Wallet Id")
     @Test
     void findByWalletId() {
         Wallet wallet = new Wallet(
@@ -190,6 +201,7 @@ class UserRepositoryImplTest {
         Assertions.assertEquals(expectedUserId, userResult.get().getId());
     }
 
+    @DisplayName("find All Users")
     @Test
     void findAll() {
         int expectedSize = userRepository.findAll().size() + 1;
@@ -216,7 +228,7 @@ class UserRepositoryImplTest {
         Assertions.assertEquals(expectedSize, resultSize);
     }
 
-    @DisplayName("Exist by ID")
+    @DisplayName("Exist User by ID")
     @ParameterizedTest
     @CsvSource(value = {
             "1; true",

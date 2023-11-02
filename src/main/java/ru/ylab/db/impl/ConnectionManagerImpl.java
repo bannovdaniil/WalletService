@@ -1,9 +1,11 @@
 package ru.ylab.db.impl;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import ru.ylab.Constants;
 import ru.ylab.db.ConnectionManager;
 import ru.ylab.exception.DataBaseDriverLoadException;
 import ru.ylab.util.PropertiesUtil;
-import ru.ylab.util.impl.ApplicationPropertiesUtilImpl;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -12,24 +14,20 @@ import java.sql.SQLException;
 /**
  * {@inheritDoc}
  */
+@Component
 public final class ConnectionManagerImpl implements ConnectionManager {
-    private static PropertiesUtil propertiesUtil;
-    private static ConnectionManager instance;
+    private final PropertiesUtil propertiesUtil;
 
-    private ConnectionManagerImpl() {
+    @Autowired
+    public ConnectionManagerImpl(PropertiesUtil propertiesUtil) {
+        this.propertiesUtil = propertiesUtil;
+        loadDriver(propertiesUtil.getProperties(Constants.DRIVER_CLASS_KEY));
     }
 
-    public static synchronized ConnectionManager getInstance() {
-        if (instance == null) {
-            instance = new ConnectionManagerImpl();
-            propertiesUtil = ApplicationPropertiesUtilImpl.getInstance();
-            loadDriver(propertiesUtil.getProperties(ApplicationPropertiesUtilImpl.DRIVER_CLASS_KEY));
-        }
-        return instance;
-    }
-
-    private static void loadDriver(String driverClass) {
-        ApplicationPropertiesUtilImpl.getInstance();
+    /**
+     * Подгружаем драйвер
+     */
+    private void loadDriver(String driverClass) {
         try {
             Class.forName(driverClass);
         } catch (ClassNotFoundException e) {
@@ -46,11 +44,11 @@ public final class ConnectionManagerImpl implements ConnectionManager {
     @SuppressWarnings("squid:S2095")
     public Connection getConnection() throws SQLException {
         Connection connection = DriverManager.getConnection(
-                propertiesUtil.getProperties(ApplicationPropertiesUtilImpl.URL_KEY),
-                propertiesUtil.getProperties(ApplicationPropertiesUtilImpl.USERNAME_KEY),
-                propertiesUtil.getProperties(ApplicationPropertiesUtilImpl.PASSWORD_KEY)
+                propertiesUtil.getProperties(Constants.URL_KEY, "db"),
+                propertiesUtil.getProperties(Constants.USERNAME_KEY, "db"),
+                propertiesUtil.getProperties(Constants.PASSWORD_KEY, "db")
         );
-        connection.setSchema(propertiesUtil.getProperties(ApplicationPropertiesUtilImpl.DEFAULT_SCHEMA_NAME));
+        connection.setSchema(propertiesUtil.getProperties(Constants.DEFAULT_SCHEMA_NAME));
         return connection;
     }
 

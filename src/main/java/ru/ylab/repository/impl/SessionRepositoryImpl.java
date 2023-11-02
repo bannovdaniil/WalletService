@@ -1,7 +1,8 @@
 package ru.ylab.repository.impl;
 
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Repository;
 import ru.ylab.db.ConnectionManager;
-import ru.ylab.db.impl.ConnectionManagerImpl;
 import ru.ylab.exception.RepositoryException;
 import ru.ylab.model.Session;
 import ru.ylab.repository.SessionRepository;
@@ -14,6 +15,8 @@ import java.util.UUID;
 /**
  * Репозиторий для управления сессиями пользователей.
  */
+@Repository
+@RequiredArgsConstructor
 public final class SessionRepositoryImpl implements SessionRepository {
     private static final String SAVE_SQL = """
             INSERT INTO sessions (session_time, user_id)
@@ -26,7 +29,6 @@ public final class SessionRepositoryImpl implements SessionRepository {
     private static final String DELETE_BY_ID_SQL = """
             DELETE FROM sessions WHERE session_id = ?;
             """;
-
     private static final String EXIST_BY_ID_SQL = """
                 SELECT exists (
                 SELECT 1
@@ -34,19 +36,7 @@ public final class SessionRepositoryImpl implements SessionRepository {
                         WHERE session_id = ?
                         LIMIT 1);
             """;
-    private static SessionRepository instance;
-    private final ConnectionManager connectionManager = ConnectionManagerImpl.getInstance();
-
-    private SessionRepositoryImpl() {
-    }
-
-    public static synchronized SessionRepository getInstance() {
-        if (instance == null) {
-            instance = new SessionRepositoryImpl();
-        }
-        return instance;
-    }
-
+    private final ConnectionManager connectionManager;
 
     @Override
     public Session save(Session session) {

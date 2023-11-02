@@ -1,7 +1,8 @@
 package ru.ylab.repository.impl;
 
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Repository;
 import ru.ylab.db.ConnectionManager;
-import ru.ylab.db.impl.ConnectionManagerImpl;
 import ru.ylab.exception.NotFoundException;
 import ru.ylab.exception.RepositoryException;
 import ru.ylab.model.User;
@@ -17,6 +18,8 @@ import java.util.Optional;
 /**
  * Репозиторий для управления Пользователями
  */
+@Repository
+@RequiredArgsConstructor
 public final class UserRepositoryImpl implements UserRepository {
     private static final String SAVE_SQL = """
             INSERT INTO users (user_firstname, user_lastname, user_password, wallet_id)
@@ -49,16 +52,8 @@ public final class UserRepositoryImpl implements UserRepository {
                         WHERE user_id = ?
                         LIMIT 1);
             """;
-    private static UserRepository instance;
-    private final ConnectionManager connectionManager = ConnectionManagerImpl.getInstance();
-    private final WalletRepository walletRepository = WalletRepositoryImpl.getInstance();
-
-    public static synchronized UserRepository getInstance() {
-        if (instance == null) {
-            instance = new UserRepositoryImpl();
-        }
-        return instance;
-    }
+    private final ConnectionManager connectionManager;
+    private final WalletRepository walletRepository;
 
     @Override
     public User save(User user) {

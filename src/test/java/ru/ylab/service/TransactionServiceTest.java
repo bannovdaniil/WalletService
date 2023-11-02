@@ -1,43 +1,22 @@
 package ru.ylab.service;
 
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
 import ru.ylab.repository.TransactionRepository;
-import ru.ylab.repository.impl.TransactionRepositoryImpl;
 import ru.ylab.service.impl.TransactionServiceImpl;
 
-import java.lang.reflect.Field;
-
+@ExtendWith(MockitoExtension.class)
 class TransactionServiceTest {
-    private static TransactionRepository mockTransactionRepository;
-    private static TransactionService transactionService;
-
-    private static void setMock(TransactionRepository mock) {
-        try {
-            Field instance = TransactionRepositoryImpl.class.getDeclaredField("instance");
-            instance.setAccessible(true);
-            instance.set(instance, mock);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    @BeforeAll
-    static void beforeAll() {
-        mockTransactionRepository = Mockito.mock(TransactionRepository.class);
-        setMock(mockTransactionRepository);
-        transactionService = TransactionServiceImpl.getInstance();
-    }
-
-    @AfterAll
-    static void afterAll() throws Exception {
-        Field instance = TransactionRepositoryImpl.class.getDeclaredField("instance");
-        instance.setAccessible(true);
-        instance.set(instance, null);
-    }
+    @Mock
+    private TransactionRepository mockTransactionRepository;
+    @InjectMocks
+    private TransactionServiceImpl transactionService;
 
     @BeforeEach
     void setUp() {
@@ -45,6 +24,7 @@ class TransactionServiceTest {
     }
 
 
+    @DisplayName("Find all Transaction")
     @Test
     void findAll() {
         transactionService.findAll();

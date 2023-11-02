@@ -1,7 +1,8 @@
 package ru.ylab.repository.impl;
 
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Repository;
 import ru.ylab.db.ConnectionManager;
-import ru.ylab.db.impl.ConnectionManagerImpl;
 import ru.ylab.exception.NotFoundException;
 import ru.ylab.exception.RepositoryException;
 import ru.ylab.model.Wallet;
@@ -15,8 +16,9 @@ import java.util.Optional;
 /**
  * Репозиторий для управления Счета пользователя.
  */
+@Repository
+@RequiredArgsConstructor
 public final class WalletRepositoryImpl implements WalletRepository {
-
     private static final String SAVE_SQL = """
             INSERT INTO wallets (wallet_name, wallet_balance)
             VALUES (?, ?) ;
@@ -42,18 +44,7 @@ public final class WalletRepositoryImpl implements WalletRepository {
                         WHERE wallet_id = ?
                         LIMIT 1);
             """;
-    private static WalletRepository instance;
-    private final ConnectionManager connectionManager = ConnectionManagerImpl.getInstance();
-
-    private WalletRepositoryImpl() {
-    }
-
-    public static synchronized WalletRepository getInstance() {
-        if (instance == null) {
-            instance = new WalletRepositoryImpl();
-        }
-        return instance;
-    }
+    private final ConnectionManager connectionManager;
 
     @Override
     public Wallet save(Wallet wallet) {

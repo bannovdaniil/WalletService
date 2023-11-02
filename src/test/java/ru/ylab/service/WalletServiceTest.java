@@ -1,113 +1,50 @@
 package ru.ylab.service;
 
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.junit.jupiter.MockitoSettings;
+import org.mockito.quality.Strictness;
 import ru.ylab.exception.NotFoundException;
+import ru.ylab.mapper.WalletMapper;
 import ru.ylab.model.Session;
 import ru.ylab.model.User;
 import ru.ylab.model.Wallet;
 import ru.ylab.model.dto.BalanceType;
 import ru.ylab.model.dto.WalletIncomingDto;
+import ru.ylab.model.dto.WalletOutDto;
 import ru.ylab.repository.SessionRepository;
 import ru.ylab.repository.TransactionRepository;
 import ru.ylab.repository.UserRepository;
 import ru.ylab.repository.WalletRepository;
-import ru.ylab.repository.impl.SessionRepositoryImpl;
-import ru.ylab.repository.impl.TransactionRepositoryImpl;
-import ru.ylab.repository.impl.UserRepositoryImpl;
-import ru.ylab.repository.impl.WalletRepositoryImpl;
 import ru.ylab.service.impl.WalletServiceImpl;
 
-import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
 
+@ExtendWith(MockitoExtension.class)
+@MockitoSettings(strictness = Strictness.LENIENT)
 class WalletServiceTest {
-    private static WalletService walletService;
-    private static UserRepository mockUserRepository;
-    private static WalletRepository mockWalletRepository;
-    private static SessionRepository mockSessionRepository;
-    private static TransactionRepository mockTransactionRepository;
-
-    private static void setMock(UserRepository mock) {
-        try {
-            Field instance = UserRepositoryImpl.class.getDeclaredField("instance");
-            instance.setAccessible(true);
-            instance.set(instance, mock);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    private static void setMock(WalletRepository mock) {
-        try {
-            Field instance = WalletRepositoryImpl.class.getDeclaredField("instance");
-            instance.setAccessible(true);
-            instance.set(instance, mock);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    private static void setMock(SessionRepository mock) {
-        try {
-            Field instance = SessionRepositoryImpl.class.getDeclaredField("instance");
-            instance.setAccessible(true);
-            instance.set(instance, mock);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    private static void setMock(TransactionRepository mock) {
-        try {
-            Field instance = TransactionRepositoryImpl.class.getDeclaredField("instance");
-            instance.setAccessible(true);
-            instance.set(instance, mock);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    @BeforeAll
-    static void beforeAll() throws NoSuchFieldException, IllegalAccessException {
-        mockUserRepository = Mockito.mock(UserRepository.class);
-        setMock(mockUserRepository);
-        mockWalletRepository = Mockito.mock(WalletRepository.class);
-        setMock(mockWalletRepository);
-        mockSessionRepository = Mockito.mock(SessionRepository.class);
-        setMock(mockSessionRepository);
-        mockTransactionRepository = Mockito.mock(TransactionRepository.class);
-        setMock(mockTransactionRepository);
-
-        walletService = WalletServiceImpl.getInstance();
-    }
-
-    @AfterAll
-    static void afterAll() throws Exception {
-        Field instance = UserRepositoryImpl.class.getDeclaredField("instance");
-        instance.setAccessible(true);
-        instance.set(instance, null);
-
-        instance = WalletRepositoryImpl.class.getDeclaredField("instance");
-        instance.setAccessible(true);
-        instance.set(instance, null);
-
-        instance = WalletServiceImpl.class.getDeclaredField("instance");
-        instance.setAccessible(true);
-        instance.set(instance, null);
-
-        instance = SessionRepositoryImpl.class.getDeclaredField("instance");
-        instance.setAccessible(true);
-        instance.set(instance, null);
-
-        instance = TransactionRepositoryImpl.class.getDeclaredField("instance");
-        instance.setAccessible(true);
-        instance.set(instance, null);
-
-    }
+    @Mock
+    private UserRepository mockUserRepository;
+    @Mock
+    private WalletRepository mockWalletRepository;
+    @Mock
+    private WalletMapper mockWalletMapper;
+    @Mock
+    private SessionRepository mockSessionRepository;
+    @Mock
+    private TransactionRepository mockTransactionRepository;
+    @InjectMocks
+    private WalletServiceImpl walletService;
 
     @BeforeEach
     void setUp() {
@@ -115,6 +52,7 @@ class WalletServiceTest {
         Mockito.reset(mockWalletRepository);
     }
 
+    @DisplayName("Get Wallet by ID")
     @Test
     void find() throws NotFoundException {
         Long expectedId = 1L;
@@ -126,12 +64,12 @@ class WalletServiceTest {
         );
 
         Mockito.doReturn(Optional.of(wallet)).when(mockWalletRepository).findById(Mockito.anyLong());
-
         Wallet result = walletService.findById(expectedId);
 
         Assertions.assertEquals(expectedId, result.getId());
     }
 
+    @DisplayName("Get Wallet by ID - Not found exception")
     @Test
     void findByIdNotFound() {
         Mockito.doReturn(false).when(mockWalletRepository).exitsById(Mockito.any());
@@ -143,6 +81,7 @@ class WalletServiceTest {
         Assertions.assertEquals("Wallet not found", exception.getMessage());
     }
 
+    @DisplayName("Change Wallet balance - GET")
     @Test
     void changeBalanceGet() throws NotFoundException {
         Session session = new Session(
@@ -171,11 +110,17 @@ class WalletServiceTest {
                 "4.31"
         );
 
+        WalletOutDto outDto = new WalletOutDto(
+                new BigDecimal(dto.getSum())
+        );
+        Mockito.doReturn(outDto).when(mockWalletMapper).walletToDto(Mockito.any(Wallet.class));
+
         walletService.changeBalance(UUID.randomUUID(), dto);
 
         Mockito.verify(mockWalletRepository).update(Mockito.any());
     }
 
+    @DisplayName("Change Wallet balance - PUT")
     @Test
     void changeBalancePut() throws NotFoundException {
         Session session = new Session(
@@ -203,6 +148,10 @@ class WalletServiceTest {
                 BalanceType.PUT,
                 "4.31"
         );
+        WalletOutDto outDto = new WalletOutDto(
+                new BigDecimal(dto.getSum())
+        );
+        Mockito.doReturn(outDto).when(mockWalletMapper).walletToDto(Mockito.any(Wallet.class));
 
         walletService.changeBalance(UUID.randomUUID(), dto);
 

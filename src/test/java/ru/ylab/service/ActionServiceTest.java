@@ -1,48 +1,33 @@
 package ru.ylab.service;
 
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
 import ru.ylab.model.Action;
 import ru.ylab.repository.ActionRepository;
-import ru.ylab.repository.impl.ActionRepositoryImpl;
 import ru.ylab.service.impl.ActionServiceImpl;
 
-import java.lang.reflect.Field;
 import java.time.LocalDateTime;
 
+@ExtendWith(MockitoExtension.class)
 class ActionServiceTest {
-    private static ActionRepository mockActionRepository;
-    private static ActionService actionService;
-
-    private static void setMock(ActionRepository mock) {
-        try {
-            Field instance = ActionRepositoryImpl.class.getDeclaredField("instance");
-            instance.setAccessible(true);
-            instance.set(instance, mock);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    @BeforeAll
-    static void beforeAll() {
-        mockActionRepository = Mockito.mock(ActionRepository.class);
-        setMock(mockActionRepository);
-        actionService = ActionServiceImpl.getInstance();
-    }
-
-    @AfterAll
-    static void afterAll() throws Exception {
-        Field instance = ActionRepositoryImpl.class.getDeclaredField("instance");
-        instance.setAccessible(true);
-        instance.set(instance, null);
-    }
+    @Mock
+    private ActionRepository mockActionRepository;
+    @InjectMocks
+    private ActionServiceImpl actionService;
 
     @BeforeEach
     void setUp() {
         Mockito.reset(mockActionRepository);
     }
 
+    @DisplayName("Add action")
     @Test
     void add() {
         Long expectedId = 1L;
@@ -56,6 +41,7 @@ class ActionServiceTest {
         Assertions.assertEquals(expectedId, result.getId());
     }
 
+    @DisplayName("Find all action")
     @Test
     void findAll() {
         actionService.findAll();

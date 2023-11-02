@@ -1,45 +1,30 @@
 package ru.ylab.service.impl;
 
-import jakarta.servlet.http.Cookie;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 import ru.ylab.model.Session;
 import ru.ylab.model.User;
 import ru.ylab.model.dto.UserLoginDto;
 import ru.ylab.repository.SessionRepository;
 import ru.ylab.repository.UserRepository;
-import ru.ylab.repository.impl.SessionRepositoryImpl;
-import ru.ylab.repository.impl.UserRepositoryImpl;
 import ru.ylab.service.SessionService;
-import ru.ylab.util.PasswordEncoder;
-import ru.ylab.util.impl.PasswordEncoderSha256Impl;
 
 import java.nio.file.AccessDeniedException;
 import java.security.InvalidParameterException;
 import java.time.LocalDateTime;
-import java.util.Arrays;
 import java.util.Optional;
 import java.util.UUID;
-
-import static ru.ylab.Constants.SESSION_COOKIE;
 
 /**
  * Бизнес логика Action Событий которые делает пользователь.
  */
+@Service
+@RequiredArgsConstructor
 public class SessionServiceImpl implements SessionService {
-    private static SessionService instance;
-    private final SessionRepository sessionRepository = SessionRepositoryImpl.getInstance();
-    private final UserRepository userRepository = UserRepositoryImpl.getInstance();
-    private final PasswordEncoder passwordEncoder = PasswordEncoderSha256Impl.getInstance();
-
-
-    private SessionServiceImpl() {
-    }
-
-    public static synchronized SessionService getInstance() {
-        if (instance == null) {
-            instance = new SessionServiceImpl();
-        }
-        return instance;
-    }
+    private final SessionRepository sessionRepository;
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public User getUser(UUID sessionId) {
@@ -62,7 +47,7 @@ public class SessionServiceImpl implements SessionService {
                 () -> new AccessDeniedException("Wrong.")
         );
 
-        if (passwordEncoder.encode(dto.getPassword()).equals(user.getHashPassword())) {
+        if (passwordEncoder.matches(dto.getPassword(), user.getHashPassword())) {
             Session session = new Session(
                     LocalDateTime.now(),
                     dto.getUserId()
@@ -86,16 +71,10 @@ public class SessionServiceImpl implements SessionService {
     }
 
     @Override
-    public Optional<UUID> getUuidFromCookie(Cookie[] cookies) {
+    public Optional<UUID> getUuidFromCookie(String cookies) {
         Optional<UUID> uuid = Optional.empty();
-        if (cookies != null) {
-            Optional<String> cookieValue = Arrays.stream(cookies)
-                    .filter(cookie -> SESSION_COOKIE.equals(cookie.getName()))
-                    .map(Cookie::getValue)
-                    .findFirst();
-            if (cookieValue.isPresent()) {
-                uuid = Optional.ofNullable(UUID.fromString(cookieValue.get()));
-            }
+        if (cookies != null && !cookies.isBlank()) {
+            uuid = Optional.of(UUID.fromString(cookies));
         }
         return uuid;
     }

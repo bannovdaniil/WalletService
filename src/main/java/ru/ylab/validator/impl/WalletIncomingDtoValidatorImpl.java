@@ -2,27 +2,15 @@ package ru.ylab.validator.impl;
 
 import ru.ylab.model.dto.BalanceType;
 import ru.ylab.model.dto.WalletIncomingDto;
-import ru.ylab.validator.Validator;
+import ru.ylab.validator.WalletIncomingDtoValidation;
 
+import javax.validation.ConstraintValidator;
+import javax.validation.ConstraintValidatorContext;
 import java.util.Set;
 
 import static ru.ylab.Constants.REGEXP_FORMAT_MONEY;
 
-/**
- * {@inheritDoc}
- */
-public class WalletIncomingDtoValidatorImpl implements Validator<WalletIncomingDto> {
-    private static Validator<WalletIncomingDto> instance;
-
-    private WalletIncomingDtoValidatorImpl() {
-    }
-
-    public static synchronized Validator<WalletIncomingDto> getInstance() {
-        if (instance == null) {
-            instance = new WalletIncomingDtoValidatorImpl();
-        }
-        return instance;
-    }
+public class WalletIncomingDtoValidatorImpl implements ConstraintValidator<WalletIncomingDtoValidation, WalletIncomingDto> {
 
     /**
      * Проверка на Null
@@ -30,8 +18,7 @@ public class WalletIncomingDtoValidatorImpl implements Validator<WalletIncomingD
      * Проверка Входящего числа.
      */
     @Override
-    public boolean isValid(WalletIncomingDto dto) {
-
+    public boolean isValid(WalletIncomingDto dto, ConstraintValidatorContext context) {
         return (dto != null
                 && dto.getType() != null
                 && Set.of(BalanceType.values()).contains(dto.getType())

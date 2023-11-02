@@ -1,8 +1,9 @@
 package ru.ylab.service.impl;
 
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 import ru.ylab.model.Transaction;
 import ru.ylab.repository.TransactionRepository;
-import ru.ylab.repository.impl.TransactionRepositoryImpl;
 import ru.ylab.service.TransactionService;
 
 import java.util.List;
@@ -10,20 +11,11 @@ import java.util.List;
 /**
  * Бизнес логика Transaction Событий которые происходят со счетом.
  */
+@Service
+@RequiredArgsConstructor
 public class TransactionServiceImpl implements TransactionService {
-    private static TransactionService instance;
 
-    private TransactionRepository transactionRepository = TransactionRepositoryImpl.getInstance();
-
-    private TransactionServiceImpl() {
-    }
-
-    public static synchronized TransactionService getInstance() {
-        if (instance == null) {
-            instance = new TransactionServiceImpl();
-        }
-        return instance;
-    }
+    private final TransactionRepository transactionRepository;
 
     @Override
     public List<Transaction> findAll() {
