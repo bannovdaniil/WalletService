@@ -75,7 +75,7 @@ public class UserController {
     /**
      * Создать пользователя
      */
-    @PostMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<UserOutDto> createUser(@CookieValue(value = Constants.SESSION_COOKIE, defaultValue = "") String cookie,
                                                  @RequestBody @Validated UserIncomingDto userIncomingDto) {
         try {

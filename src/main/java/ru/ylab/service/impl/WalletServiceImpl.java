@@ -3,6 +3,7 @@ package ru.ylab.service.impl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.ylab.exception.NotFoundException;
+import ru.ylab.mapper.WalletMapper;
 import ru.ylab.model.*;
 import ru.ylab.model.dto.WalletIncomingDto;
 import ru.ylab.model.dto.WalletOutDto;
@@ -24,6 +25,7 @@ import static ru.ylab.Constants.REGEXP_FORMAT_MONEY;
 @Service
 @RequiredArgsConstructor
 public class WalletServiceImpl implements WalletService {
+    private final WalletMapper walletMapper;
     private final WalletRepository walletRepository;
     private final TransactionRepository transactionRepository;
     private final SessionRepository sessionRepository;
@@ -42,7 +44,7 @@ public class WalletServiceImpl implements WalletService {
      * @param user       - владелец счета
      * @param moneyValue - сумма
      */
-    private Wallet putMoney(User user, String moneyValue) throws NotFoundException {
+    private void putMoney(User user, String moneyValue) throws NotFoundException {
         if (moneyValue.matches(REGEXP_FORMAT_MONEY) && user != null && user.getWallet() != null) {
             BigDecimal addValue = new BigDecimal(moneyValue.replace(",", "."));
 
@@ -59,9 +61,7 @@ public class WalletServiceImpl implements WalletService {
                         TransactionType.PUT,
                         addValue,
                         user.getId()));
-                return walletRepository.findById(walletId).orElseThrow();
             }
-            return wallet;
         }
         throw new IllegalArgumentException("Bad arguments");
     }
@@ -72,7 +72,7 @@ public class WalletServiceImpl implements WalletService {
      * @param user       - владелец счета
      * @param moneyValue - сумма
      */
-    private Wallet getMoney(User user, String moneyValue) throws NotFoundException {
+    private void getMoney(User user, String moneyValue) throws NotFoundException {
         if (moneyValue.matches(REGEXP_FORMAT_MONEY) && user != null && user.getWallet() != null) {
             BigDecimal subtractValue = new BigDecimal(moneyValue.replace(",", "."));
 
@@ -94,9 +94,7 @@ public class WalletServiceImpl implements WalletService {
                         TransactionType.GET,
                         subtractValue,
                         user.getId()));
-                return walletRepository.findById(walletId).orElseThrow();
             }
-            return wallet;
         }
         throw new IllegalArgumentException("Bad arguments");
     }
@@ -104,9 +102,8 @@ public class WalletServiceImpl implements WalletService {
     @Override
     public WalletOutDto getBalance(UUID sessionId) {
         User user = getUserFromSession(sessionId);
-        return new WalletOutDto(
-                walletRepository.findById(user.getWallet().getId()).orElseThrow().getBalance()
-        );
+        Wallet wallet = walletRepository.findById(user.getWallet().getId()).orElseThrow();
+        return walletMapper.walletToDto(wallet);
     }
 
     @Override

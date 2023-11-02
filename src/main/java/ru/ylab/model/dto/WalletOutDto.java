@@ -1,7 +1,7 @@
 package ru.ylab.model.dto;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
@@ -11,7 +11,7 @@ import java.math.BigDecimal;
  */
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
+@Data
 public class WalletOutDto {
     private BigDecimal balance;
 }
