@@ -11,8 +11,7 @@ import java.security.InvalidParameterException;
 
 @RestControllerAdvice(assignableTypes = {
         ActionController.class,
-        LoginController.class,
-        LogoutController.class,
+        AuthController.class,
         TransactionController.class,
         UserController.class,
         WalletController.class

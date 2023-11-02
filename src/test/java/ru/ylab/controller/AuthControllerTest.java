@@ -22,17 +22,18 @@ import java.nio.file.AccessDeniedException;
 import java.util.Optional;
 import java.util.UUID;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)
-class LoginControllerTest {
+class AuthControllerTest {
     private final ObjectMapper mapper = new ObjectMapper();
     @Mock
     private SessionService mockSessionService;
     @InjectMocks
-    private LoginController controller;
+    private AuthController controller;
     private MockMvc mvc;
     private UserLoginDto dto;
 
@@ -88,4 +89,30 @@ class LoginControllerTest {
                 .andExpect(status().isBadRequest());
     }
 
+    @Test
+    void logoutAction() throws Exception {
+        Mockito.doReturn(Optional.of(UUID.randomUUID())).when(mockSessionService).getUuidFromCookie(Mockito.any());
+        Mockito.doReturn(true).when(mockSessionService).isActive(Mockito.any());
+
+        mvc.perform(get("/api/logout"))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void logoutActionAccessDenied() throws Exception {
+        Mockito.doReturn(Optional.empty()).when(mockSessionService).getUuidFromCookie(Mockito.any());
+
+        mvc.perform(get("/api/logout"))
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    void logoutActionBadRequest() throws Exception {
+        Mockito.doReturn(Optional.of(UUID.randomUUID())).when(mockSessionService).getUuidFromCookie(Mockito.any());
+        Mockito.doReturn(true).when(mockSessionService).isActive(Mockito.any());
+        Mockito.doThrow(new RepositoryException("Test SQL exception.")).when(mockSessionService).logout(Mockito.any());
+
+        mvc.perform(get("/api/logout"))
+                .andExpect(status().isBadRequest());
+    }
 }

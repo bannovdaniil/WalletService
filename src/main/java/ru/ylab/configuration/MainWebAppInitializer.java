@@ -21,19 +21,19 @@ public class MainWebAppInitializer extends AbstractAnnotationConfigDispatcherSer
         dispatcher.addMapping("/");
     }
 
-        @Override
-        protected Class<?>[] getServletConfigClasses() {
-            return new Class[] { WebConfig.class };
-        }
+    @Override
+    protected Class<?>[] getServletConfigClasses() {
+        return new Class[]{WebConfig.class};
+    }
 
-        @Override
-        protected String[] getServletMappings() {
-            return new String[] { "/" };
-        }
+    @Override
+    protected String[] getServletMappings() {
+        return new String[]{"/"};
+    }
 
-        @Override
-        protected Class<?>[] getRootConfigClasses() {
-            return null;
-        }
+    @Override
+    protected Class<?>[] getRootConfigClasses() {
+        return null;
+    }
 
 }
