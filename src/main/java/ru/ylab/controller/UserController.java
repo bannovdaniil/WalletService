@@ -25,6 +25,7 @@ import java.util.UUID;
  * - Получить Список пользователей
  */
 @RestController
+@RequestMapping("/api/user")
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
@@ -33,7 +34,7 @@ public class UserController {
     /**
      * Получить пользователя по ID
      */
-    @GetMapping(value = "/api/user/{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<UserOutDto> getUserById(@CookieValue(value = Constants.SESSION_COOKIE, defaultValue = "") String cookie,
                                                   @PathVariable Long userId) {
         try {
@@ -54,7 +55,7 @@ public class UserController {
     /**
      * Получить весь список Пользователей
      */
-    @GetMapping(value = "/api/user/all", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/all", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<UserOutDto>> getUserList(@CookieValue(value = Constants.SESSION_COOKIE, defaultValue = "") String cookie) {
         try {
             Optional<UUID> sessionId = sessionService.getUuidFromCookie(cookie);
@@ -74,7 +75,7 @@ public class UserController {
     /**
      * Создать пользователя
      */
-    @PostMapping(value = "/api/user", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<UserOutDto> createUser(@CookieValue(value = Constants.SESSION_COOKIE, defaultValue = "") String cookie,
                                                  @RequestBody @Validated UserIncomingDto userIncomingDto) {
         try {

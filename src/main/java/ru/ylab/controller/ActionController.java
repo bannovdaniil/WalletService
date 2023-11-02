@@ -5,6 +5,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.ylab.Constants;
 import ru.ylab.exception.ResponseAccessDeniedException;
@@ -22,12 +23,13 @@ import java.util.UUID;
  * Показывает Лог действий пользователя.
  */
 @RestController
+@RequestMapping("/api")
 @RequiredArgsConstructor
 public class ActionController {
     private final ActionService actionService;
     private final SessionService sessionService;
 
-    @GetMapping(value = "/api/action", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/action", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<Action>> getActionList(@CookieValue(value = Constants.SESSION_COOKIE, defaultValue = "") String cookie) {
         try {
             Optional<UUID> sessionId = sessionService.getUuidFromCookie(cookie);

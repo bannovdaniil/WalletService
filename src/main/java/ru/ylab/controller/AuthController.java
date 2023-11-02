@@ -19,12 +19,12 @@ import java.util.UUID;
  * Авторизация Login/Logout для пользователя.
  */
 @RestController
-@RequestMapping("/")
+@RequestMapping("/api")
 @RequiredArgsConstructor
 public class AuthController {
     private final SessionService sessionService;
 
-    @PostMapping(value = "/api/login", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/login", produces = MediaType.APPLICATION_JSON_VALUE)
     public void loginAction(
             @CookieValue(value = Constants.SESSION_COOKIE, defaultValue = "") String cookie,
             @RequestBody @Validated UserLoginDto dto,
@@ -45,7 +45,7 @@ public class AuthController {
         }
     }
 
-    @GetMapping(value = "/api/logout", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/logout", produces = MediaType.APPLICATION_JSON_VALUE)
     public void logoutAction(
             @CookieValue(value = Constants.SESSION_COOKIE, defaultValue = "") String cookie,
             HttpServletResponse response) {
