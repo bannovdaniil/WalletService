@@ -18,6 +18,7 @@ import ru.ylab.model.User;
 import ru.ylab.model.Wallet;
 import ru.ylab.model.dto.BalanceType;
 import ru.ylab.model.dto.WalletIncomingDto;
+import ru.ylab.model.dto.WalletOutDto;
 import ru.ylab.repository.SessionRepository;
 import ru.ylab.repository.TransactionRepository;
 import ru.ylab.repository.UserRepository;
@@ -109,6 +110,11 @@ class WalletServiceTest {
                 "4.31"
         );
 
+        WalletOutDto outDto = new WalletOutDto(
+                new BigDecimal(dto.getSum())
+        );
+        Mockito.doReturn(outDto).when(mockWalletMapper).walletToDto(Mockito.any(Wallet.class));
+
         walletService.changeBalance(UUID.randomUUID(), dto);
 
         Mockito.verify(mockWalletRepository).update(Mockito.any());
@@ -142,6 +148,10 @@ class WalletServiceTest {
                 BalanceType.PUT,
                 "4.31"
         );
+        WalletOutDto outDto = new WalletOutDto(
+                new BigDecimal(dto.getSum())
+        );
+        Mockito.doReturn(outDto).when(mockWalletMapper).walletToDto(Mockito.any(Wallet.class));
 
         walletService.changeBalance(UUID.randomUUID(), dto);
 

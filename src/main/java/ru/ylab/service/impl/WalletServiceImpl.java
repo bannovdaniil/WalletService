@@ -62,8 +62,9 @@ public class WalletServiceImpl implements WalletService {
                         addValue,
                         user.getId()));
             }
+        } else {
+            throw new IllegalArgumentException("Bad arguments");
         }
-        throw new IllegalArgumentException("Bad arguments");
     }
 
     /**
@@ -95,8 +96,9 @@ public class WalletServiceImpl implements WalletService {
                         subtractValue,
                         user.getId()));
             }
+        } else {
+            throw new IllegalArgumentException("Bad arguments");
         }
-        throw new IllegalArgumentException("Bad arguments");
     }
 
     @Override

@@ -59,10 +59,18 @@ class UserServiceTest {
                 null
         );
 
+        UserOutDto outDto = new UserOutDto(
+                user.getId(),
+                user.getFirstName(),
+                user.getLastName()
+        );
+        Mockito.doReturn(user).when(mockUserMapper).dtoToUser(Mockito.any());
         Mockito.doReturn(user).when(mockUserRepository).save(Mockito.any(User.class));
         Mockito.doReturn(Optional.of(user)).when(mockUserRepository).findById(Mockito.anyLong());
+        Mockito.doReturn(outDto).when(mockUserMapper).userToDto(Mockito.any(User.class));
 
         UserOutDto result = userService.add(dto);
+
 
         Assertions.assertEquals(expectedId, result.getId());
     }
@@ -79,7 +87,13 @@ class UserServiceTest {
                 null
         ));
 
+        UserOutDto outDto = new UserOutDto(
+                expectedId,
+                user.get().getFirstName(),
+                user.get().getLastName()
+        );
         Mockito.doReturn(user).when(mockUserRepository).findById(Mockito.anyLong());
+        Mockito.doReturn(outDto).when(mockUserMapper).userToDto(Mockito.any(User.class));
 
         UserOutDto result = userService.findById(expectedId);
 
