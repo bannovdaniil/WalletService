@@ -13,6 +13,7 @@ import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import ru.ylab.exception.NotFoundException;
+import ru.ylab.mapper.UserMapper;
 import ru.ylab.model.User;
 import ru.ylab.model.dto.UserIncomingDto;
 import ru.ylab.model.dto.UserOutDto;
@@ -31,6 +32,8 @@ class UserServiceTest {
     private WalletRepository mockWalletRepository;
     @Mock
     private PasswordEncoder mockPasswordEncoder;
+    @Mock
+    private UserMapper mockUserMapper;
     @InjectMocks
     private UserServiceImpl userService;
 

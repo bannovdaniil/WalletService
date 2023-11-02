@@ -12,6 +12,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
 import ru.ylab.exception.NotFoundException;
+import ru.ylab.mapper.WalletMapper;
 import ru.ylab.model.Session;
 import ru.ylab.model.User;
 import ru.ylab.model.Wallet;
@@ -35,6 +36,8 @@ class WalletServiceTest {
     private UserRepository mockUserRepository;
     @Mock
     private WalletRepository mockWalletRepository;
+    @Mock
+    private WalletMapper mockWalletMapper;
     @Mock
     private SessionRepository mockSessionRepository;
     @Mock
@@ -60,7 +63,6 @@ class WalletServiceTest {
         );
 
         Mockito.doReturn(Optional.of(wallet)).when(mockWalletRepository).findById(Mockito.anyLong());
-
         Wallet result = walletService.findById(expectedId);
 
         Assertions.assertEquals(expectedId, result.getId());
