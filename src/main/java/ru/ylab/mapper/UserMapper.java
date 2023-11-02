@@ -9,6 +9,9 @@ import ru.ylab.model.dto.UserOutDto;
 
 import java.util.List;
 
+/**
+ * Маппер для User
+ */
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface UserMapper {
     UserMapper INSTANCE = Mappers.getMapper(UserMapper.class);

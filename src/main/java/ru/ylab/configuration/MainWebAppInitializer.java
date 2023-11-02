@@ -9,6 +9,9 @@ import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatche
 import javax.servlet.ServletContext;
 import javax.servlet.ServletRegistration;
 
+/**
+ * Главная стартовая точка, инициализация сервелетов, и ендпоитов для спринга.
+ */
 public class MainWebAppInitializer extends AbstractAnnotationConfigDispatcherServletInitializer implements WebApplicationInitializer {
 
     @Override

@@ -9,6 +9,9 @@ import ru.ylab.controller.*;
 
 import java.security.InvalidParameterException;
 
+/**
+ * Обработчик всех exception прилетающих на REST
+ */
 @RestControllerAdvice(assignableTypes = {
         ActionController.class,
         AuthController.class,

@@ -6,6 +6,9 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 
+/**
+ * Исходящее DTO для счета.
+ */
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter

@@ -9,6 +9,9 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+/**
+ * Валидация сущности UserLoginDto
+ */
 @Constraint(validatedBy = UserLoginDtoValidatorImpl.class)
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)

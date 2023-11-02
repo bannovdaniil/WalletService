@@ -4,6 +4,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+/**
+ * Шифровальщик паролей
+ */
 @Component
 public class ByCryptEncoder implements PasswordEncoder {
     private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();

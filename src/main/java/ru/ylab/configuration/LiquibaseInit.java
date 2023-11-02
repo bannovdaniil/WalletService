@@ -9,6 +9,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 import ru.ylab.util.LiquibaseUtil;
 
+/**
+ * Инициализация Liquibase во время старта приложения.
+ */
 @Component
 @RequiredArgsConstructor
 @Slf4j

@@ -16,6 +16,9 @@ import java.util.Optional;
 import java.util.StringJoiner;
 import java.util.UUID;
 
+/**
+ * Логика Aspect
+ */
 @Component
 @Aspect
 @Slf4j
@@ -24,6 +27,9 @@ public class LoggingAspect {
     private final ActionService actionService;
     private final SessionService sessionService;
 
+    /**
+     * Сохраняем действия и данные ендпоинтов в базу Действий.
+     */
     @Around("ru.ylab.aop.aspects.CommonPointcuts.isGetMapping(cookie) " +
             "|| ru.ylab.aop.aspects.CommonPointcuts.isPutMapping(cookie) " +
             "|| ru.ylab.aop.aspects.CommonPointcuts.isPostMapping(cookie)")

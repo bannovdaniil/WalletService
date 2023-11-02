@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 /**
- * Входящее DTO используется при создании пользователя.
+ * Исходящее DTO используется при создании пользователя.
  */
 @AllArgsConstructor
 @NoArgsConstructor

@@ -4,6 +4,9 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.stereotype.Component;
 
+/**
+ * Класс для aspectJ содержащий точки перехвата.
+ */
 @Component
 @Aspect
 public class CommonPointcuts {
