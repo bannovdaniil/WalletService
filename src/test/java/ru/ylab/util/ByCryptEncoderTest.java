@@ -1,11 +1,13 @@
 package ru.ylab.util;
 
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 class ByCryptEncoderTest {
 
+    @DisplayName("Encoded password")
     @Test
     void encode() {
         PasswordEncoder passwordEncoder = new ByCryptEncoder();

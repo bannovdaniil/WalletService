@@ -2,6 +2,7 @@ package ru.ylab.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -48,6 +49,7 @@ class AuthControllerTest {
 
     }
 
+    @DisplayName("User Login")
     @Test
     void loginAction() throws Exception {
         Mockito.doReturn(UUID.randomUUID()).when(mockSessionService).login(Mockito.any());
@@ -63,6 +65,7 @@ class AuthControllerTest {
                 .andExpect(status().isOk());
     }
 
+    @DisplayName("User Login - AccessDenied")
     @Test
     void loginActionAccessDenied() throws Exception {
         Mockito.doThrow(new AccessDeniedException("Test exception.")).when(mockSessionService).login(Mockito.any());
@@ -76,6 +79,7 @@ class AuthControllerTest {
                 .andExpect(status().isForbidden());
     }
 
+    @DisplayName("User Login - BadRequest")
     @Test
     void loginActionBadRequest() throws Exception {
         Mockito.doThrow(new RepositoryException("Test SQL exception.")).when(mockSessionService).login(Mockito.any());
@@ -89,6 +93,7 @@ class AuthControllerTest {
                 .andExpect(status().isBadRequest());
     }
 
+    @DisplayName("User Logout")
     @Test
     void logoutAction() throws Exception {
         Mockito.doReturn(Optional.of(UUID.randomUUID())).when(mockSessionService).getUuidFromCookie(Mockito.any());
@@ -98,6 +103,7 @@ class AuthControllerTest {
                 .andExpect(status().isOk());
     }
 
+    @DisplayName("User Logout - AccessDenied")
     @Test
     void logoutActionAccessDenied() throws Exception {
         Mockito.doReturn(Optional.empty()).when(mockSessionService).getUuidFromCookie(Mockito.any());
@@ -106,6 +112,7 @@ class AuthControllerTest {
                 .andExpect(status().isForbidden());
     }
 
+    @DisplayName("User Logout - BadRequest")
     @Test
     void logoutActionBadRequest() throws Exception {
         Mockito.doReturn(Optional.of(UUID.randomUUID())).when(mockSessionService).getUuidFromCookie(Mockito.any());

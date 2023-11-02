@@ -2,6 +2,7 @@ package ru.ylab.service;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -41,6 +42,7 @@ class UserServiceTest {
         Mockito.doReturn("mockHashPassword").when(mockPasswordEncoder).encode(Mockito.anyString());
     }
 
+    @DisplayName("Add new user")
     @Test
     void add() throws NotFoundException {
         Long expectedId = 1L;
@@ -62,6 +64,7 @@ class UserServiceTest {
         Assertions.assertEquals(expectedId, result.getId());
     }
 
+    @DisplayName("Get user by ID")
     @Test
     void find() throws NotFoundException {
         Long expectedId = 1L;
@@ -80,6 +83,7 @@ class UserServiceTest {
         Assertions.assertEquals(expectedId, result.getId());
     }
 
+    @DisplayName("Get user by ID - Not Found Exception")
     @Test
     void findByIdNotFound() {
         Optional<User> user = Optional.empty();
@@ -95,6 +99,7 @@ class UserServiceTest {
         Assertions.assertEquals("User not found", exception.getMessage());
     }
 
+    @DisplayName("Find all user")
     @Test
     void findAll() {
         userService.findAll();

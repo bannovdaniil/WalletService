@@ -1,6 +1,7 @@
 package ru.ylab.controller;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -52,6 +53,7 @@ class TransactionControllerTest {
         );
     }
 
+    @DisplayName("get Transaction List")
     @Test
     void getTransactionList() throws Exception {
         Mockito.doReturn(List.of(dto)).when(mockTransactionService).findAll();
@@ -67,6 +69,7 @@ class TransactionControllerTest {
 
     }
 
+    @DisplayName("get Transaction List - AccessDenied")
     @Test
     void getTransactionListAccessDenied() throws Exception {
         Mockito.doReturn(List.of(dto)).when(mockTransactionService).findAll();
@@ -76,6 +79,7 @@ class TransactionControllerTest {
                 .andExpect(status().isForbidden());
     }
 
+    @DisplayName("get Transaction List - BadRequest")
     @Test
     void getTransactionListBadRequest() throws Exception {
         Mockito.doReturn(Optional.of(UUID.randomUUID())).when(mockSessionService).getUuidFromCookie(Mockito.any());

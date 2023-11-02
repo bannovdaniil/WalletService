@@ -84,6 +84,7 @@ class WalletRepositoryImplTest {
         Assertions.assertEquals(expectedName, resultWallet.get().getName());
     }
 
+    @DisplayName("Update Wallet")
     @Test
     void update() throws NotFoundException {
         String expectedName = "UPDATE Wallet Name";
@@ -111,7 +112,7 @@ class WalletRepositoryImplTest {
         Assertions.assertEquals(expectedBalance, walletResult.getBalance().toString());
     }
 
-    @DisplayName("Find by ID")
+    @DisplayName("Find Wallet by ID")
     @ParameterizedTest
     @CsvSource(value = {
             "1; true",
@@ -131,6 +132,7 @@ class WalletRepositoryImplTest {
         walletResult.ifPresent(value -> Assertions.assertEquals(expectedId, value.getId()));
     }
 
+    @DisplayName("Find all Wallet")
     @Test
     void findAll() {
         int expectedSize = walletRepository.findAll().size() + 1;
@@ -147,7 +149,7 @@ class WalletRepositoryImplTest {
         Assertions.assertEquals(expectedSize, resultSize);
     }
 
-    @DisplayName("Exist by ID")
+    @DisplayName("Exist Wallet by ID")
     @ParameterizedTest
     @CsvSource(value = {
             "1; true",

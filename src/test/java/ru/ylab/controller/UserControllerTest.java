@@ -2,6 +2,7 @@ package ru.ylab.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -58,6 +59,7 @@ class UserControllerTest {
         );
     }
 
+    @DisplayName("get User By Id")
     @Test
     void getUserById() throws Exception {
         Mockito.doReturn(outDto).when(mockUserService).findById(Mockito.anyLong());
@@ -72,6 +74,7 @@ class UserControllerTest {
 
     }
 
+    @DisplayName("get User List")
     @Test
     void getUserList() throws Exception {
         Mockito.doReturn(List.of(outDto)).when(mockUserService).findAll();
@@ -86,6 +89,7 @@ class UserControllerTest {
 
     }
 
+    @DisplayName("create User")
     @Test
     void createUser() throws Exception {
         Mockito.doReturn(outDto).when(mockUserService).add(Mockito.any());

@@ -74,6 +74,7 @@ class UserRepositoryImplTest {
     }
 
 
+    @DisplayName("Save User Entity")
     @Test
     void save() {
         String expectedName = "new User Test Name";
@@ -100,6 +101,7 @@ class UserRepositoryImplTest {
         Assertions.assertEquals(expectedName, resultUser.get().getFirstName());
     }
 
+    @DisplayName("Update User Entity")
     @Test
     void update() throws NotFoundException {
         String expectedFirstname = "UPDATE User First";
@@ -144,7 +146,7 @@ class UserRepositoryImplTest {
         Assertions.assertEquals(expectedPassword, userResult.getHashPassword());
     }
 
-    @DisplayName("Find by ID")
+    @DisplayName("Find User by ID")
     @ParameterizedTest
     @CsvSource(value = {
             "1; true",
@@ -173,6 +175,7 @@ class UserRepositoryImplTest {
         userResult.ifPresent(value -> Assertions.assertEquals(expectedId, value.getId()));
     }
 
+    @DisplayName("find User By Wallet Id")
     @Test
     void findByWalletId() {
         Wallet wallet = new Wallet(
@@ -198,6 +201,7 @@ class UserRepositoryImplTest {
         Assertions.assertEquals(expectedUserId, userResult.get().getId());
     }
 
+    @DisplayName("find All Users")
     @Test
     void findAll() {
         int expectedSize = userRepository.findAll().size() + 1;
@@ -224,7 +228,7 @@ class UserRepositoryImplTest {
         Assertions.assertEquals(expectedSize, resultSize);
     }
 
-    @DisplayName("Exist by ID")
+    @DisplayName("Exist User by ID")
     @ParameterizedTest
     @CsvSource(value = {
             "1; true",

@@ -68,6 +68,7 @@ class TransactionRepositoryImplTest {
         liquibaseUtil.init();
     }
 
+    @DisplayName("Save Transaction")
     @Test
     void save() {
         String expectedSum = "100.12";
@@ -85,6 +86,7 @@ class TransactionRepositoryImplTest {
         Assertions.assertEquals(expectedSum, resultTransaction.get().getSum().toString());
     }
 
+    @DisplayName("Find All Transaction")
     @Test
     void findAll() {
         int expectedSize = transactionRepository.findAll().size() + 1;

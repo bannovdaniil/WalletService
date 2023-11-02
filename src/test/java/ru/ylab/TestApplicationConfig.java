@@ -6,6 +6,9 @@ import org.springframework.context.annotation.FilterType;
 import ru.ylab.configuration.LiquibaseInit;
 import ru.ylab.configuration.WebConfig;
 
+/**
+ * Spring launcher for Tests
+ */
 @Configuration
 @ComponentScan(
         value = "ru.ylab",

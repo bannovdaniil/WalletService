@@ -1,6 +1,7 @@
 package ru.ylab.controller;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -53,6 +54,7 @@ class ActionControllerTest {
         );
     }
 
+    @DisplayName("Get Action List")
     @Test
     void getActionList() throws Exception {
         Mockito.doReturn(List.of(dto)).when(mockActionService).findAll();
@@ -68,6 +70,7 @@ class ActionControllerTest {
 
     }
 
+    @DisplayName("Get Action List - AccessDenied")
     @Test
     void getActionListAccessDenied() throws Exception {
         Mockito.doReturn(List.of(dto)).when(mockActionService).findAll();
@@ -77,6 +80,7 @@ class ActionControllerTest {
                 .andExpect(status().isForbidden());
     }
 
+    @DisplayName("Get Action List - BadRequest")
     @Test
     void getActionListBadRequest() throws Exception {
         Mockito.doReturn(Optional.of(UUID.randomUUID())).when(mockSessionService).getUuidFromCookie(Mockito.any());

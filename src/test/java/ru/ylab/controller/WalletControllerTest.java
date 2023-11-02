@@ -2,6 +2,7 @@ package ru.ylab.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -57,6 +58,7 @@ class WalletControllerTest {
         );
     }
 
+    @DisplayName("get Wallet Balance")
     @Test
     void getWalletBalance() throws Exception {
         Mockito.doReturn(outDto).when(mockWalletService).getBalance(Mockito.any());
@@ -70,6 +72,7 @@ class WalletControllerTest {
 
     }
 
+    @DisplayName("Change Wallet Balance")
     @Test
     void changeBalance() throws Exception {
         Mockito.doReturn(outDto).when(mockWalletService).changeBalance(Mockito.any(), Mockito.any());

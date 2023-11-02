@@ -2,6 +2,7 @@ package ru.ylab.service;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -47,6 +48,7 @@ class WalletServiceTest {
         Mockito.reset(mockWalletRepository);
     }
 
+    @DisplayName("Get Wallet by ID")
     @Test
     void find() throws NotFoundException {
         Long expectedId = 1L;
@@ -64,6 +66,7 @@ class WalletServiceTest {
         Assertions.assertEquals(expectedId, result.getId());
     }
 
+    @DisplayName("Get Wallet by ID - Not found exception")
     @Test
     void findByIdNotFound() {
         Mockito.doReturn(false).when(mockWalletRepository).exitsById(Mockito.any());
@@ -75,6 +78,7 @@ class WalletServiceTest {
         Assertions.assertEquals("Wallet not found", exception.getMessage());
     }
 
+    @DisplayName("Change Wallet balance - GET")
     @Test
     void changeBalanceGet() throws NotFoundException {
         Session session = new Session(
@@ -108,6 +112,7 @@ class WalletServiceTest {
         Mockito.verify(mockWalletRepository).update(Mockito.any());
     }
 
+    @DisplayName("Change Wallet balance - PUT")
     @Test
     void changeBalancePut() throws NotFoundException {
         Session session = new Session(

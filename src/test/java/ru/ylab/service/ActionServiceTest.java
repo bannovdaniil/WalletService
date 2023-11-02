@@ -2,6 +2,7 @@ package ru.ylab.service;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -26,6 +27,7 @@ class ActionServiceTest {
         Mockito.reset(mockActionRepository);
     }
 
+    @DisplayName("Add action")
     @Test
     void add() {
         Long expectedId = 1L;
@@ -39,6 +41,7 @@ class ActionServiceTest {
         Assertions.assertEquals(expectedId, result.getId());
     }
 
+    @DisplayName("Find all action")
     @Test
     void findAll() {
         actionService.findAll();

@@ -67,6 +67,7 @@ class ActionRepositoryImplTest {
         liquibaseUtil.init();
     }
 
+    @DisplayName("Save Action")
     @Test
     void save() {
         String expectedName = "new Action";
@@ -84,6 +85,7 @@ class ActionRepositoryImplTest {
         Assertions.assertEquals(expectedName, resultAction.get().getUserAction());
     }
 
+    @DisplayName("Find All Action")
     @Test
     void findAll() {
         int expectedSize = actionRepository.findAll().size() + 1;
