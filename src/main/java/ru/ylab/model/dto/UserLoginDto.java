@@ -1,12 +1,12 @@
 package ru.ylab.model.dto;
 
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import ru.ylab.validator.UserLoginDtoValidation;
 
-import javax.validation.constraints.Positive;
-import javax.validation.constraints.Size;
 import java.util.StringJoiner;
 
 /**

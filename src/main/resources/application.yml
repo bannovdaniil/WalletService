@@ -1,13 +1,14 @@
 spring:
-  db:
+  server:
+    port:8080
+    url:http://localhost:${port}
+  datasource:
     driver-class-name: org.postgresql.Driver
-    DATASOURCE_URL: jdbc:postgresql://localhost:54320/wallet_db
-    POSTGRES_USER: sa
-    POSTGRES_PASSWORD: password
+    url: jdbc:postgresql://localhost:54320/wallet_db
+    username: sa
+    password: password
   liquibase:
-    defaultSchemaName: wallet_service
-    liquibaseSchemaName: wallet_liquibase
-  test:
-    DATASOURCE_URL: jdbc:postgresql://localhost:54321/wallet_db
-    POSTGRES_USER: sa
-    POSTGRES_PASSWORD: password
+    enabled: true
+    default-schema: wallet_service
+    liquibase-schema: wallet_liquibase
+    change-log: classpath:/db/changelog/changelog.xml

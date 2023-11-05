@@ -1,7 +1,7 @@
 package ru.ylab.repository.impl;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Component;
 import ru.ylab.db.ConnectionManager;
 import ru.ylab.exception.RepositoryException;
 import ru.ylab.model.Action;
@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * Репозиторий для управления Action
  */
-@Repository
+@Component
 @RequiredArgsConstructor
 public final class ActionRepositoryImpl implements ActionRepository {
     private static final String SAVE_SQL = """

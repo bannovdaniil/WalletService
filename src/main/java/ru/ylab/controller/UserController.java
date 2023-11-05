@@ -5,13 +5,13 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import ru.ylab.Constants;
 import ru.ylab.exception.ResponseAccessDeniedException;
 import ru.ylab.exception.ResponseBadRequestException;
 import ru.ylab.model.dto.UserIncomingDto;
 import ru.ylab.model.dto.UserOutDto;
 import ru.ylab.service.SessionService;
 import ru.ylab.service.UserService;
+import ru.ylab.util.Constants;
 
 import java.nio.file.AccessDeniedException;
 import java.util.List;

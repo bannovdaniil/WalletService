@@ -7,12 +7,12 @@ import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import ru.ylab.Constants;
 import ru.ylab.exception.ResponseAccessDeniedException;
 import ru.ylab.exception.ResponseBadRequestException;
 import ru.ylab.model.Transaction;
 import ru.ylab.service.SessionService;
 import ru.ylab.service.TransactionService;
+import ru.ylab.util.Constants;
 
 import java.nio.file.AccessDeniedException;
 import java.util.List;

@@ -3,16 +3,16 @@ package ru.ylab.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import ru.ylab.Constants;
 import ru.ylab.exception.ResponseAccessDeniedException;
 import ru.ylab.exception.ResponseBadRequestException;
 import ru.ylab.model.dto.WalletIncomingDto;
 import ru.ylab.model.dto.WalletOutDto;
 import ru.ylab.service.SessionService;
 import ru.ylab.service.WalletService;
+import ru.ylab.util.Constants;
 
-import javax.validation.Valid;
 import java.nio.file.AccessDeniedException;
 import java.util.Optional;
 import java.util.UUID;
@@ -53,7 +53,7 @@ public class WalletController {
      */
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<WalletOutDto> changeBalance(@CookieValue(value = Constants.SESSION_COOKIE, defaultValue = "") String cookie,
-                                                      @RequestBody @Valid WalletIncomingDto incomingDto) {
+                                                      @RequestBody @Validated WalletIncomingDto incomingDto) {
         try {
             Optional<UUID> sessionId = sessionService.getUuidFromCookie(cookie);
             if (sessionId.isPresent() && sessionService.isActive(sessionId.get())) {

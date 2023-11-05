@@ -1,7 +1,7 @@
 package ru.ylab.repository.impl;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Component;
 import ru.ylab.db.ConnectionManager;
 import ru.ylab.exception.RepositoryException;
 import ru.ylab.model.Session;
@@ -15,7 +15,7 @@ import java.util.UUID;
 /**
  * Репозиторий для управления сессиями пользователей.
  */
-@Repository
+@Component
 @RequiredArgsConstructor
 public final class SessionRepositoryImpl implements SessionRepository {
     private static final String SAVE_SQL = """

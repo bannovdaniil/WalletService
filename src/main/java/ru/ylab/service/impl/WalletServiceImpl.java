@@ -17,7 +17,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-import static ru.ylab.Constants.REGEXP_FORMAT_MONEY;
+import static ru.ylab.util.Constants.REGEXP_FORMAT_MONEY;
 
 /**
  * Бизнес логика работы со счетами пользователя.

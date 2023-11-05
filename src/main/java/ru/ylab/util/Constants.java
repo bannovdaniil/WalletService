@@ -1,4 +1,4 @@
-package ru.ylab;
+package ru.ylab.util;
 
 /**
  * Константы:
@@ -16,7 +16,6 @@ public class Constants {
     public static final String USERNAME_KEY = "POSTGRES_USER";
     public static final String PASSWORD_KEY = "POSTGRES_PASSWORD";
     public static final String DEFAULT_SCHEMA_NAME = "liquibase.defaultSchemaName";
-    public static final String LIQUIBASE_SCHEMA_NAME = "liquibase.liquibaseSchemaName";
 
     private Constants() {
     }

@@ -1,7 +1,7 @@
 package ru.ylab.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import ru.ylab.Constants;
+import ru.ylab.util.Constants;
 
 import java.time.LocalDateTime;
 import java.util.UUID;

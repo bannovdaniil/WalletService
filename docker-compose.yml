@@ -1,15 +1,16 @@
 version: "3.8"
 services:
-  tomcat-service:
+  application-wallet-service:
     build: .
-    container_name: tomcat_application
-    restart: on-failure
+    container_name: wallet_service_application
+    restart: always
     ports:
       - 8081:8080
     depends_on:
       postgres-service:
         condition: service_healthy
     environment:
+      - SERVER_PORT=8080
       - WAIT_HOSTS=postgres-service:54320
       - DATASOURCE_URL=jdbc:postgresql://postgres-service:54320/wallet_db
       - POSTGRES_USER=sa

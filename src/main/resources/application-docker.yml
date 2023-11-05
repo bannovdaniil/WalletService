@@ -1,0 +1,12 @@
+spring:
+  server:
+    port:8080
+  liquibase:
+    enabled:true
+    defaultSchemaName: wallet_service
+    liquibaseSchemaName: wallet_liquibase
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: DATASOURCE_URL
+    username: POSTGRES_USER
+    password: POSTGRES_PASSWORD

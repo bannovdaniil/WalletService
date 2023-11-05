@@ -1,4 +1,4 @@
-package ru.ylab.exception;
+package ru.ylab.util;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import ru.ylab.controller.*;
+import ru.ylab.exception.ResponseAccessDeniedException;
+import ru.ylab.exception.ResponseBadRequestException;
 
 import java.security.InvalidParameterException;
 
