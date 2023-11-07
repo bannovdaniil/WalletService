@@ -1,7 +1,7 @@
 version: "3.8"
 services:
   application-wallet-service:
-    build: .
+    build: ./main
     container_name: wallet_service_application
     restart: always
     ports:

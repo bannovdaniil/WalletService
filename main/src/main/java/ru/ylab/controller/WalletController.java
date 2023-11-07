@@ -5,6 +5,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import ru.ylab.customloggingstarter.aop.annotation.ActionLogger;
 import ru.ylab.exception.ResponseAccessDeniedException;
 import ru.ylab.exception.ResponseBadRequestException;
 import ru.ylab.model.dto.WalletIncomingDto;
@@ -33,6 +34,7 @@ public class WalletController {
      * Получить баланс пользователя
      */
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @ActionLogger
     public ResponseEntity<WalletOutDto> getWalletBalance(@CookieValue(value = Constants.SESSION_COOKIE, defaultValue = "") String cookie) {
         try {
             Optional<UUID> sessionId = sessionService.getUuidFromCookie(cookie);
@@ -52,6 +54,7 @@ public class WalletController {
      * Изменить баланс пользователя
      */
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @ActionLogger
     public ResponseEntity<WalletOutDto> changeBalance(@CookieValue(value = Constants.SESSION_COOKIE, defaultValue = "") String cookie,
                                                       @RequestBody @Validated WalletIncomingDto incomingDto) {
         try {

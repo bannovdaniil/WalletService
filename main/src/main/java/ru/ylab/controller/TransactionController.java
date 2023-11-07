@@ -7,11 +7,12 @@ import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import ru.ylab.customloggingstarter.aop.annotation.ActionLogger;
 import ru.ylab.exception.ResponseAccessDeniedException;
 import ru.ylab.exception.ResponseBadRequestException;
-import ru.ylab.model.Action;
-import ru.ylab.service.ActionService;
+import ru.ylab.model.Transaction;
 import ru.ylab.service.SessionService;
+import ru.ylab.service.TransactionService;
 import ru.ylab.util.Constants;
 
 import java.nio.file.AccessDeniedException;
@@ -20,21 +21,22 @@ import java.util.Optional;
 import java.util.UUID;
 
 /**
- * Показывает Лог действий пользователя.
+ * Показывает Историю транзакций.
  */
 @RestController
 @RequestMapping("/api")
 @RequiredArgsConstructor
-public class ActionController {
-    private final ActionService actionService;
+public class TransactionController {
+    private final TransactionService transactionService;
     private final SessionService sessionService;
 
-    @GetMapping(value = "/action", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<Action>> getActionList(@CookieValue(value = Constants.SESSION_COOKIE, defaultValue = "") String cookie) {
+    @GetMapping(value = "/transaction", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ActionLogger
+    public ResponseEntity<List<Transaction>> getTransactionList(@CookieValue(value = Constants.SESSION_COOKIE, defaultValue = "") String cookie) {
         try {
             Optional<UUID> sessionId = sessionService.getUuidFromCookie(cookie);
             if (sessionId.isPresent() && sessionService.isActive(sessionId.get())) {
-                return ResponseEntity.ok(actionService.findAll());
+                return ResponseEntity.ok(transactionService.findAll());
             } else {
                 throw new AccessDeniedException("Forbidden");
             }

@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import ru.ylab.customloggingstarter.aop.annotation.ActionLogger;
 import ru.ylab.exception.ResponseAccessDeniedException;
 import ru.ylab.model.dto.UserLoginDto;
 import ru.ylab.service.SessionService;
@@ -25,6 +26,7 @@ public class AuthController {
     private final SessionService sessionService;
 
     @PostMapping(value = "/login", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ActionLogger
     public void loginAction(
             @CookieValue(value = Constants.SESSION_COOKIE, defaultValue = "") String cookie,
             @RequestBody @Validated UserLoginDto dto,
@@ -46,6 +48,7 @@ public class AuthController {
     }
 
     @GetMapping(value = "/logout", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ActionLogger
     public void logoutAction(
             @CookieValue(value = Constants.SESSION_COOKIE, defaultValue = "") String cookie,
             HttpServletResponse response) {

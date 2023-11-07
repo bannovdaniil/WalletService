@@ -12,3 +12,8 @@ spring:
     default-schema: wallet_service
     liquibase-schema: wallet_liquibase
     change-log: classpath:/db/changelog/changelog.xml
+app:
+  common:
+    logging:
+      enabled: true
+      level: INFO

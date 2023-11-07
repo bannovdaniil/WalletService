@@ -5,6 +5,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import ru.ylab.customloggingstarter.aop.annotation.ActionLogger;
 import ru.ylab.exception.ResponseAccessDeniedException;
 import ru.ylab.exception.ResponseBadRequestException;
 import ru.ylab.model.dto.UserIncomingDto;
@@ -35,6 +36,7 @@ public class UserController {
      * Получить пользователя по ID
      */
     @GetMapping(value = "/{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ActionLogger
     public ResponseEntity<UserOutDto> getUserById(@CookieValue(value = Constants.SESSION_COOKIE, defaultValue = "") String cookie,
                                                   @PathVariable Long userId) {
         try {
@@ -56,6 +58,7 @@ public class UserController {
      * Получить весь список Пользователей
      */
     @GetMapping(value = "/all", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ActionLogger
     public ResponseEntity<List<UserOutDto>> getUserList(@CookieValue(value = Constants.SESSION_COOKIE, defaultValue = "") String cookie) {
         try {
             Optional<UUID> sessionId = sessionService.getUuidFromCookie(cookie);
@@ -76,6 +79,7 @@ public class UserController {
      * Создать пользователя
      */
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @ActionLogger
     public ResponseEntity<UserOutDto> createUser(@CookieValue(value = Constants.SESSION_COOKIE, defaultValue = "") String cookie,
                                                  @RequestBody @Validated UserIncomingDto userIncomingDto) {
         try {
