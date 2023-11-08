@@ -2,7 +2,6 @@ package ru.ylab.repository.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import ru.ylab.customenableannotation.aop.annotation.CustomLogger;
 import ru.ylab.db.ConnectionManager;
 import ru.ylab.exception.NotFoundException;
 import ru.ylab.exception.RepositoryException;
@@ -57,7 +56,6 @@ public final class UserRepositoryImpl implements UserRepository {
     private final WalletRepository walletRepository;
 
     @Override
-    @CustomLogger
     public User save(User user) {
         try (Connection connection = connectionManager.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SAVE_SQL, Statement.RETURN_GENERATED_KEYS)) {
@@ -81,7 +79,6 @@ public final class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    @CustomLogger
     public void update(User user) throws NotFoundException {
         checkExistById(user);
         try (Connection connection = connectionManager.getConnection();
@@ -99,7 +96,6 @@ public final class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    @CustomLogger
     public Optional<User> findById(Long id) {
         User user = null;
         try (Connection connection = connectionManager.getConnection();
@@ -118,7 +114,6 @@ public final class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    @CustomLogger
     public Optional<User> findByWalletId(Long walletId) {
         User user = null;
         try (Connection connection = connectionManager.getConnection();
@@ -137,7 +132,6 @@ public final class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    @CustomLogger
     public List<User> findAll() {
         List<User> userList = new ArrayList<>();
         try (Connection connection = connectionManager.getConnection();
@@ -154,7 +148,6 @@ public final class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    @CustomLogger
     public boolean exitsById(Long id) {
         boolean isExists = false;
         try (Connection connection = connectionManager.getConnection();

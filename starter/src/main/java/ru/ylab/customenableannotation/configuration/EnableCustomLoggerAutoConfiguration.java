@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import ru.ylab.customenableannotation.aop.aspects.CustomLogger;
 import ru.ylab.customenableannotation.aop.aspects.EnableCommonPointcuts;
 
 @Slf4j
@@ -12,12 +13,18 @@ import ru.ylab.customenableannotation.aop.aspects.EnableCommonPointcuts;
 public class EnableCustomLoggerAutoConfiguration {
     @PostConstruct
     void init() {
-        log.info("Enable CustomLoggerAutoConfiguration INIT!!!.");
+        log.info("Enable Custom Logger AutoConfiguration INIT!!!.");
     }
 
     @Bean
     @ConditionalOnMissingBean
     public EnableCommonPointcuts enableCommonPointcuts() {
         return new EnableCommonPointcuts();
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public CustomLogger customLogger() {
+        return new CustomLogger();
     }
 }

@@ -5,7 +5,7 @@ import org.aspectj.lang.annotation.Pointcut;
 
 @Aspect
 public class EnableCommonPointcuts {
-    @Pointcut(value = "@annotation(ru.ylab.customenableannotation.aop.annotation.CustomLogger)")
+    @Pointcut("@annotation(ru.ylab.customloggingstarter.aop.annotation.ActionLogger)")
     public void isCustomLogging() {
     }
 
