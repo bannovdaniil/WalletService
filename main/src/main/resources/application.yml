@@ -1,0 +1,19 @@
+spring:
+  server:
+    port:8080
+    url:http://localhost:${port}
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:54320/wallet_db
+    username: sa
+    password: password
+  liquibase:
+    enabled: true
+    default-schema: wallet_service
+    liquibase-schema: wallet_liquibase
+    change-log: classpath:/db/changelog/changelog.xml
+app:
+  common:
+    logging:
+      enabled: true
+      level: INFO
